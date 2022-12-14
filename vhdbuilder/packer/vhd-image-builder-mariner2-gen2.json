@@ -49,9 +49,9 @@
       "managed_image_resource_group_name": "{{user `resource_group_name`}}",
       "managed_image_name": "{{user `sig_image_name`}}-{{user `captured_sig_version`}}",
       "shared_image_gallery_destination": {
-        "resource_group": "{{user `resource_group_name`}}",
-        "gallery_name": "lihlakssig",
-        "image_name": "lihlmariner2g2",
+        "resource_group": "henryli-testgpu",
+        "gallery_name": "henryliakssig",
+        "image_name": "henrylimariner2g2",
         "image_version": "{{user `captured_sig_version`}}",
         "replication_regions": [
           "{{user `location`}}"
@@ -75,6 +75,16 @@
         "sudo mkdir -p /opt/certs",
         "sudo chown -R $USER /opt/certs"
       ]
+    },
+    {
+      "type": "file",
+      "source": "vhdbuilder/packer/nvidia-fabric-manager-515.65.01-2.x86_64.rpm",
+      "destination": "/home/packer/nvidia-fabric-manager-515.65.01-2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "vhdbuilder/packer/nvidia-fabric-manager-devel-515.65.01-2.x86_64.rpm",
+      "destination": "/home/packer/nvidia-fabric-manager-devel-515.65.01-2.x86_64.rpm"
     },
     {
       "type": "file",
@@ -347,13 +357,6 @@
         "sudo FEATURE_FLAGS={{user `feature_flags`}} BUILD_NUMBER={{user `build_number`}} BUILD_ID={{user `build_id`}} COMMIT={{user `commit`}} HYPERV_GENERATION={{user `hyperv_generation`}} CONTAINER_RUNTIME={{user `container_runtime`}} TELEPORTD_PLUGIN_DOWNLOAD_URL={{user `teleportd_plugin_download_url`}} ENABLE_FIPS={{user `enable_fips`}} SGX_INSTALL={{user `sgx_install`}} /bin/bash -ux /home/packer/pre-install-dependencies.sh",
         "sudo FEATURE_FLAGS={{user `feature_flags`}} BUILD_NUMBER={{user `build_number`}} BUILD_ID={{user `build_id`}} COMMIT={{user `commit`}} HYPERV_GENERATION={{user `hyperv_generation`}} CONTAINER_RUNTIME={{user `container_runtime`}} TELEPORTD_PLUGIN_DOWNLOAD_URL={{user `teleportd_plugin_download_url`}} ENABLE_FIPS={{user `enable_fips`}} /bin/bash -ux /home/packer/install-dependencies.sh"
       ]
-    },
-    {
-      "type": "shell",
-      "inline": "sudo reboot",
-      "expect_disconnect": true,
-      "skip_clean": true,
-      "pause_after": "60s"
     },
     {
       "type": "shell",

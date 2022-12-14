@@ -1,6 +1,10 @@
 #!/bin/bash
 
 copyPackerFiles() {
+  NVIDIA_FABRIC_MANAGER_SRC=/home/packer/nvidia-fabric-manager-515.65.01-2.x86_64.rpm
+  NVIDIA_FABRIC_MANAGER_DEST=/usr/local/nvidia-fabric-manager-515.65.01-2.x86_64.rpm
+  NVIDIA_FABRIC_MANAGER_DEVEL_SRC=/home/packer/nvidia-fabric-manager-devel-515.65.01-2.x86_64.rpm
+  NVIDIA_FABRIC_MANAGER_DEVEL_DEST=/usr/local/nvidia-fabric-manager-devel-515.65.01-2.x86_64.rpm
   SYSCTL_CONFIG_SRC=/home/packer/sysctl-d-60-CIS.conf
   SYSCTL_CONFIG_DEST=/etc/sysctl.d/60-CIS.conf
   RSYSLOG_CONFIG_SRC=/home/packer/rsyslog-d-60-CIS.conf
@@ -104,6 +108,8 @@ copyPackerFiles() {
     PAM_D_COMMON_AUTH_SRC=/home/packer/pam-d-common-auth-2204
   fi
   
+  cpAndMode $NVIDIA_FABRIC_MANAGER_SRC $NVIDIA_FABRIC_MANAGER_DEST 755
+  cpAndMode $NVIDIA_FABRIC_MANAGER_DEVEL_SRC $NVIDIA_FABRIC_MANAGER_DEVEL_DEST 755
   cpAndMode $SYSCTL_CONFIG_SRC $SYSCTL_CONFIG_DEST 644
   cpAndMode $RSYSLOG_CONFIG_SRC $RSYSLOG_CONFIG_DEST 644
   cpAndMode $ETC_ISSUE_CONFIG_SRC $ETC_ISSUE_CONFIG_DEST 644

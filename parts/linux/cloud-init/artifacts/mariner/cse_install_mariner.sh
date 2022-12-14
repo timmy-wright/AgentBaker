@@ -23,6 +23,9 @@ installDeps() {
         fi
       done
     fi
+
+    sudo rpm -ivh /usr/local/nvidia-fabric-manager-515.65.01-2.x86_64.rpm
+    sudo rpm -ivh /usr/local/nvidia-fabric-manager-devel-515.65.01-2.x86_64.rpm
 }
 
 downloadGPUDrivers() {
