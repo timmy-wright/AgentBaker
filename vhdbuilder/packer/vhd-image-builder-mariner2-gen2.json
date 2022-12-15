@@ -49,9 +49,9 @@
       "managed_image_resource_group_name": "{{user `resource_group_name`}}",
       "managed_image_name": "{{user `sig_image_name`}}-{{user `captured_sig_version`}}",
       "shared_image_gallery_destination": {
-        "resource_group": "henryli-testgpu",
-        "gallery_name": "henryliakssig",
-        "image_name": "henrylimariner2g2",
+        "resource_group": "henryli-testgpu1",
+        "gallery_name": "henryliakssig1",
+        "image_name": "henrylimariner2g21",
         "image_version": "{{user `captured_sig_version`}}",
         "replication_regions": [
           "{{user `location`}}"
