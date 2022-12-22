@@ -13,11 +13,6 @@ configPrivateClusterHosts() {
 }
 {{- end}}
 
-ensureRPC() {
-    systemctlEnableAndStart rpcbind || exit $ERR_SYSTEMCTL_START_FAIL
-    systemctlEnableAndStart rpc-statd || exit $ERR_SYSTEMCTL_START_FAIL
-}
-
 {{- if ShouldConfigTransparentHugePage}}
 configureTransparentHugePage() {
     ETC_SYSFS_CONF="/etc/sysfs.conf"
@@ -36,20 +31,42 @@ configureTransparentHugePage() {
 
 {{- if ShouldConfigSwapFile}}
 configureSwapFile() {
-    SWAP_SIZE_KB=$(expr {{GetSwapFileSizeMB}} \* 1000)
-    DISK_FREE_KB=$(df /dev/sdb1 | sed 1d | awk '{print $4}')
-    if [[ ${DISK_FREE_KB} -gt ${SWAP_SIZE_KB} ]]; then
-        SWAP_LOCATION=/mnt/swapfile
-        retrycmd_if_failure 24 5 25 fallocate -l ${SWAP_SIZE_KB}K ${SWAP_LOCATION} || exit $ERR_SWAP_CREAT_FAIL
-        chmod 600 ${SWAP_LOCATION}
-        retrycmd_if_failure 24 5 25 mkswap ${SWAP_LOCATION} || exit $ERR_SWAP_CREAT_FAIL
-        retrycmd_if_failure 24 5 25 swapon ${SWAP_LOCATION} || exit $ERR_SWAP_CREAT_FAIL
-        retrycmd_if_failure 24 5 25 swapon --show | grep ${SWAP_LOCATION} || exit $ERR_SWAP_CREAT_FAIL
-        echo "${SWAP_LOCATION} none swap sw 0 0" >> /etc/fstab
-    else
-        echo "Insufficient disk space creating swap file: request ${SWAP_SIZE_KB} free ${DISK_FREE_KB}"
-        exit $ERR_SWAP_CREAT_INSUFFICIENT_DISK_SPACE
+    # https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/troubleshoot-device-names-problems#identify-disk-luns
+    swap_size_kb=$(expr {{GetSwapFileSizeMB}} \* 1000)
+    swap_location=""
+    
+    # Attempt to use the resource disk
+    if [[ -L /dev/disk/azure/resource-part1 ]]; then
+        resource_disk_path=$(findmnt -nr -o target -S $(readlink -f /dev/disk/azure/resource-part1))
+        disk_free_kb=$(df ${resource_disk_path} | sed 1d | awk '{print $4}')
+        if [[ ${disk_free_kb} -gt ${swap_size_kb} ]]; then
+            echo "Will use resource disk for swap file"
+            swap_location=${resource_disk_path}/swapfile
+        else
+            echo "Insufficient disk space on resource disk to create swap file: request ${swap_size_kb} free ${disk_free_kb}, attempting to fall back to OS disk..."
+        fi
     fi
+
+    # If we couldn't use the resource disk, attempt to use the OS disk
+    if [[ -z "${swap_location}" ]]; then
+        os_disk_path=$(findmnt -nr -o target -S $(readlink -f /dev/disk/azure/root-part1))
+        disk_free_kb=$(df ${os_disk_path} | sed 1d | awk '{print $4}')
+        if [[ ${disk_free_kb} -gt ${swap_size_kb} ]]; then
+            echo "Will use OS disk for swap file"
+            swap_location=/swapfile
+        else
+            echo "Insufficient disk space on OS disk to create swap file: request ${swap_size_kb} free ${disk_free_kb}"
+            exit $ERR_SWAP_CREATE_INSUFFICIENT_DISK_SPACE
+        fi
+    fi
+
+    echo "Swap file will be saved to: ${swap_location}"
+    retrycmd_if_failure 24 5 25 fallocate -l ${swap_size_kb}K ${swap_location} || exit $ERR_SWAP_CREATE_FAIL
+    chmod 600 ${swap_location}
+    retrycmd_if_failure 24 5 25 mkswap ${swap_location} || exit $ERR_SWAP_CREATE_FAIL
+    retrycmd_if_failure 24 5 25 swapon ${swap_location} || exit $ERR_SWAP_CREATE_FAIL
+    retrycmd_if_failure 24 5 25 swapon --show | grep ${swap_location} || exit $ERR_SWAP_CREATE_FAIL
+    echo "${swap_location} none swap sw 0 0" >> /etc/fstab
 }
 {{- end}}
 
@@ -88,7 +105,7 @@ configureKubeletServerCert() {
     KUBELET_SERVER_CERT_PATH="/etc/kubernetes/certs/kubeletserver.crt"
 
     openssl genrsa -out $KUBELET_SERVER_PRIVATE_KEY_PATH 2048
-    openssl req -new -x509 -days 7300 -key $KUBELET_SERVER_PRIVATE_KEY_PATH -out $KUBELET_SERVER_CERT_PATH -subj "/CN=${NODE_NAME}"
+    openssl req -new -x509 -days 7300 -key $KUBELET_SERVER_PRIVATE_KEY_PATH -out $KUBELET_SERVER_CERT_PATH -subj "/CN=${NODE_NAME}" -addext "subjectAltName=DNS:${NODE_NAME}"
 }
 
 configureK8s() {
@@ -212,7 +229,7 @@ EOF
     set +x
     KUBELET_CONFIG_JSON_PATH="/etc/default/kubeletconfig.json"
     touch "${KUBELET_CONFIG_JSON_PATH}"
-    chmod 0644 "${KUBELET_CONFIG_JSON_PATH}"
+    chmod 0600 "${KUBELET_CONFIG_JSON_PATH}"
     chown root:root "${KUBELET_CONFIG_JSON_PATH}"
     cat << EOF > "${KUBELET_CONFIG_JSON_PATH}"
 {{GetKubeletConfigFileContent}}
@@ -364,16 +381,6 @@ ensureSysctl() {
     SYSCTL_CONFIG_FILE=/etc/sysctl.d/999-sysctl-aks.conf
     wait_for_file 1200 1 $SYSCTL_CONFIG_FILE || exit $ERR_FILE_WATCH_TIMEOUT
     retrycmd_if_failure 24 5 25 sysctl --system
-}
-
-ensureJournal() {
-    {
-        echo "Storage=persistent"
-        echo "SystemMaxUse=1G"
-        echo "RuntimeMaxUse=1G"
-        echo "ForwardToSyslog=yes"
-    } >> /etc/systemd/journald.conf
-    systemctlEnableAndStart systemd-journald || exit $ERR_SYSTEMCTL_START_FAIL
 }
 
 ensureK8sControlPlane() {
@@ -530,12 +537,12 @@ ensureGPUDrivers() {
     fi
 
     if [[ "${CONFIG_GPU_DRIVER_IF_NEEDED}" = true ]]; then
-        configGPUDrivers
+        logs_to_events "AKS.CSE.ensureGPUDrivers.configGPUDrivers" configGPUDrivers
     else
-        validateGPUDrivers
+        logs_to_events "AKS.CSE.ensureGPUDrivers.validateGPUDrivers" validateGPUDrivers
     fi
     if [[ $OS == $UBUNTU_OS_NAME ]]; then
-        systemctlEnableAndStart nvidia-modprobe || exit $ERR_GPU_DRIVERS_START_FAIL
+        logs_to_events "AKS.CSE.ensureGPUDrivers.nvidia-modprobe" "systemctlEnableAndStart nvidia-modprobe" || exit $ERR_GPU_DRIVERS_START_FAIL
     fi
 }
 

@@ -42,9 +42,9 @@ func (t *TemplateGenerator) GetNodeBootstrappingPayload(config *datamodel.NodeBo
 func (t *TemplateGenerator) getLinuxNodeCustomDataJSONObject(config *datamodel.NodeBootstrappingConfiguration) string {
 	// validate and fix input
 	validateAndSetLinuxNodeBootstrappingConfiguration(config)
-	//get parameters
+	// get parameters
 	parameters := getParameters(config, "baker", "1.0")
-	//get variable cloudInit
+	// get variable cloudInit
 	variables := getCustomDataVariables(config)
 	str, e := t.getSingleLineForTemplate(kubernetesNodeCustomDataYaml,
 		config.AgentPoolProfile, t.getBakerFuncMap(config, parameters, variables))
@@ -64,9 +64,9 @@ func (t *TemplateGenerator) getWindowsNodeCustomDataJSONObject(config *datamodel
 
 	cs := config.ContainerService
 	profile := config.AgentPoolProfile
-	//get parameters
+	// get parameters
 	parameters := getParameters(config, "", "")
-	//get variable custom data
+	// get variable custom data
 	variables := getWindowsCustomDataVariables(config)
 	str, e := t.getSingleLineForTemplate(kubernetesWindowsAgentCustomDataPS1,
 		profile, t.getBakerFuncMap(config, parameters, variables))
@@ -95,11 +95,11 @@ func (t *TemplateGenerator) GetNodeBootstrappingCmd(config *datamodel.NodeBootst
 
 // getLinuxNodeCSECommand returns Linux node custom script extension execution command
 func (t *TemplateGenerator) getLinuxNodeCSECommand(config *datamodel.NodeBootstrappingConfiguration) string {
-	//get parameters
+	// get parameters
 	parameters := getParameters(config, "", "")
-	//get variable
+	// get variable
 	variables := getCSECommandVariables(config)
-	//NOTE: that CSE command will be executed by VM/VMSS extension so it doesn't need extra escaping like custom data does
+	// NOTE: that CSE command will be executed by VM/VMSS extension so it doesn't need extra escaping like custom data does
 	str, e := t.getSingleLine(
 		kubernetesCSECommandString,
 		config.AgentPoolProfile,
@@ -116,12 +116,12 @@ func (t *TemplateGenerator) getLinuxNodeCSECommand(config *datamodel.NodeBootstr
 
 // getWindowsNodeCSECommand returns Windows node custom script extension execution command
 func (t *TemplateGenerator) getWindowsNodeCSECommand(config *datamodel.NodeBootstrappingConfiguration) string {
-	//get parameters
+	// get parameters
 	parameters := getParameters(config, "", "")
-	//get variable
+	// get variable
 	variables := getCSECommandVariables(config)
 
-	//NOTE: that CSE command will be executed by VMSS extension so it doesn't need extra escaping like custom data does
+	// NOTE: that CSE command will be executed by VMSS extension so it doesn't need extra escaping like custom data does
 	str, e := t.getSingleLine(
 		kubernetesWindowsAgentCSECommandPS1,
 		config.AgentPoolProfile,
@@ -142,7 +142,8 @@ func (t *TemplateGenerator) getWindowsNodeCSECommand(config *datamodel.NodeBoots
 
 // getSingleLineForTemplate returns the file as a single line for embedding in an arm template
 func (t *TemplateGenerator) getSingleLineForTemplate(textFilename string, profile interface{},
-	funcMap template.FuncMap) (string, error) {
+	funcMap template.FuncMap,
+) (string, error) {
 	expandedTemplate, err := t.getSingleLine(textFilename, profile, funcMap)
 	if err != nil {
 		return "", err
@@ -155,7 +156,8 @@ func (t *TemplateGenerator) getSingleLineForTemplate(textFilename string, profil
 
 // getSingleLine returns the file as a single line
 func (t *TemplateGenerator) getSingleLine(textFilename string, profile interface{},
-	funcMap template.FuncMap) (string, error) {
+	funcMap template.FuncMap,
+) (string, error) {
 	b, err := templates.Asset(textFilename)
 	if err != nil {
 		return "", fmt.Errorf("yaml file %s does not exist", textFilename)
@@ -191,7 +193,7 @@ func (t *TemplateGenerator) getBakerFuncMap(config *datamodel.NodeBootstrappingC
 		return ""
 	}
 
-	//TODO: GetParameterPropertyLower
+	// TODO: GetParameterPropertyLower
 	funcMap["GetParameterProperty"] = func(s, p string) interface{} {
 		if v, ok := params[s].(paramsMap); ok && v != nil {
 			if v["value"].(paramsMap)[p] == nil {
@@ -229,11 +231,17 @@ func (t *TemplateGenerator) getBakerFuncMap(config *datamodel.NodeBootstrappingC
 // similar to what the ARM template used to do.
 //
 // When ARM template was used, the following is used:
-//   variables('labelResourceGroup')
+//
+//	variables('labelResourceGroup')
+//
 // which is defined as:
-//   [if(or(or(endsWith(variables('truncatedResourceGroup'), '-'), endsWith(variables('truncatedResourceGroup'), '_')), endsWith(variables('truncatedResourceGroup'), '.')), concat(take(variables('truncatedResourceGroup'), 62), 'z'), variables('truncatedResourceGroup'))]
+//
+//	[if(or(or(endsWith(variables('truncatedResourceGroup'), '-'), endsWith(variables('truncatedResourceGroup'), '_')), endsWith(variables('truncatedResourceGroup'), '.')), concat(take(variables('truncatedResourceGroup'), 62), 'z'), variables('truncatedResourceGroup'))]
+//
 // the "truncatedResourceGroup" is defined as:
-//   [take(replace(replace(resourceGroup().name, '(', '-'), ')', '-'), 63)]
+//
+//	[take(replace(replace(resourceGroup().name, '(', '-'), ')', '-'), 63)]
+//
 // This function does the same processing.
 func normalizeResourceGroupNameForLabel(resourceGroupName string) string {
 	truncated := resourceGroupName
@@ -317,8 +325,11 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"Disable1804SystemdResolved": func() bool {
 			return config.Disable1804SystemdResolved
 		},
-		"DisableUnattendedUpgrade": func() bool {
-			return config.DisableUnattendedUpgrades
+		// This was DisableUnattendedUpgrade when we had UU enabled by default in image.
+		// Now we don't, so we have to deliberately enable it.
+		// Someone smarter than me can fix the API.
+		"EnableUnattendedUpgrade": func() bool {
+			return !config.DisableUnattendedUpgrades
 		},
 		"IsIPMasqAgentEnabled": func() bool {
 			return cs.Properties.IsIPMasqAgentEnabled()
@@ -453,8 +464,9 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		},
 		"GetKubernetesWindowsAgentFunctions": func() string {
 			// Collect all the parts into a zip
-			var parts = []string{
+			parts := []string{
 				kubernetesWindowsCSEHelperPS1,
+				kubernetesWindowsSendLogsPS1,
 			}
 
 			// Create a buffer, new zip
@@ -541,6 +553,9 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		},
 		"IsIPv6DualStackFeatureEnabled": func() bool {
 			return cs.Properties.FeatureFlags.IsFeatureEnabled("EnableIPv6DualStack")
+		},
+		"IsAzureCNIOverlayFeatureEnabled": func() bool {
+			return cs.Properties.OrchestratorProfile.KubernetesConfig.IsUsingNetworkPluginMode("overlay")
 		},
 		"GetBase64EncodedEnvironmentJSON": func() string {
 			customEnvironmentJSON, _ := cs.Properties.GetCustomEnvironmentJSON(false)
@@ -818,6 +833,9 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"GetOutboundCommand": func() string {
 			return getOutBoundCmd(config, config.CloudSpecConfig)
 		},
+		"GPUNeedsFabricManager": func() bool {
+			return gpuNeedsFabricManager(profile.VMSize)
+		},
 		"GPUDriverVersion": func() string {
 			return getGPUDriverVersion(profile.VMSize)
 		},
@@ -835,6 +853,12 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 				return config.CustomCATrustConfig.CustomCATrustCerts
 			}
 			return []string{}
+		},
+		"GetLogGeneratorIntervalInMinutes": func() uint32 {
+			if cs.Properties.WindowsProfile != nil {
+				return cs.Properties.WindowsProfile.GetLogGeneratorIntervalInMinutes()
+			}
+			return 0
 		},
 	}
 }
@@ -859,7 +883,11 @@ func isStandardNCv1(size string) bool {
 }
 
 func useGridDrivers(size string) bool {
-	return datamodel.GridGPUSizes[strings.ToLower(size)]
+	return datamodel.ConvergedGPUDriverSizes[strings.ToLower(size)]
+}
+
+func gpuNeedsFabricManager(size string) bool {
+	return datamodel.FabricManagerGPUSizes[strings.ToLower(size)]
 }
 
 func areCustomCATrustCertsPopulated(config datamodel.NodeBootstrappingConfiguration) bool {
