@@ -5,7 +5,7 @@
     },
     "scenario_ubuntu_gpu": {
         "SCENARIO_NAME": "vanilla-gpu",
-        "VM_SKU": "Standard_NC6"
+        "VM_SKU": "Standard_NC6s_v3"
     },
     "scenario__ubuntu_vanilla": {
         "SCENARIO_NAME": "vanilla-aks",

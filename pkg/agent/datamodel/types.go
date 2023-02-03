@@ -129,34 +129,40 @@ type Distro string
 
 // Distro string consts
 const (
-	Ubuntu                             Distro = "ubuntu"
-	Ubuntu1804                         Distro = "ubuntu-18.04"
-	Ubuntu1804Gen2                     Distro = "ubuntu-18.04-gen2"
-	AKSUbuntu1804Gen2                  Distro = "ubuntu-18.04-gen2" // same distro as Ubuntu1804Gen2, renamed for clarity
-	AKSUbuntu1604                      Distro = "aks-ubuntu-16.04"
-	AKSUbuntu1804                      Distro = "aks-ubuntu-18.04"
-	AKSUbuntuGPU1804                   Distro = "aks-ubuntu-gpu-18.04"
-	AKSUbuntuGPU1804Gen2               Distro = "aks-ubuntu-gpu-18.04-gen2"
-	AKSUbuntuContainerd1804            Distro = "aks-ubuntu-containerd-18.04"
-	AKSUbuntuContainerd1804Gen2        Distro = "aks-ubuntu-containerd-18.04-gen2"
-	AKSUbuntuGPUContainerd1804         Distro = "aks-ubuntu-gpu-containerd-18.04"
-	AKSUbuntuGPUContainerd1804Gen2     Distro = "aks-ubuntu-gpu-containerd-18.04-gen2"
-	AKSCBLMarinerV1                    Distro = "aks-cblmariner-v1"
-	AKSCBLMarinerV2Gen2                Distro = "aks-cblmariner-v2-gen2"
-	AKSUbuntuFipsContainerd1804        Distro = "aks-ubuntu-fips-containerd-18.04"
-	AKSUbuntuFipsContainerd1804Gen2    Distro = "aks-ubuntu-fips-containerd-18.04-gen2"
-	AKSUbuntuFipsGPUContainerd1804     Distro = "aks-ubuntu-fips-gpu-containerd-18.04"
-	AKSUbuntuFipsGPUContainerd1804Gen2 Distro = "aks-ubuntu-fips-gpu-containerd-18.04-gen2"
-	AKSUbuntuArm64Containerd1804Gen2   Distro = "aks-ubuntu-arm64-containerd-18.04-gen2"
-	AKSUbuntuContainerd2204            Distro = "aks-ubuntu-containerd-22.04"
-	AKSUbuntuContainerd2204Gen2        Distro = "aks-ubuntu-containerd-22.04-gen2"
-	AKSUbuntuContainerd2004CVMGen2     Distro = "aks-ubuntu-containerd-20.04-cvm-gen2"
-	AKSUbuntuArm64Containerd2204Gen2   Distro = "aks-ubuntu-arm64-containerd-22.04-gen2"
-	AKSCBLMarinerV2Arm64Gen2           Distro = "aks-cblmariner-v2-arm64-gen2"
-	RHEL                               Distro = "rhel"
-	CoreOS                             Distro = "coreos"
-	AKS1604Deprecated                  Distro = "aks"      // deprecated AKS 16.04 distro. Equivalent to aks-ubuntu-16.04.
-	AKS1804Deprecated                  Distro = "aks-1804" // deprecated AKS 18.04 distro. Equivalent to aks-ubuntu-18.04.
+	Ubuntu                              Distro = "ubuntu"
+	Ubuntu1804                          Distro = "ubuntu-18.04"
+	Ubuntu1804Gen2                      Distro = "ubuntu-18.04-gen2"
+	AKSUbuntu1804Gen2                   Distro = "ubuntu-18.04-gen2" // same distro as Ubuntu1804Gen2, renamed for clarity
+	AKSUbuntu1604                       Distro = "aks-ubuntu-16.04"
+	AKSUbuntu1804                       Distro = "aks-ubuntu-18.04"
+	AKSUbuntuGPU1804                    Distro = "aks-ubuntu-gpu-18.04"
+	AKSUbuntuGPU1804Gen2                Distro = "aks-ubuntu-gpu-18.04-gen2"
+	AKSUbuntuContainerd1804             Distro = "aks-ubuntu-containerd-18.04"
+	AKSUbuntuContainerd1804Gen2         Distro = "aks-ubuntu-containerd-18.04-gen2"
+	AKSUbuntuGPUContainerd1804          Distro = "aks-ubuntu-gpu-containerd-18.04"
+	AKSUbuntuGPUContainerd1804Gen2      Distro = "aks-ubuntu-gpu-containerd-18.04-gen2"
+	AKSCBLMarinerV1                     Distro = "aks-cblmariner-v1"
+	AKSCBLMarinerV2                     Distro = "aks-cblmariner-v2"
+	AKSCBLMarinerV2Gen2                 Distro = "aks-cblmariner-v2-gen2"
+	AKSCBLMarinerV2Gen2Kata             Distro = "aks-cblmariner-v2-gen2-kata"
+	AKSCBLMarinerV2Gen2TL               Distro = "aks-cblmariner-v2-gen2-tl"
+	AKSUbuntuFipsContainerd1804         Distro = "aks-ubuntu-fips-containerd-18.04"
+	AKSUbuntuFipsContainerd1804Gen2     Distro = "aks-ubuntu-fips-containerd-18.04-gen2"
+	AKSUbuntuFipsGPUContainerd1804      Distro = "aks-ubuntu-fips-gpu-containerd-18.04"
+	AKSUbuntuFipsGPUContainerd1804Gen2  Distro = "aks-ubuntu-fips-gpu-containerd-18.04-gen2"
+	AKSUbuntuArm64Containerd1804Gen2    Distro = "aks-ubuntu-arm64-containerd-18.04-gen2"
+	AKSUbuntuEdgeZoneContainerd1804     Distro = "aks-ubuntu-edgezone-containerd-18.04"
+	AKSUbuntuEdgeZoneContainerd1804Gen2 Distro = "aks-ubuntu-edgezone-containerd-18.04-gen2"
+	AKSUbuntuContainerd2204             Distro = "aks-ubuntu-containerd-22.04"
+	AKSUbuntuContainerd2204Gen2         Distro = "aks-ubuntu-containerd-22.04-gen2"
+	AKSUbuntuContainerd2004CVMGen2      Distro = "aks-ubuntu-containerd-20.04-cvm-gen2"
+	AKSUbuntuArm64Containerd2204Gen2    Distro = "aks-ubuntu-arm64-containerd-22.04-gen2"
+	AKSCBLMarinerV2Arm64Gen2            Distro = "aks-cblmariner-v2-arm64-gen2"
+	AKSUbuntuContainerd2204TLGen2       Distro = "aks-ubuntu-containerd-22.04-tl-gen2"
+	RHEL                                Distro = "rhel"
+	CoreOS                              Distro = "coreos"
+	AKS1604Deprecated                   Distro = "aks"      // deprecated AKS 16.04 distro. Equivalent to aks-ubuntu-16.04.
+	AKS1804Deprecated                   Distro = "aks-1804" // deprecated AKS 18.04 distro. Equivalent to aks-ubuntu-18.04.
 
 	// Windows string const
 	// AKSWindows2019 stands for distro of windows server 2019 SIG image with docker
@@ -189,17 +195,23 @@ var AKSDistrosAvailableOnVHD []Distro = []Distro{
 	AKSUbuntuGPUContainerd1804,
 	AKSUbuntuGPUContainerd1804Gen2,
 	AKSCBLMarinerV1,
+	AKSCBLMarinerV2,
 	AKSCBLMarinerV2Gen2,
+	AKSCBLMarinerV2Gen2Kata,
+	AKSCBLMarinerV2Gen2TL,
 	AKSUbuntuFipsContainerd1804,
 	AKSUbuntuFipsContainerd1804Gen2,
 	AKSUbuntuFipsGPUContainerd1804,
 	AKSUbuntuFipsGPUContainerd1804Gen2,
 	AKSUbuntuArm64Containerd1804Gen2,
+	AKSUbuntuEdgeZoneContainerd1804,
+	AKSUbuntuEdgeZoneContainerd1804Gen2,
 	AKSUbuntuContainerd2204,
 	AKSUbuntuContainerd2204Gen2,
 	AKSUbuntuContainerd2004CVMGen2,
 	AKSUbuntuArm64Containerd2204Gen2,
 	AKSCBLMarinerV2Arm64Gen2,
+	AKSUbuntuContainerd2204TLGen2,
 }
 
 type CustomConfigurationComponent string
@@ -216,6 +228,19 @@ func (d Distro) IsVHDDistro() bool {
 		}
 	}
 	return false
+}
+
+func (d Distro) Is2204VHDDistro() bool {
+	for _, distro := range AvailableUbuntu2204Distros {
+		if d == distro {
+			return true
+		}
+	}
+	return false
+}
+
+func (d Distro) IsKataDistro() bool {
+	return d == AKSCBLMarinerV2Gen2Kata
 }
 
 // KeyvaultSecretRef specifies path to the Azure keyvault along with secret name and (optionaly) version
@@ -256,6 +281,11 @@ type ResourceIdentifiers struct {
 
 // CustomCloudEnv represents the custom cloud env info of the AKS cluster.
 type CustomCloudEnv struct {
+	// TODO(ace): why is Name uppercase?
+	// in Linux, this was historically specified as "name" when serialized.
+	// However Windows relies on the json tag as "Name"
+	// TODO(ace): can we align on one casing?
+	SnakeCaseName                string              `json:"name,omitempty"`
 	Name                         string              `json:"Name,omitempty"`
 	McrURL                       string              `json:"mcrURL,omitempty"`
 	RepoDepotEndpoint            string              `json:"repoDepotEndpoint,omitempty"`
@@ -282,18 +312,11 @@ type CustomCloudEnv struct {
 	ResourceIdentifiers          ResourceIdentifiers `json:"resourceIdentifiers,omitempty"`
 }
 
-// TelemetryProfile contains settings for collecting telemtry.
-// Note telemtry is currently enabled/disabled with the 'EnableTelemetry' feature flag.
-type TelemetryProfile struct {
-	ApplicationInsightsKey string `json:"applicationInsightsKey,omitempty"`
-}
-
 // FeatureFlags defines feature-flag restricted functionality
 type FeatureFlags struct {
 	EnableCSERunInBackground bool `json:"enableCSERunInBackground,omitempty"`
 	BlockOutboundInternet    bool `json:"blockOutboundInternet,omitempty"`
 	EnableIPv6DualStack      bool `json:"enableIPv6DualStack,omitempty"`
-	EnableTelemetry          bool `json:"enableTelemetry,omitempty"`
 	EnableIPv6Only           bool `json:"enableIPv6Only,omitempty"`
 	EnableWinDSR             bool `json:"enableWinDSR,omitempty"`
 }
@@ -432,6 +455,7 @@ type WindowsProfile struct {
 	WindowsGmsaPackageUrl          string                     `json:"windowsGmsaPackageUrl,omitempty"`
 	CseScriptsPackageURL           string                     `json:"cseScriptsPackageURL,omitempty"`
 	HnsRemediatorIntervalInMinutes *uint32                    `json:"hnsRemediatorIntervalInMinutes,omitempty"`
+	LogGeneratorIntervalInMinutes  *uint32                    `json:"logGeneratorIntervalInMinutes,omitempty"`
 }
 
 // ContainerdWindowsRuntimes configures containerd runtimes that are available on the windows nodes
@@ -523,7 +547,7 @@ type KubernetesConfig struct {
 	ServiceCIDR                       string            `json:"serviceCidr,omitempty"`
 	UseManagedIdentity                bool              `json:"useManagedIdentity,omitempty"`
 	UserAssignedID                    string            `json:"userAssignedID,omitempty"`
-	UserAssignedClientID              string            `json:"userAssignedClientID,omitempty"` //Note: cannot be provided in config. Used *only* for transferring this to azure.json.
+	UserAssignedClientID              string            `json:"userAssignedClientID,omitempty"` // Note: cannot be provided in config. Used *only* for transferring this to azure.json.
 	CustomHyperkubeImage              string            `json:"customHyperkubeImage,omitempty"`
 	CustomKubeProxyImage              string            `json:"customKubeProxyImage,omitempty"`
 	CustomKubeBinaryURL               string            `json:"customKubeBinaryURL,omitempty"`
@@ -563,6 +587,7 @@ type KubernetesConfig struct {
 	AzureCNIURLWindows                string            `json:"azureCNIURLWindows,omitempty"`
 	MaximumLoadBalancerRuleCount      int               `json:"maximumLoadBalancerRuleCount,omitempty"`
 	PrivateAzureRegistryServer        string            `json:"privateAzureRegistryServer,omitempty"`
+	NetworkPluginMode                 string            `json:"networkPluginMode,omitempty"`
 }
 
 // CustomFile has source as the full absolute source path to a file and dest
@@ -692,7 +717,6 @@ type Properties struct {
 	HostedMasterProfile     *HostedMasterProfile     `json:"hostedMasterProfile,omitempty"`
 	AddonProfiles           map[string]AddonProfile  `json:"addonProfiles,omitempty"`
 	FeatureFlags            *FeatureFlags            `json:"featureFlags,omitempty"`
-	TelemetryProfile        *TelemetryProfile        `json:"telemetryProfile,omitempty"`
 	CustomCloudEnv          *CustomCloudEnv          `json:"customCloudEnv,omitempty"`
 	CustomConfiguration     *CustomConfiguration     `json:"customConfiguration,omitempty"`
 }
@@ -769,7 +793,7 @@ func (p *Properties) IsIPMasqAgentEnabled() bool {
 
 // GetClusterID creates a unique 8 string cluster ID.
 func (p *Properties) GetClusterID() string {
-	var mutex = &sync.Mutex{}
+	mutex := &sync.Mutex{}
 	if p.ClusterID == "" {
 		uniqueNameSuffixSize := 8
 		// the name suffix uniquely identifies the cluster and is generated off a hash
@@ -808,13 +832,14 @@ func (p *Properties) GetCustomEnvironmentJSON(escape bool) (string, error) {
 		// Workaround to set correct name in AzureStackCloud.json
 		oldName := p.CustomCloudEnv.Name
 		p.CustomCloudEnv.Name = AzureStackCloud
+		p.CustomCloudEnv.SnakeCaseName = AzureStackCloud
 		defer func() {
 			// Restore p.CustomCloudEnv to old value
 			p.CustomCloudEnv.Name = oldName
 		}()
 		bytes, err := json.Marshal(p.CustomCloudEnv)
 		if err != nil {
-			return "", fmt.Errorf("Could not serialize CustomCloudEnv object - %s", err.Error())
+			return "", fmt.Errorf("could not serialize CustomCloudEnv object - %s", err.Error())
 		}
 		environmentJSON = string(bytes)
 		if escape {
@@ -991,6 +1016,11 @@ func (a *AgentPoolProfile) IsVHDDistro() bool {
 	return a.Distro.IsVHDDistro()
 }
 
+// Is2204VHDDistro returns true if the distro uses 2204 VHD
+func (a *AgentPoolProfile) Is2204VHDDistro() bool {
+	return a.Distro.Is2204VHDDistro()
+}
+
 // IsCustomVNET returns true if the customer brought their own VNET
 func (a *AgentPoolProfile) IsCustomVNET() bool {
 	return len(a.VnetSubnetID) > 0
@@ -1014,34 +1044,9 @@ func (a *AgentPoolProfile) IsAvailabilitySets() bool {
 // GetKubernetesLabels returns a k8s API-compliant labels string for nodes in this profile
 func (a *AgentPoolProfile) GetKubernetesLabels(rg string, deprecated bool, nvidiaEnabled bool, fipsEnabled bool, osSku string) string {
 	var buf bytes.Buffer
-	buf.WriteString("kubernetes.azure.com/role=agent")
-	if deprecated {
-		buf.WriteString(",node-role.kubernetes.io/agent=")
-		buf.WriteString(",kubernetes.io/role=agent")
-	}
-	// label key agentpool will be depreated soon
-	buf.WriteString(fmt.Sprintf(",agentpool=%s", a.Name))
+	buf.WriteString(fmt.Sprintf("agentpool=%s", a.Name))
 	buf.WriteString(fmt.Sprintf(",kubernetes.azure.com/agentpool=%s", a.Name))
 
-	if strings.EqualFold(a.StorageProfile, ManagedDisks) {
-		storagetier, _ := GetStorageAccountType(a.VMSize)
-		// label key storageprofile and storagetier will be depreated soon
-		buf.WriteString(fmt.Sprintf(",storageprofile=managed,storagetier=%s", storagetier))
-		buf.WriteString(fmt.Sprintf(",kubernetes.azure.com/storageprofile=managed,kubernetes.azure.com/storagetier=%s", storagetier))
-	}
-	if nvidiaEnabled {
-		accelerator := "nvidia"
-		// label key accelerator will be depreated soon
-		buf.WriteString(fmt.Sprintf(",accelerator=%s", accelerator))
-		buf.WriteString(fmt.Sprintf(",kubernetes.azure.com/accelerator=%s", accelerator))
-	}
-	if fipsEnabled {
-		buf.WriteString(",kubernetes.azure.com/fips_enabled=true")
-	}
-	if osSku != "" {
-		buf.WriteString(fmt.Sprintf(",kubernetes.azure.com/os-sku=%s", osSku))
-	}
-	buf.WriteString(fmt.Sprintf(",kubernetes.azure.com/cluster=%s", rg))
 	keys := []string{}
 	for key := range a.CustomNodeLabels {
 		keys = append(keys, key)
@@ -1179,6 +1184,14 @@ func (w *WindowsProfile) GetHnsRemediatorIntervalInMinutes() uint32 {
 	return 0
 }
 
+// GetLogGeneratorIntervalInMinutes gets LogGeneratorIntervalInMinutes specified or returns default value
+func (w *WindowsProfile) GetLogGeneratorIntervalInMinutes() uint32 {
+	if w.LogGeneratorIntervalInMinutes != nil {
+		return *w.LogGeneratorIntervalInMinutes
+	}
+	return 0
+}
+
 // IsKubernetes returns true if this template is for Kubernetes orchestrator
 func (o *OrchestratorProfile) IsKubernetes() bool {
 	return strings.EqualFold(o.OrchestratorType, Kubernetes)
@@ -1194,8 +1207,6 @@ func (f *FeatureFlags) IsFeatureEnabled(feature string) bool {
 			return f.BlockOutboundInternet
 		case "EnableIPv6DualStack":
 			return f.EnableIPv6DualStack
-		case "EnableTelemetry":
-			return f.EnableTelemetry
 		case "EnableIPv6Only":
 			return f.EnableIPv6Only
 		case "EnableWinDSR":
@@ -1311,6 +1322,11 @@ func (k *KubernetesConfig) GetAzureCNIURLWindows(cloudSpecConfig *AzureEnvironme
 		return k.AzureCNIURLWindows
 	}
 	return cloudSpecConfig.KubernetesSpecConfig.VnetCNIWindowsPluginsDownloadURL
+}
+
+// IsUsingNetworkPluginMode returns true of NetworkPluginMode matches mode param
+func (k *KubernetesConfig) IsUsingNetworkPluginMode(mode string) bool {
+	return strings.EqualFold(k.NetworkPluginMode, mode)
 }
 
 // GetOrderedKubeletConfigStringForPowershell returns an ordered string of key/val pairs for Powershell script consumption
@@ -1451,6 +1467,14 @@ type K8sComponents struct {
 	WindowsPackageURL string
 }
 
+// GetLatestSigImageConfigRequest describes the input for a GetLatestSigImageConfig HTTP request.
+// This is mostly a wrapper over existing types so RP doesn't have to manually construct JSON.
+type GetLatestSigImageConfigRequest struct {
+	SIGConfig SIGConfig
+	Region    string
+	Distro    Distro
+}
+
 // NodeBootstrappingConfiguration represents configurations for node bootstrapping
 type NodeBootstrappingConfiguration struct {
 	ContainerService              *ContainerService
@@ -1489,7 +1513,18 @@ type NodeBootstrappingConfiguration struct {
 	PrimaryScaleSetName            string
 	SIGConfig                      SIGConfig
 	IsARM64                        bool
+	CustomCATrustConfig            *CustomCATrustConfig
+	DisableUnattendedUpgrades      bool
+	SSHStatus                      SSHStatus
 }
+
+type SSHStatus int
+
+const (
+	SSHUnspecified SSHStatus = iota
+	SSHOff
+	SSHOn
+)
 
 // NodeBootstrapping represents the custom data, CSE, and OS image info needed for node bootstrapping.
 type NodeBootstrapping struct {
@@ -1505,6 +1540,10 @@ type HTTPProxyConfig struct {
 	HTTPSProxy *string   `json:"httpsProxy,omitempty"`
 	NoProxy    *[]string `json:"noProxy,omitempty"`
 	TrustedCA  *string   `json:"trustedCa,omitempty"`
+}
+
+type CustomCATrustConfig struct {
+	CustomCATrustCerts []string `json:"customCATrustCerts,omitempty"`
 }
 
 // AKSKubeletConfiguration contains the configuration for the Kubelet that AKS set
