@@ -122,7 +122,17 @@ configureCustomCaCertificate() {
         declare varname=CUSTOM_CA_CERT_${i} 
         echo "${!varname}" > /opt/certs/00000000000000cert${i}.crt
     done
+    # This will block until the service is considered active.
+    # Update_certs.service is a oneshot type of unit that
+    # is considered active when the ExecStart= command terminates with a zero status code.
     systemctl restart update_certs.service || exit $ERR_UPDATE_CA_CERTS
+    # after new certs are added to trust store, containerd will not pick them up properly before restart.
+    # aim here is to have this working straight away for a freshly provisioned node
+    # so we force a restart after the certs are updated
+    # custom CA daemonset copies certs passed by the user to the node, what then triggers update_certs.path unit
+    # path unit then triggers the script that copies over cert files to correct location on the node and updates the trust store
+    # as a part of this flow we could restart containerd everytime a new cert is added to the trust store using custom CA
+    systemctl restart containerd
 }
 
 
@@ -159,6 +169,7 @@ configureK8s() {
     set +x
     echo "${APISERVER_PUBLIC_KEY}" | base64 --decode > "${APISERVER_PUBLIC_KEY_PATH}"
     # Perform the required JSON escaping
+    SP_FILE="/etc/kubernetes/sp.txt"
     SERVICE_PRINCIPAL_CLIENT_SECRET="$(cat "$SP_FILE")"
     SERVICE_PRINCIPAL_CLIENT_SECRET=${SERVICE_PRINCIPAL_CLIENT_SECRET//\\/\\\\}
     SERVICE_PRINCIPAL_CLIENT_SECRET=${SERVICE_PRINCIPAL_CLIENT_SECRET//\"/\\\"}
@@ -402,9 +413,9 @@ users:
     client-key: /etc/kubernetes/certs/client.key
 contexts:
 - context:
-  cluster: localcluster
+    cluster: localcluster
     user: client
-    name: localclustercontext
+  name: localclustercontext
 current-context: localclustercontext
 EOF
     fi
@@ -526,7 +537,7 @@ configGPUDrivers() {
         mkdir -p /opt/{actions,gpu}
         if [[ "${CONTAINER_RUNTIME}" == "containerd" ]]; then
             ctr image pull $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG
-            bash -c "$CTR_GPU_INSTALL_CMD $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG gpuinstall /entrypoint.sh install" 
+            retrycmd_if_failure 5 10 600 bash -c "$CTR_GPU_INSTALL_CMD $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG gpuinstall /entrypoint.sh install"
             ret=$?
             if [[ "$ret" != "0" ]]; then
                 echo "Failed to install GPU driver, exiting..."
@@ -553,6 +564,13 @@ configGPUDrivers() {
     # validate on host, already done inside container.
     if [[ $OS == $UBUNTU_OS_NAME ]]; then
         retrycmd_if_failure 120 5 25 nvidia-modprobe -u -c0 || exit $ERR_GPU_DRIVERS_START_FAIL
+    fi
+
+    # Noticed that NVIDIA driver version R515 and later versions will experience long loading time of nvidia-smi on 
+    # ND A100-v4 and NDm A100-v4 series. For now, use the workaround solution to enable NVIDIA persistence mode which 
+    # will accelerate the loading time of future nvidia-smi operations
+    if [[ $OS == $MARINER_OS_NAME ]]; then
+        retrycmd_if_failure 120 5 35 nvidia-smi -pm 1 || exit $ERR_GPU_DRIVERS_START_FAIL
     fi
     retrycmd_if_failure 120 5 25 nvidia-smi || exit $ERR_GPU_DRIVERS_START_FAIL
     retrycmd_if_failure 120 5 25 ldconfig || exit $ERR_GPU_DRIVERS_START_FAIL

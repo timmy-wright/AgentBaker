@@ -966,6 +966,7 @@ AZURE_ENVIRONMENT_FILEPATH="{{- if IsAKSCustomCloud}}/etc/kubernetes/{{GetTarget
 KUBE_CA_CRT="{{GetParameter "caCertificate"}}"
 KUBENET_TEMPLATE="{{GetKubenetTemplate}}"
 CONTAINERD_CONFIG_CONTENT="{{GetContainerdConfigContent}}"
+IS_KATA="{{IsKata}}"
 /usr/bin/nohup /bin/bash -c "/bin/bash /opt/azure/containers/provision_start.sh"
 `)
 
@@ -1108,7 +1109,17 @@ configureCustomCaCertificate() {
         declare varname=CUSTOM_CA_CERT_${i} 
         echo "${!varname}" > /opt/certs/00000000000000cert${i}.crt
     done
+    # This will block until the service is considered active.
+    # Update_certs.service is a oneshot type of unit that
+    # is considered active when the ExecStart= command terminates with a zero status code.
     systemctl restart update_certs.service || exit $ERR_UPDATE_CA_CERTS
+    # after new certs are added to trust store, containerd will not pick them up properly before restart.
+    # aim here is to have this working straight away for a freshly provisioned node
+    # so we force a restart after the certs are updated
+    # custom CA daemonset copies certs passed by the user to the node, what then triggers update_certs.path unit
+    # path unit then triggers the script that copies over cert files to correct location on the node and updates the trust store
+    # as a part of this flow we could restart containerd everytime a new cert is added to the trust store using custom CA
+    systemctl restart containerd
 }
 
 
@@ -1145,6 +1156,7 @@ configureK8s() {
     set +x
     echo "${APISERVER_PUBLIC_KEY}" | base64 --decode > "${APISERVER_PUBLIC_KEY_PATH}"
     # Perform the required JSON escaping
+    SP_FILE="/etc/kubernetes/sp.txt"
     SERVICE_PRINCIPAL_CLIENT_SECRET="$(cat "$SP_FILE")"
     SERVICE_PRINCIPAL_CLIENT_SECRET=${SERVICE_PRINCIPAL_CLIENT_SECRET//\\/\\\\}
     SERVICE_PRINCIPAL_CLIENT_SECRET=${SERVICE_PRINCIPAL_CLIENT_SECRET//\"/\\\"}
@@ -1388,9 +1400,9 @@ users:
     client-key: /etc/kubernetes/certs/client.key
 contexts:
 - context:
-  cluster: localcluster
+    cluster: localcluster
     user: client
-    name: localclustercontext
+  name: localclustercontext
 current-context: localclustercontext
 EOF
     fi
@@ -1512,7 +1524,7 @@ configGPUDrivers() {
         mkdir -p /opt/{actions,gpu}
         if [[ "${CONTAINER_RUNTIME}" == "containerd" ]]; then
             ctr image pull $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG
-            bash -c "$CTR_GPU_INSTALL_CMD $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG gpuinstall /entrypoint.sh install" 
+            retrycmd_if_failure 5 10 600 bash -c "$CTR_GPU_INSTALL_CMD $NVIDIA_DRIVER_IMAGE:$NVIDIA_DRIVER_IMAGE_TAG gpuinstall /entrypoint.sh install"
             ret=$?
             if [[ "$ret" != "0" ]]; then
                 echo "Failed to install GPU driver, exiting..."
@@ -1539,6 +1551,13 @@ configGPUDrivers() {
     # validate on host, already done inside container.
     if [[ $OS == $UBUNTU_OS_NAME ]]; then
         retrycmd_if_failure 120 5 25 nvidia-modprobe -u -c0 || exit $ERR_GPU_DRIVERS_START_FAIL
+    fi
+
+    # Noticed that NVIDIA driver version R515 and later versions will experience long loading time of nvidia-smi on 
+    # ND A100-v4 and NDm A100-v4 series. For now, use the workaround solution to enable NVIDIA persistence mode which 
+    # will accelerate the loading time of future nvidia-smi operations
+    if [[ $OS == $MARINER_OS_NAME ]]; then
+        retrycmd_if_failure 120 5 35 nvidia-smi -pm 1 || exit $ERR_GPU_DRIVERS_START_FAIL
     fi
     retrycmd_if_failure 120 5 25 nvidia-smi || exit $ERR_GPU_DRIVERS_START_FAIL
     retrycmd_if_failure 120 5 25 ldconfig || exit $ERR_GPU_DRIVERS_START_FAIL
@@ -1730,7 +1749,7 @@ EVENTS_LOGGING_DIR=/var/log/azure/Microsoft.Azure.Extensions.CustomScript/events
 retrycmd_if_failure() {
     retries=$1; wait_sleep=$2; timeout=$3; shift && shift && shift
     for i in $(seq 1 $retries); do
-        timeout $timeout ${@} && break || \
+        timeout $timeout "${@}" && break || \
         if [ $i -eq $retries ]; then
             echo Executed \"$@\" $i times;
             return 1
@@ -2497,7 +2516,9 @@ if [[ "${SHOULD_CONFIGURE_CUSTOM_CA_TRUST}" == "true" ]]; then
     configureCustomCaCertificate || $ERR_UPDATE_CA_CERTS
 fi
 
-retrycmd_if_failure 50 1 5 $OUTBOUND_COMMAND >> /var/log/azure/cluster-provision-cse-output.log 2>&1 || exit $ERR_OUTBOUND_CONN_FAIL;
+if [[ -n "${OUTBOUND_COMMAND}" ]]; then
+    retrycmd_if_failure 50 1 5 $OUTBOUND_COMMAND >> /var/log/azure/cluster-provision-cse-output.log 2>&1 || exit $ERR_OUTBOUND_CONN_FAIL;
+fi
 
 # Bring in OS-related vars
 source /etc/os-release
@@ -2774,6 +2795,26 @@ else
             
         fi
         aptmarkWALinuxAgent unhold &
+    elif [[ $OS == $MARINER_OS_NAME ]]; then
+        if [ "${ENABLE_UNATTENDED_UPGRADES}" == "true" ]; then
+            if [ "${IS_KATA}" == "true" ]; then
+                # Currently kata packages must be updated as a unit (including the kernel which requires a reboot). This can
+                # only be done reliably via image updates as of now so never enable automatic updates.
+                echo 'EnableUnattendedUpgrade is not supported by kata images, will not be enabled'
+            else
+                # By default the dnf-automatic is service is notify only in Mariner.
+                # Enable the automatic install timer and the check-restart timer.
+                # Stop the notify only dnf timer since we've enabled the auto install one.
+                # systemctlDisableAndStop adds .service to the end which doesn't work on timers.
+                systemctl disable dnf-automatic-notifyonly.timer
+                systemctl stop dnf-automatic-notifyonly.timer
+                # At 6:00:00 UTC (1 hour random fuzz) download and install package updates.
+                systemctl unmask dnf-automatic-install.service || exit $ERR_SYSTEMCTL_START_FAIL
+                systemctl unmask dnf-automatic-install.timer || exit $ERR_SYSTEMCTL_START_FAIL
+                systemctlEnableAndStart dnf-automatic-install.timer || exit $ERR_SYSTEMCTL_START_FAIL
+                # The check-restart service which will inform kured of required restarts should already be running
+            fi
+        fi
     fi
 fi
 
@@ -3922,9 +3963,9 @@ var _linuxCloudInitArtifactsManifestJson = []byte(`{
         "downloadURL": "https://moby.blob.core.windows.net/moby/moby-containerd/${CONTAINERD_VERSION}+azure/${UBUNTU_CODENAME}/linux_${CPU_ARCH}/moby-containerd_${CONTAINERD_VERSION}+azure-ubuntu${UBUNTU_RELEASE}u${CONTAINERD_PATCH_VERSION}_${CPU_ARCH}.deb",
         "versions": [
             "1.4.13-3",
-            "1.6.15-1"
+            "1.6.17-1"
         ],
-        "edge": "1.6.15-1",
+        "edge": "1.6.17-1",
         "latest": "1.5.11-2",
         "stable": "1.4.13-3"
     },
@@ -3968,7 +4009,8 @@ var _linuxCloudInitArtifactsManifestJson = []byte(`{
             "1.25.2-hotfix.20221006",
             "1.25.4",
             "1.25.5",
-            "1.26.0"
+            "1.26.0",
+            "1.26.1"
         ]
     },
     "_template": {
@@ -4159,12 +4201,6 @@ installDeps() {
         fi
       done
     fi
-
-    echo -e "[Unit]\nDescription=Intercept cloud-init configurations and override them\nBefore=cloud-init.service\n\n" >> /etc/systemd/system/cse-mariner-gpu.service
-    echo -e "[Service]\nType=simple\nExecStart=/usr/bin/bash -c /usr/local/bin/provision_gpu_fix.sh\n\n" >> /etc/systemd/system/cse-mariner-gpu.service
-    echo -e "[Install]\nWantedBy=multi-user.target" >> /etc/systemd/system/cse-mariner-gpu.service
-
-    systemctl enable cse-mariner-gpu.service
 }
 
 downloadGPUDrivers() {
@@ -4173,9 +4209,11 @@ downloadGPUDrivers() {
     KERNEL_VERSION=$(cut -d - -f 1 <<< "$(uname -r)")
     CUDA_VERSION="*_${KERNEL_VERSION}*"
 
-    if ! dnf_install 30 1 600 cuda-${CUDA_VERSION}; then
-      exit $ERR_APT_INSTALL_TIMEOUT
-    fi
+    for nvidia_driver_package in cuda-${CUDA_VERSION} nvidia-fabric-manager-${CUDA_VERSION}; do
+      if ! dnf_install 30 1 600 $nvidia_driver_package; then
+        exit $ERR_APT_INSTALL_TIMEOUT
+      fi
+    done
 }
 
 installNvidiaContainerRuntime() {
@@ -5690,7 +5728,7 @@ installStandaloneContainerd() {
 
     #if there is no containerd_version input from RP, use hardcoded version
     if [[ -z ${CONTAINERD_VERSION} ]]; then
-        CONTAINERD_VERSION="1.6.15"
+        CONTAINERD_VERSION="1.6.17"
         CONTAINERD_PATCH_VERSION="1"
         echo "Containerd Version not specified, using default version: ${CONTAINERD_VERSION}-${CONTAINERD_PATCH_VERSION}"
     else
@@ -6457,8 +6495,6 @@ $global:WindowsGmsaPackageUrl = "{{GetVariable "windowsGmsaPackageUrl" }}";
 # TLS Bootstrap Token
 $global:TLSBootstrapToken = "{{GetTLSBootstrapTokenForKubeConfig}}"
 
-$global:IsNotRebootWindowsNode = [System.Convert]::ToBoolean("{{GetVariable "isNotRebootWindowsNode" }}");
-
 # Disable OutBoundNAT in Azure CNI configuration
 $global:IsDisableWindowsOutboundNat = [System.Convert]::ToBoolean("{{GetVariable "isDisableWindowsOutboundNat" }}");
 
@@ -6765,28 +6801,22 @@ try
 
     Enable-GuestVMLogs -IntervalInMinutes $global:LogGeneratorIntervalInMinutes
 
-    if ($global:IsNotRebootWindowsNode) {
-        Write-Log "Setup Complete, starting NodeResetScriptTask to register Winodws node without reboot"
-        Start-ScheduledTask -TaskName "k8s-restart-job"
+    Write-Log "Setup Complete, starting NodeResetScriptTask to register Winodws node without reboot"
+    Start-ScheduledTask -TaskName "k8s-restart-job"
 
-        $timeout = 180 ##  seconds
-        $timer = [Diagnostics.Stopwatch]::StartNew()
-        while ((Get-ScheduledTask -TaskName 'k8s-restart-job').State -ne 'Ready') {
-            # The task `+"`"+`k8s-restart-job`+"`"+` needs ~8 seconds.
-            if ($timer.Elapsed.TotalSeconds -gt $timeout) {
-                Set-ExitCode -ExitCode $global:WINDOWS_CSE_ERROR_START_NODE_RESET_SCRIPT_TASK -ErrorMessage "NodeResetScriptTask is not finished after [$($timer.Elapsed.TotalSeconds)] seconds"
-            }
-
-            Write-Log -Message "Waiting on NodeResetScriptTask..."
-            Start-Sleep -Seconds 3
+    $timeout = 180 ##  seconds
+    $timer = [Diagnostics.Stopwatch]::StartNew()
+    while ((Get-ScheduledTask -TaskName 'k8s-restart-job').State -ne 'Ready') {
+        # The task `+"`"+`k8s-restart-job`+"`"+` needs ~8 seconds.
+        if ($timer.Elapsed.TotalSeconds -gt $timeout) {
+            Set-ExitCode -ExitCode $global:WINDOWS_CSE_ERROR_START_NODE_RESET_SCRIPT_TASK -ErrorMessage "NodeResetScriptTask is not finished after [$($timer.Elapsed.TotalSeconds)] seconds"
         }
-        $timer.Stop()
-        Write-Log -Message "We waited [$($timer.Elapsed.TotalSeconds)] seconds on NodeResetScriptTask"
-    } else {
-        # Postpone restart-computer so we can generate CSE response before restarting computer
-        Write-Log "Setup Complete, reboot computer"
-        Postpone-RestartComputer
+
+        Write-Log -Message "Waiting on NodeResetScriptTask..."
+        Start-Sleep -Seconds 3
     }
+    $timer.Stop()
+    Write-Log -Message "We waited [$($timer.Elapsed.TotalSeconds)] seconds on NodeResetScriptTask"
 }
 catch
 {

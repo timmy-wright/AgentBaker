@@ -23,12 +23,6 @@ installDeps() {
         fi
       done
     fi
-
-    echo -e "[Unit]\nDescription=Intercept cloud-init configurations and override them\nBefore=cloud-init.service\n\n" >> /etc/systemd/system/cse-mariner-gpu.service
-    echo -e "[Service]\nType=simple\nExecStart=/usr/bin/bash -c /usr/local/bin/provision_gpu_fix.sh\n\n" >> /etc/systemd/system/cse-mariner-gpu.service
-    echo -e "[Install]\nWantedBy=multi-user.target" >> /etc/systemd/system/cse-mariner-gpu.service
-
-    systemctl enable cse-mariner-gpu.service
 }
 
 downloadGPUDrivers() {
@@ -37,9 +31,11 @@ downloadGPUDrivers() {
     KERNEL_VERSION=$(cut -d - -f 1 <<< "$(uname -r)")
     CUDA_VERSION="*_${KERNEL_VERSION}*"
 
-    if ! dnf_install 30 1 600 cuda-${CUDA_VERSION}; then
-      exit $ERR_APT_INSTALL_TIMEOUT
-    fi
+    for nvidia_driver_package in cuda-${CUDA_VERSION} nvidia-fabric-manager-${CUDA_VERSION}; do
+      if ! dnf_install 30 1 600 $nvidia_driver_package; then
+        exit $ERR_APT_INSTALL_TIMEOUT
+      fi
+    done
 }
 
 installNvidiaContainerRuntime() {
