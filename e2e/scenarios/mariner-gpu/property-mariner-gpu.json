@@ -4,7 +4,7 @@
             "agentPoolProfiles": [
                 {
                     "name": "nodepool1",
-                    "vmSize": "Standard_NC6s_v3",
+                    "vmSize": "Standard_ND96asr_v4",
                     "osType": "Linux",
                     "availabilityProfile": "VirtualMachineScaleSets",
                     "storageProfile": "ManagedDisks",
@@ -24,7 +24,7 @@
     },
     "AgentPoolProfile": {
         "name": "nodepool1",
-        "vmSize": "Standard_NC6s_v3",
+        "vmSize": "Standard_ND96asr_v4",
         "osType": "Linux",
         "availabilityProfile": "VirtualMachineScaleSets",
         "storageProfile": "ManagedDisks",
@@ -42,6 +42,6 @@
     "ConfigGPUDriverIfNeeded": true,
     "EnableGPUDevicePluginIfNeeded": false,
     "EnableNvidia": true,
-    "GPUInstanceProfile": "",
+    "GPUInstanceProfile": "MIG1g",
     "OSSKU": "Mariner"
 }

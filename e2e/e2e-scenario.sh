@@ -86,7 +86,7 @@ az vmss create -n ${VMSS_NAME} \
     --vm-sku $VM_SKU \
     --instance-count 1 \
     --assign-identity $msiResourceID \
-    --image "MicrosoftCBLMariner:cbl-mariner:cbl-mariner-2-gen2:latest" \
+    --image "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/aksvhdtestbuildrg/providers/Microsoft.Compute/galleries/PackerSigGalleryEastUS/images/CBLMarinerV2Gen2/versions/1.1677007715.28877" \
     --upgrade-policy-mode Automatic \
     --os-disk-size-gb 40 \
     --ssh-key-values ~/.ssh/id_rsa.pub \
