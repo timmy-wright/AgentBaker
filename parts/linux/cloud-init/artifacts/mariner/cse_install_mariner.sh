@@ -31,11 +31,15 @@ downloadGPUDrivers() {
     KERNEL_VERSION=$(cut -d - -f 1 <<< "$(uname -r)")
     CUDA_VERSION="*_${KERNEL_VERSION}*"
 
-    for nvidia_driver_package in cuda-${CUDA_VERSION} nvidia-fabric-manager-${CUDA_VERSION}; do
-      if ! dnf_install 30 1 600 $nvidia_driver_package; then
-        exit $ERR_APT_INSTALL_TIMEOUT
-      fi
-    done
+    if ! dnf_install 30 1 600 cuda-${CUDA_VERSION}; then
+      exit $ERR_APT_INSTALL_TIMEOUT
+    fi
+
+    # Check the NVIDIA driver version installed and install nvidia-fabric-manager
+    NVIDIA_DRIVER_VERSION=$(cut -d - -f 2 <<< "$(rpm -qa cuda)")
+    if ! dnf_install 30 1 600 nvidia-fabric-manager-${NVIDIA_DRIVER_VERSION}; then
+      exit $ERR_APT_INSTALL_TIMEOUT
+    fi
 }
 
 installNvidiaContainerRuntime() {

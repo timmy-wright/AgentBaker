@@ -1,0 +1,1896 @@
++ '[' -f /opt/azure/containers/provision.complete ']'
++ LOG_DIR=/var/log/azure/aks
++ mkdir -p /var/log/azure/aks
++ aptmarkWALinuxAgent hold
+/opt/azure/containers/provision.sh: line 10: aptmarkWALinuxAgent: command not found
++ ln -s /var/log/azure/cluster-provision.log /var/log/azure/cluster-provision-cse-output.log /opt/azure/components.json /opt/azure/kube-proxy-images.json /opt/azure/manifest.json /opt/azure/cloud-init-files.paved /opt/azure/vhd-install.complete /var/log/azure/aks/
++ python3 /opt/azure/containers/provision_redact_cloud_config.py --cloud-config-path /var/lib/cloud/instance/cloud-config.txt --output-path /var/log/azure/aks/cloud-config.txt
+Dumping redacted cloud-config to: /var/log/azure/aks/cloud-config.txt
+++ lsb_release -r -s
+/opt/azure/containers/provision.sh: line 28: lsb_release: command not found
++ UBUNTU_RELEASE=
++ [[ '' == \1\6\.\0\4 ]]
+++ date
+++ hostname
++ echo Wed Feb 22 00:54:59 UTC 2023,abtes066f000000, startcustomscript
+++ seq 1 3600
++ for i in $(seq 1 3600)
++ '[' -s /opt/azure/containers/provision_source.sh ']'
++ grep -Fq '#HELPERSEOF' /opt/azure/containers/provision_source.sh
++ break
++ sed -i /#HELPERSEOF/d /opt/azure/containers/provision_source.sh
++ source /opt/azure/containers/provision_source.sh
+++ ERR_SYSTEMCTL_START_FAIL=4
+++ ERR_CLOUD_INIT_TIMEOUT=5
+++ ERR_FILE_WATCH_TIMEOUT=6
+++ ERR_HOLD_WALINUXAGENT=7
+++ ERR_RELEASE_HOLD_WALINUXAGENT=8
+++ ERR_APT_INSTALL_TIMEOUT=9
+++ ERR_DOCKER_INSTALL_TIMEOUT=20
+++ ERR_DOCKER_DOWNLOAD_TIMEOUT=21
+++ ERR_DOCKER_KEY_DOWNLOAD_TIMEOUT=22
+++ ERR_DOCKER_APT_KEY_TIMEOUT=23
+++ ERR_DOCKER_START_FAIL=24
+++ ERR_MOBY_APT_LIST_TIMEOUT=25
+++ ERR_MS_GPG_KEY_DOWNLOAD_TIMEOUT=26
+++ ERR_MOBY_INSTALL_TIMEOUT=27
+++ ERR_CONTAINERD_INSTALL_TIMEOUT=28
+++ ERR_RUNC_INSTALL_TIMEOUT=29
+++ ERR_K8S_RUNNING_TIMEOUT=30
+++ ERR_K8S_DOWNLOAD_TIMEOUT=31
+++ ERR_KUBECTL_NOT_FOUND=32
+++ ERR_IMG_DOWNLOAD_TIMEOUT=33
+++ ERR_KUBELET_START_FAIL=34
+++ ERR_DOCKER_IMG_PULL_TIMEOUT=35
+++ ERR_CONTAINERD_CTR_IMG_PULL_TIMEOUT=36
+++ ERR_CONTAINERD_CRICTL_IMG_PULL_TIMEOUT=37
+++ ERR_CONTAINERD_INSTALL_FILE_NOT_FOUND=38
+++ ERR_CNI_DOWNLOAD_TIMEOUT=41
+++ ERR_MS_PROD_DEB_DOWNLOAD_TIMEOUT=42
+++ ERR_MS_PROD_DEB_PKG_ADD_FAIL=43
+++ ERR_SYSTEMD_INSTALL_FAIL=48
+++ ERR_MODPROBE_FAIL=49
+++ ERR_OUTBOUND_CONN_FAIL=50
+++ ERR_K8S_API_SERVER_CONN_FAIL=51
+++ ERR_K8S_API_SERVER_DNS_LOOKUP_FAIL=52
+++ ERR_K8S_API_SERVER_AZURE_DNS_LOOKUP_FAIL=53
+++ ERR_KATA_KEY_DOWNLOAD_TIMEOUT=60
+++ ERR_KATA_APT_KEY_TIMEOUT=61
+++ ERR_KATA_INSTALL_TIMEOUT=62
+++ ERR_CONTAINERD_DOWNLOAD_TIMEOUT=70
+++ ERR_RUNC_DOWNLOAD_TIMEOUT=71
+++ ERR_CUSTOM_SEARCH_DOMAINS_FAIL=80
+++ ERR_GPU_DOWNLOAD_TIMEOUT=83
+++ ERR_GPU_DRIVERS_START_FAIL=84
+++ ERR_GPU_DRIVERS_INSTALL_TIMEOUT=85
+++ ERR_GPU_DEVICE_PLUGIN_START_FAIL=86
+++ ERR_GPU_INFO_ROM_CORRUPTED=87
+++ ERR_SGX_DRIVERS_INSTALL_TIMEOUT=90
+++ ERR_SGX_DRIVERS_START_FAIL=91
+++ ERR_APT_DAILY_TIMEOUT=98
+++ ERR_APT_UPDATE_TIMEOUT=99
+++ ERR_CSE_PROVISION_SCRIPT_NOT_READY_TIMEOUT=100
+++ ERR_APT_DIST_UPGRADE_TIMEOUT=101
+++ ERR_APT_PURGE_FAIL=102
+++ ERR_SYSCTL_RELOAD=103
+++ ERR_CIS_ASSIGN_ROOT_PW=111
+++ ERR_CIS_ASSIGN_FILE_PERMISSION=112
+++ ERR_PACKER_COPY_FILE=113
+++ ERR_CIS_APPLY_PASSWORD_CONFIG=115
+++ ERR_SYSTEMD_DOCKER_STOP_FAIL=116
+++ ERR_CRICTL_DOWNLOAD_TIMEOUT=117
+++ ERR_CRICTL_OPERATION_ERROR=118
+++ ERR_CTR_OPERATION_ERROR=119
+++ ERR_VHD_FILE_NOT_FOUND=124
+++ ERR_VHD_BUILD_ERROR=125
+++ ERR_AZURE_STACK_GET_ARM_TOKEN=120
+++ ERR_AZURE_STACK_GET_NETWORK_CONFIGURATION=121
+++ ERR_AZURE_STACK_GET_SUBNET_PREFIX=122
+++ ERR_SWAP_CREATE_FAIL=130
+++ ERR_SWAP_CREATE_INSUFFICIENT_DISK_SPACE=131
+++ ERR_TELEPORTD_DOWNLOAD_ERR=150
+++ ERR_TELEPORTD_INSTALL_ERR=151
+++ ERR_HTTP_PROXY_CA_CONVERT=160
+++ ERR_UPDATE_CA_CERTS=161
+++ ERR_DISBALE_IPTABLES=170
+++ ERR_KRUSTLET_DOWNLOAD_TIMEOUT=171
+++ ERR_DISABLE_SSH=172
+++ ERR_VHD_REBOOT_REQUIRED=200
+++ ERR_NO_PACKAGES_FOUND=201
++++ sort -r /etc/lsb-release /etc/mariner-release /etc/os-release
++++ gawk 'match($0, /^(ID_LIKE=(coreos)|ID=(.*))$/, a) { print toupper(a[2] a[3]); exit }'
+++ OS=MARINER
+++ UBUNTU_OS_NAME=UBUNTU
+++ MARINER_OS_NAME=MARINER
+++ KUBECTL=/usr/local/bin/kubectl
+++ DOCKER=/usr/bin/docker
+++ export GPU_DV=cuda-510.47.03
+++ GPU_DV=cuda-510.47.03
+++ export GPU_DEST=/usr/local/nvidia
+++ GPU_DEST=/usr/local/nvidia
+++ NVIDIA_DOCKER_VERSION=2.8.0-1
+++ DOCKER_VERSION=1.13.1-1
+++ NVIDIA_CONTAINER_RUNTIME_VERSION=3.6.0
+++ export NVIDIA_DRIVER_IMAGE_SHA=sha-5262fa
+++ NVIDIA_DRIVER_IMAGE_SHA=sha-5262fa
+++ export NVIDIA_DRIVER_IMAGE_TAG=cuda-510.47.03-sha-5262fa
+++ NVIDIA_DRIVER_IMAGE_TAG=cuda-510.47.03-sha-5262fa
+++ export NVIDIA_DRIVER_IMAGE=mcr.microsoft.com/aks/aks-gpu
+++ NVIDIA_DRIVER_IMAGE=mcr.microsoft.com/aks/aks-gpu
+++ export 'CTR_GPU_INSTALL_CMD=ctr run --privileged --rm --net-host --with-ns pid:/proc/1/ns/pid --mount type=bind,src=/opt/gpu,dst=/mnt/gpu,options=rbind --mount type=bind,src=/opt/actions,dst=/mnt/actions,options=rbind'
+++ CTR_GPU_INSTALL_CMD='ctr run --privileged --rm --net-host --with-ns pid:/proc/1/ns/pid --mount type=bind,src=/opt/gpu,dst=/mnt/gpu,options=rbind --mount type=bind,src=/opt/actions,dst=/mnt/actions,options=rbind'
+++ export 'DOCKER_GPU_INSTALL_CMD=docker run --privileged --net=host --pid=host -v /opt/gpu:/mnt/gpu -v /opt/actions:/mnt/actions --rm'
+++ DOCKER_GPU_INSTALL_CMD='docker run --privileged --net=host --pid=host -v /opt/gpu:/mnt/gpu -v /opt/actions:/mnt/actions --rm'
+++ APT_CACHE_DIR=/var/cache/apt/archives/
+++ PERMANENT_CACHE_DIR=/root/aptcache/
+++ EVENTS_LOGGING_DIR=/var/log/azure/Microsoft.Azure.Extensions.CustomScript/events/
++ wait_for_file 3600 1 /opt/azure/containers/provision_source_distro.sh
++ retries=3600
++ wait_sleep=1
++ filepath=/opt/azure/containers/provision_source_distro.sh
++ paved=/opt/azure/cloud-init-files.paved
++ grep -Fq /opt/azure/containers/provision_source_distro.sh /opt/azure/cloud-init-files.paved
+grep: /opt/azure/cloud-init-files.paved: No such file or directory
+++ seq 1 3600
++ for i in $(seq 1 $retries)
++ grep -Fq '#EOF' /opt/azure/containers/provision_source_distro.sh
++ break
++ sed -i /#EOF/d /opt/azure/containers/provision_source_distro.sh
++ echo /opt/azure/containers/provision_source_distro.sh
++ source /opt/azure/containers/provision_source_distro.sh
+++ echo 'Sourcing cse_helpers_distro.sh for Mariner'
+Sourcing cse_helpers_distro.sh for Mariner
++ wait_for_file 3600 1 /opt/azure/containers/provision_installs.sh
++ retries=3600
++ wait_sleep=1
++ filepath=/opt/azure/containers/provision_installs.sh
++ paved=/opt/azure/cloud-init-files.paved
++ grep -Fq /opt/azure/containers/provision_installs.sh /opt/azure/cloud-init-files.paved
+++ seq 1 3600
++ for i in $(seq 1 $retries)
++ grep -Fq '#EOF' /opt/azure/containers/provision_installs.sh
++ break
++ sed -i /#EOF/d /opt/azure/containers/provision_installs.sh
++ echo /opt/azure/containers/provision_installs.sh
++ source /opt/azure/containers/provision_installs.sh
+++ CC_SERVICE_IN_TMP=/opt/azure/containers/cc-proxy.service.in
+++ CC_SOCKET_IN_TMP=/opt/azure/containers/cc-proxy.socket.in
+++ CNI_CONFIG_DIR=/etc/cni/net.d
+++ CNI_BIN_DIR=/opt/cni/bin
+++ CNI_DOWNLOADS_DIR=/opt/cni/downloads
+++ CRICTL_DOWNLOAD_DIR=/opt/crictl/downloads
+++ CRICTL_BIN_DIR=/usr/local/bin
+++ CONTAINERD_DOWNLOADS_DIR=/opt/containerd/downloads
+++ RUNC_DOWNLOADS_DIR=/opt/runc/downloads
+++ K8S_DOWNLOADS_DIR=/opt/kubernetes/downloads
++++ lsb_release -r -s
+/opt/azure/containers/provision_installs.sh: line 13: lsb_release: command not found
+++ UBUNTU_RELEASE=
+++ TELEPORTD_PLUGIN_DOWNLOAD_DIR=/opt/teleportd/downloads
+++ TELEPORTD_PLUGIN_BIN_DIR=/usr/local/bin
+++ CONTAINERD_WASM_VERSION=v0.3.0
+++ MANIFEST_FILEPATH=/opt/azure/manifest.json
+++ MAN_DB_AUTO_UPDATE_FLAG_FILEPATH=/var/lib/man-db/auto-update
++ wait_for_file 3600 1 /opt/azure/containers/provision_installs_distro.sh
++ retries=3600
++ wait_sleep=1
++ filepath=/opt/azure/containers/provision_installs_distro.sh
++ paved=/opt/azure/cloud-init-files.paved
++ grep -Fq /opt/azure/containers/provision_installs_distro.sh /opt/azure/cloud-init-files.paved
+++ seq 1 3600
++ for i in $(seq 1 $retries)
++ grep -Fq '#EOF' /opt/azure/containers/provision_installs_distro.sh
++ break
++ sed -i /#EOF/d /opt/azure/containers/provision_installs_distro.sh
++ echo /opt/azure/containers/provision_installs_distro.sh
++ source /opt/azure/containers/provision_installs_distro.sh
+++ echo 'Sourcing cse_install_distro.sh for Mariner'
+Sourcing cse_install_distro.sh for Mariner
++ wait_for_file 3600 1 /opt/azure/containers/provision_configs.sh
++ retries=3600
++ wait_sleep=1
++ filepath=/opt/azure/containers/provision_configs.sh
++ paved=/opt/azure/cloud-init-files.paved
++ grep -Fq /opt/azure/containers/provision_configs.sh /opt/azure/cloud-init-files.paved
+++ seq 1 3600
++ for i in $(seq 1 $retries)
++ grep -Fq '#EOF' /opt/azure/containers/provision_configs.sh
++ break
++ sed -i /#EOF/d /opt/azure/containers/provision_configs.sh
++ echo /opt/azure/containers/provision_configs.sh
++ source /opt/azure/containers/provision_configs.sh
++++ hostname
++++ tail -c 2
+++ NODE_INDEX=0
++++ hostname
+++ NODE_NAME=abtes066f000000
++ [[ false == \t\r\u\e ]]
++ [[ false == \t\r\u\e ]]
++ [[ false == \t\r\u\e ]]
++ [[ -n curl -v --insecure --proxy-insecure https://mcr.microsoft.com/v2/ ]]
++ retrycmd_if_failure 50 1 5 curl -v --insecure --proxy-insecure https://mcr.microsoft.com/v2/
++ source /etc/os-release
+++ NAME='Common Base Linux Mariner'
+++ VERSION=2.0.20230208
+++ ID=mariner
+++ VERSION_ID=2.0
+++ PRETTY_NAME=CBL-Mariner/Linux
+++ ANSI_COLOR='1;34'
+++ HOME_URL=https://aka.ms/cbl-mariner
+++ BUG_REPORT_URL=https://aka.ms/cbl-mariner
+++ SUPPORT_URL=https://aka.ms/cbl-mariner
++ [[ mariner != \m\a\r\i\n\e\r ]]
++ [[ true != \t\r\u\e ]]
++ logs_to_events AKS.CSE.disableSystemdResolved disableSystemdResolved
++ local task=AKS.CSE.disableSystemdResolved
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027299700
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:54:59.700'
++ disableSystemdResolved
++ ls -ltr /etc/resolv.conf
+lrwxrwxrwx 1 root root 32 Feb 22 00:53 /etc/resolv.conf -> /run/systemd/resolve/resolv.conf
++ cat /etc/resolv.conf
+# This is /run/systemd/resolve/resolv.conf managed by man:systemd-resolved(8).
+# Do not edit.
+#
+# This file might be symlinked as /etc/resolv.conf. If you're looking at
+# /etc/resolv.conf and seeing this text, you have followed the symlink.
+#
+# This is a dynamic resolv.conf file for connecting local clients directly to
+# all known uplink DNS servers. This file lists all configured search domains.
+#
+# Third party programs should typically not access this file directly, but only
+# through the symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a
+# different way, replace this symlink by a static file or a different symlink.
+#
+# See man:systemd-resolved.service(8) for details about the supported modes of
+# operation for /etc/resolv.conf.
+
+nameserver 168.63.129.16
+search .
+++ lsb_release -r -s
+/opt/azure/containers/provision_configs.sh: line 276: lsb_release: command not found
++ UBUNTU_RELEASE=
++ [[ '' == \1\8\.\0\4 ]]
++ [[ '' == \2\0\.\0\4 ]]
++ [[ '' == \2\2\.\0\4 ]]
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:54:59.703'
+++ jq -n --arg Timestamp '2023-02-22 00:54:59.700' --arg OperationId '2023-02-22 00:54:59.703' --arg Version 1.23 --arg TaskName AKS.CSE.disableSystemdResolved --arg EventLevel Informational --arg Message 'Completed: disableSystemdResolved' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:54:59.700",
+  "OperationId": "2023-02-22 00:54:59.703",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.disableSystemdResolved",
+  "EventLevel": "Informational",
+  "Message": "Completed: disableSystemdResolved",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:54:59.700",' '"OperationId":' '"2023-02-22' '00:54:59.703",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.disableSystemdResolved",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'disableSystemdResolved",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ logs_to_events AKS.CSE.configureAdminUser configureAdminUser
++ local task=AKS.CSE.configureAdminUser
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027299833
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:54:59.834'
++ configureAdminUser
++ chage -E -1 -I -1 -m 0 -M 99999 azureuser
++ chage -l azureuser
+Last password change					: Feb 22, 2023
+Password expires					: never
+Password inactive					: never
+Account expires						: never
+Minimum number of days between password change		: 0
+Maximum number of days between password change		: 99999
+Number of days of warning before password expires	: 7
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:54:59.912'
+++ jq -n --arg Timestamp '2023-02-22 00:54:59.834' --arg OperationId '2023-02-22 00:54:59.912' --arg Version 1.23 --arg TaskName AKS.CSE.configureAdminUser --arg EventLevel Informational --arg Message 'Completed: configureAdminUser' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:54:59.834",
+  "OperationId": "2023-02-22 00:54:59.912",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.configureAdminUser",
+  "EventLevel": "Informational",
+  "Message": "Completed: configureAdminUser",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:54:59.834",' '"OperationId":' '"2023-02-22' '00:54:59.912",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.configureAdminUser",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'configureAdminUser",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ VHD_LOGS_FILEPATH=/opt/azure/vhd-install.complete
++ '[' -f /opt/azure/vhd-install.complete ']'
++ echo 'detected golden image pre-install'
+detected golden image pre-install
++ logs_to_events AKS.CSE.cleanUpContainerImages cleanUpContainerImages
++ local task=AKS.CSE.cleanUpContainerImages
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027299936
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:54:59.937'
++ cleanUpContainerImages
++ export KUBERNETES_VERSION
++ export CLI_TOOL
++ export -f retrycmd_if_failure
++ export -f removeContainerImage
++ export -f cleanUpImages
++ export -f cleanUpHyperkubeImages
++ export -f cleanUpKubeProxyImages
++ bash -c cleanUpHyperkubeImages
++ bash -c cleanUpKubeProxyImages
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:54:59.939'
+++ jq -n --arg Timestamp '2023-02-22 00:54:59.937' --arg OperationId '2023-02-22 00:54:59.939' --arg Version 1.23 --arg TaskName AKS.CSE.cleanUpContainerImages --arg EventLevel Informational --arg Message 'Completed: cleanUpContainerImages' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
+Wed Feb 22 00:54:59 UTC 2023,abtes066f000000, cleanUpHyperkubeImages
+Wed Feb 22 00:54:59 UTC 2023,abtes066f000000, startCleanUpKubeProxyImages
++ json_string='{
+  "Timestamp": "2023-02-22 00:54:59.937",
+  "OperationId": "2023-02-22 00:54:59.939",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.cleanUpContainerImages",
+  "EventLevel": "Informational",
+  "Message": "Completed: cleanUpContainerImages",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:54:59.937",' '"OperationId":' '"2023-02-22' '00:54:59.939",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.cleanUpContainerImages",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'cleanUpContainerImages",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ FULL_INSTALL_REQUIRED=false
++ '[' false = true ']'
++ echo 'Golden image; skipping dependencies installation'
+Golden image; skipping dependencies installation
++ logs_to_events AKS.CSE.installContainerRuntime installContainerRuntime
++ local task=AKS.CSE.installContainerRuntime
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027299963
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:54:59.964'
++ installContainerRuntime
++ '[' true == true ']'
++ echo 'in installContainerRuntime - KUBERNETES_VERSION = 1.24.0'
+in installContainerRuntime - KUBERNETES_VERSION = 1.24.0
++ wait_for_file 120 1 /opt/azure/manifest.json
++ retries=120
++ wait_sleep=1
++ filepath=/opt/azure/manifest.json
++ paved=/opt/azure/cloud-init-files.paved
++ grep -Fq /opt/azure/manifest.json /opt/azure/cloud-init-files.paved
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ grep -Fq '#EOF' /opt/azure/manifest.json
++ break
++ sed -i /#EOF/d /opt/azure/manifest.json
++ echo /opt/azure/manifest.json
++ local containerd_version
++ '[' -f /opt/azure/manifest.json ']'
+++ jq -r .containerd.edge /opt/azure/manifest.json
++ containerd_version=1.6.17-1
+++ echo 1.6.17-1
+++ cut -d- -f1
++ containerd_patch_version=1.6.17
+++ echo 1.6.17-1
+++ cut -d- -f2
++ containerd_revision=1
++ '[' -z 1.6.17 ']'
++ '[' 1.6.17 == null ']'
++ '[' 1 == null ']'
++ logs_to_events AKS.CSE.installContainerRuntime.installStandaloneContainerd 'installStandaloneContainerd 1.6.17 1'
++ local task=AKS.CSE.installContainerRuntime.installStandaloneContainerd
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027299995
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:54:59.996'
++ installStandaloneContainerd 1.6.17 1
++ CONTAINERD_VERSION=1.6.17
++ CONTAINERD_VERSION=1.3.4
+++ containerd -version
+++ cut -d ' ' -f 3
+++ sed 's|v||'
+++ cut -d + -f 1
++ CURRENT_VERSION=1.6.12
++ semverCompare 1.6.12 1.3.4
+++ echo 1.6.12
+++ cut -d + -f 1
++ VERSION_A=1.6.12
+++ echo 1.3.4
+++ cut -d + -f 1
++ VERSION_B=1.3.4
++ [[ 1.6.12 == \1\.\3\.\4 ]]
+++ echo 1.6.12 1.3.4
+++ tr ' ' '\n'
+++ sort -V
++ sorted='1.3.4
+1.6.12'
+++ IFS=
+++ echo '1.3.4
+1.6.12'
+++ cut '-d
+' -f2
++ highestVersion=1.6.12
++ [[ 1.6.12 == 1.6.12 ]]
++ return 0
++ echo 'currently installed containerd version 1.6.12 is greater than (or equal to) target base version 1.3.4. skipping installStandaloneContainerd.'
+currently installed containerd version 1.6.12 is greater than (or equal to) target base version 1.3.4. skipping installStandaloneContainerd.
++ [[ -f /etc/containerd/config.toml.rpmsave ]]
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:55:00.026'
+++ jq -n --arg Timestamp '2023-02-22 00:54:59.996' --arg OperationId '2023-02-22 00:55:00.026' --arg Version 1.23 --arg TaskName AKS.CSE.installContainerRuntime.installStandaloneContainerd --arg EventLevel Informational --arg Message 'Completed: installStandaloneContainerd 1.6.17 1' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:54:59.996",
+  "OperationId": "2023-02-22 00:55:00.026",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.installContainerRuntime.installStandaloneContainerd",
+  "EventLevel": "Informational",
+  "Message": "Completed: installStandaloneContainerd 1.6.17 1",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:54:59.996",' '"OperationId":' '"2023-02-22' '00:55:00.026",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.installContainerRuntime.installStandaloneContainerd",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' installStandaloneContainerd 1.6.17 '1",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ echo 'in installContainerRuntime - CONTAINERD_VERION = 1.6.17'
+in installContainerRuntime - CONTAINERD_VERION = 1.6.17
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:55:00.050'
+++ jq -n --arg Timestamp '2023-02-22 00:54:59.964' --arg OperationId '2023-02-22 00:55:00.050' --arg Version 1.23 --arg TaskName AKS.CSE.installContainerRuntime --arg EventLevel Informational --arg Message 'Completed: installContainerRuntime' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:54:59.964",
+  "OperationId": "2023-02-22 00:55:00.050",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.installContainerRuntime",
+  "EventLevel": "Informational",
+  "Message": "Completed: installContainerRuntime",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:54:59.964",' '"OperationId":' '"2023-02-22' '00:55:00.050",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.installContainerRuntime",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'installContainerRuntime",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ '[' true == true ']'
++ '[' false == true ']'
++ setupCNIDirs
++ mkdir -p /opt/cni/bin
++ chown -R root:root /opt/cni/bin
++ chmod -R 755 /opt/cni/bin
++ mkdir -p /etc/cni/net.d
++ chown -R root:root /etc/cni/net.d
++ chmod 755 /etc/cni/net.d
++ logs_to_events AKS.CSE.installNetworkPlugin installNetworkPlugin
++ local task=AKS.CSE.installNetworkPlugin
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027300091
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:55:00.092'
++ installNetworkPlugin
++ [[ kubenet = \a\z\u\r\e ]]
++ installCNI
++ CNI_TGZ_TMP=cni-plugins-amd64-v0.7.6.tgz
++ CNI_DIR_TMP=cni-plugins-amd64-v0.7.6
++ [[ -d /opt/cni/downloads/cni-plugins-amd64-v0.7.6 ]]
++ [[ ! -f /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz ]]
++ downloadCNI
++ mkdir -p /opt/cni/downloads
++ CNI_TGZ_TMP=cni-plugins-amd64-v0.7.6.tgz
++ retrycmd_get_tarball 120 5 /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz https://acs-mirror.azureedge.net/cni/cni-plugins-amd64-v0.7.6.tgz
++ tar_retries=120
++ wait_sleep=5
++ tarball=/opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz
++ url=https://acs-mirror.azureedge.net/cni/cni-plugins-amd64-v0.7.6.tgz
++ echo '120 retries'
+120 retries
+++ seq 1 120
++ for i in $(seq 1 $tar_retries)
++ tar -tzf /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz
+tar (child): /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ '[' 1 -eq 120 ']'
++ timeout 60 curl -fsSL https://acs-mirror.azureedge.net/cni/cni-plugins-amd64-v0.7.6.tgz -o /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz
++ sleep 5
+Executed "bash -c cleanupImagesRun" 1 times
+Wed Feb 22 00:55:04 UTC 2023,abtes066f000000, endCleanUpHyperkubeImages
++ for i in $(seq 1 $tar_retries)
++ tar -tzf /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz
+./
+./flannel
+./ptp
+./host-local
+./portmap
+./tuning
+./vlan
+./host-device
+./sample
+./dhcp
+./ipvlan
+./macvlan
+./loopback
+./bridge
++ break
++ tar -xzf /opt/cni/downloads/cni-plugins-amd64-v0.7.6.tgz -C /opt/cni/bin
++ chown -R root:root /opt/cni/bin
++ ret=0
++ rm -rf /opt/cni/downloads
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:55:07.110'
+++ jq -n --arg Timestamp '2023-02-22 00:55:00.092' --arg OperationId '2023-02-22 00:55:07.110' --arg Version 1.23 --arg TaskName AKS.CSE.installNetworkPlugin --arg EventLevel Informational --arg Message 'Completed: installNetworkPlugin' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:55:00.092",
+  "OperationId": "2023-02-22 00:55:07.110",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.installNetworkPlugin",
+  "EventLevel": "Informational",
+  "Message": "Completed: installNetworkPlugin",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:55:00.092",' '"OperationId":' '"2023-02-22' '00:55:07.110",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.installNetworkPlugin",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'installNetworkPlugin",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ '[' false == true ']'
++ REBOOTREQUIRED=false
+++ date
+++ hostname
++ echo Wed Feb 22 00:55:07 UTC 2023,abtes066f000000, 'Start configuring GPU drivers'
+Wed Feb 22 00:55:07 UTC 2023,abtes066f000000, Start configuring GPU drivers
++ [[ true = true ]]
++ logs_to_events AKS.CSE.ensureGPUDrivers ensureGPUDrivers
++ local task=AKS.CSE.ensureGPUDrivers
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027307138
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:55:07.139'
++ ensureGPUDrivers
+++ isARM64
++++ getCPUArch
+++++ uname -m
++++ arch=x86_64
++++ [[ x86_64 == \a\a\r\c\h\6\4 ]]
++++ [[ x86_64 == \a\r\m\6\4 ]]
++++ echo amd64
+++ [[ amd64 == \a\r\m\6\4 ]]
+++ echo 0
++ [[ 0 == 1 ]]
++ [[ true = true ]]
++ logs_to_events AKS.CSE.ensureGPUDrivers.configGPUDrivers configGPUDrivers
++ local task=AKS.CSE.ensureGPUDrivers.configGPUDrivers
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027307142
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:55:07.143'
++ configGPUDrivers
++ [[ MARINER == UBUNTU ]]
++ [[ MARINER == MARINER ]]
++ downloadGPUDrivers
+++ cut -d - -f 1
++++ uname -r
++ KERNEL_VERSION=5.15.92.1
++ CUDA_VERSION='*_5.15.92.1*'
++ dnf_install 30 1 600 'cuda-*_5.15.92.1*'
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y 'cuda-*_5.15.92.1*'
+E0222 00:55:08.801478    2730 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.822684    2769 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.843175    2783 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.862959    2797 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.882311    2811 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.902781    2825 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.923125    2840 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.942745    2855 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.962596    2869 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:08.981735    2883 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:08Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:08Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.001204    2898 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.021547    2910 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.042080    2925 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.061539    2941 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.080657    2955 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.100521    2969 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.118987    2984 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.138535    2999 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.157486    3013 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.177501    3027 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.197280    3043 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:09.216225    3058 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:09Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:09Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.618854    3112 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.638457    3126 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.659236    3141 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.678836    3155 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.698460    3169 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.717020    3183 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.736148    3198 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.756830    3211 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.776967    3228 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.795602    3243 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.814759    3258 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.834071    3272 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.853108    3285 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.872834    3300 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.891919    3315 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.911016    3329 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.929453    3340 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.948514    3355 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.967367    3369 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:14.986731    3383 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:14Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:14Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:15.005757    3397 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:15Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:15Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:15.024532    3411 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:15Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:15Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.435670    3490 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.455648    3503 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.475485    3518 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.494787    3532 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.513882    3546 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.533405    3560 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.552982    3575 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.572040    3590 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.591414    3605 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.610831    3620 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.630366    3634 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.651594    3649 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.672789    3663 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.692662    3679 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.711677    3694 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.730534    3708 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.749051    3722 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.768608    3735 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.788122    3749 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.806741    3763 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.826250    3777 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:20.845711    3791 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:20Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:20Z" level=fatal msg="unable to remove container(s)"
+Last metadata expiration check: 5:23:12 ago on Tue Feb 21 19:32:05 2023.
+Dependencies resolved.
+================================================================================
+ Package        Arch   Version                    Repository               Size
+================================================================================
+Installing:
+ cuda           x86_64 515.65.01-1_5.15.92.1.cm2  mariner-official-nvidia 334 M
+Installing dependencies:
+ binutils       x86_64 2.37-4.cm2                 mariner-official-base   8.9 M
+ binutils-devel x86_64 2.37-4.cm2                 mariner-official-base   1.4 M
+
+Transaction Summary
+================================================================================
+Install  3 Packages
+
+Total download size: 344 M
+Installed size: 677 M
+Downloading Packages:
+(1/3): binutils-devel-2.37-4.cm2.x86_64.rpm      13 MB/s | 1.4 MB     00:00    
+(2/3): binutils-2.37-4.cm2.x86_64.rpm            45 MB/s | 8.9 MB     00:00    
+(3/3): cuda-515.65.01-1_5.15.92.1.cm2.x86_64.rp  73 MB/s | 334 MB     00:04    
+--------------------------------------------------------------------------------
+Total                                            75 MB/s | 344 MB     00:04     
+E0222 00:55:26.258999    3851 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.279409    3865 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.298898    3879 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.317910    3893 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.337727    3906 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.357469    3921 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.376747    3935 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.396424    3949 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.415394    3965 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.434422    3979 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.454241    3993 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.474709    4008 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.494894    4023 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.514281    4039 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.533699    4053 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.552838    4068 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.571641    4082 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.591215    4096 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.611018    4112 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.630451    4126 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.649832    4141 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:26.669005    4155 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:26Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:26Z" level=fatal msg="unable to remove container(s)"
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : binutils-devel-2.37-4.cm2.x86_64                       1/3 
+  Installing       : binutils-2.37-4.cm2.x86_64                             2/3E0222 00:55:32.075707    4209 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.096748    4222 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.117133    4235 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.138150    4249 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.158929    4264 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.179162    4279 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.200102    4293 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.221710    4308 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.242063    4323 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.262912    4337 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.283372    4351 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.303534    4365 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.324256    4379 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.345030    4393 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.365705    4407 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.385921    4420 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.406989    4434 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.427570    4448 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.447778    4462 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.467925    4476 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.488610    4491 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:32.510216    4505 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:32Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:32Z" level=fatal msg="unable to remove container(s)"
+ 
+  Installing       : cuda-515.65.01-1_5.15.92.1.cm2.x86_64                  3/3 
+  Running scriptlet: cuda-515.65.01-1_5.15.92.1.cm2.x86_64                  3/3E0222 00:55:37.925525    4577 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:37Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:37Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:37.945387    4590 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:37Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:37Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:37.964801    4605 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:37Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:37Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:37.984200    4619 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:37Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:37Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.004555    4632 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.023838    4648 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.043630    4662 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.063937    4677 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.083983    4691 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.104078    4706 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.123438    4719 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.143287    4732 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.162833    4746 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.182425    4758 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.201455    4771 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.220411    4785 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.240113    4799 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.259629    4814 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.279456    4829 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.299263    4844 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.319671    4858 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:38.339735    4872 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:38Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:38Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.752661    4928 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.773078    4942 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.792757    4954 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.813251    4969 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.832376    4984 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.852556    4999 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.873258    5013 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.894016    5028 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.913872    5041 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.933501    5055 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.953508    5070 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.974180    5085 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:43.994746    5100 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:43Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:43Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.014693    5115 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.034602    5129 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.055050    5144 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.075105    5158 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.095331    5173 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.114027    5187 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.133628    5202 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.153011    5213 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:44.173318    5227 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:44Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:44Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.599095    5287 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.619781    5301 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.639051    5313 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.659226    5327 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.679407    5341 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.699626    5355 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.719548    5369 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.739875    5383 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.759850    5397 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.780538    5410 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.802413    5424 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.822515    5438 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.842315    5451 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.863075    5465 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.883958    5480 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.903751    5494 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.923695    5508 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.943167    5522 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.962921    5536 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:49.983156    5550 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:49Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:49Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:50.003923    5565 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:50Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:50Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:50.023516    5580 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:50Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:50Z" level=fatal msg="unable to remove container(s)"
+ 
++ cd /usr/lib/nvidia/x86_64-linux/
+++ ls /lib/modules
+++ grep -E '^[0-9]*.[0-9]*.[0-9]*.[0-9]*-[0-9]*.cm2'
+++ head -1
++ KernelVersion=5.15.92.1-1.cm2
++ KmodModulePath=/lib/modules/5.15.92.1-1.cm2/kernel/drivers/video
++ mkdir -p /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video
++ ld.gold -r -m elf_cm1 -T module.lds.S --build-id -o /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia.ko ./nv-linux.o ./nvidia/nv-kernel.o_binary
++ ld.gold -r -m elf_cm1 -T module.lds.S --build-id -o /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia-modeset.ko ./nv-modeset-linux.o ./nvidia-modeset/nv-modeset-kernel.o_binary
++ cat nvidia.sig
++ cat nvidia-modeset.sig
++ tar -xf nvidia-uvm.tar.gz -C /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video
++ chmod +x /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia.ko
++ chmod +x /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia-modeset.ko
++ chmod +x /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia-uvm.ko
++ rm nvidia.sig
++ rm nvidia-modeset.sig
++ rm nvidia-uvm.tar.gz
++ /sbin/ldconfig
++ depmod 5.15.92.1-1.cm2
++ modprobe nvidia -vv
+modprobe: INFO: custom logging function 0x61fbae20c7f0 registered
+modprobe: INFO: context 0x61fbae7655e0 released
+insmod /lib/modules/5.15.92.1-1.cm2/kernel/drivers/video/nvidia.ko 
+
+E0222 00:55:55.438997    5641 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.459362    5656 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.479465    5670 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.499666    5685 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.519183    5700 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.539169    5714 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.558012    5728 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.577959    5742 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.597344    5756 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.617175    5771 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.638431    5787 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.657647    5802 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.676278    5816 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.696554    5831 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.716512    5845 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.736172    5859 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.755619    5873 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.774901    5887 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.794563    5901 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.814268    5916 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.833827    5931 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+E0222 00:55:55.853685    5945 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:55:55Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:55:55Z" level=fatal msg="unable to remove container(s)"
+  Verifying        : cuda-515.65.01-1_5.15.92.1.cm2.x86_64                  1/3 
+  Verifying        : binutils-2.37-4.cm2.x86_64                             2/3 
+  Verifying        : binutils-devel-2.37-4.cm2.x86_64                       3/3 
+
+Installed:
+  binutils-2.37-4.cm2.x86_64                binutils-devel-2.37-4.cm2.x86_64    
+  cuda-515.65.01-1_5.15.92.1.cm2.x86_64    
+
+Complete!
++ break
++ echo Executed dnf install -y '"cuda-*_5.15.92.1*"' 1 times
+Executed dnf install -y "cuda-*_5.15.92.1*" 1 times
+++ cut -d - -f 2
++++ rpm -qa cuda
++ NVIDIA_DRIVER_VERSION=515.65.01
++ dnf_install 30 1 600 nvidia-fabric-manager-515.65.01
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y nvidia-fabric-manager-515.65.01
+Last metadata expiration check: 5:23:51 ago on Tue Feb 21 19:32:05 2023.
+Dependencies resolved.
+================================================================================
+ Package                Arch    Version          Repository                Size
+================================================================================
+Installing:
+ nvidia-fabric-manager  x86_64  515.65.01-2.cm2  mariner-official-nvidia  2.1 M
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 2.1 M
+Installed size: 7.6 M
+Downloading Packages:
+nvidia-fabric-manager-515.65.01-2.cm2.x86_64.rp  22 MB/s | 2.1 MB     00:00    
+--------------------------------------------------------------------------------
+Total                                            21 MB/s | 2.1 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : nvidia-fabric-manager-515.65.01-2.cm2.x86_64           1/1 
+  Running scriptlet: nvidia-fabric-manager-515.65.01-2.cm2.x86_64           1/1 
+  Verifying        : nvidia-fabric-manager-515.65.01-2.cm2.x86_64           1/1 
+
+Installed:
+  nvidia-fabric-manager-515.65.01-2.cm2.x86_64                                  
+
+Complete!
++ break
++ echo Executed dnf install -y '"nvidia-fabric-manager-515.65.01"' 1 times
+Executed dnf install -y "nvidia-fabric-manager-515.65.01" 1 times
++ installNvidiaContainerRuntime
++ MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION=3.11.0
++ MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION=1.11.0
++ for nvidia_package in nvidia-container-runtime-${MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION} nvidia-container-toolkit-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION}
++ dnf_install 30 1 600 nvidia-container-runtime-3.11.0
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y nvidia-container-runtime-3.11.0
+Last metadata expiration check: 5:23:52 ago on Tue Feb 21 19:32:05 2023.
+Dependencies resolved.
+================================================================================
+ Package                    Arch    Version        Repository              Size
+================================================================================
+Installing:
+ nvidia-container-runtime   x86_64  3.11.0-1.cm2   mariner-official-base   13 k
+Installing dependencies:
+ libnvidia-container-tools  x86_64  1.11.0-5.cm2   mariner-official-base   53 k
+ libnvidia-container1       x86_64  1.11.0-5.cm2   mariner-official-base  1.1 M
+ nvidia-container-toolkit   x86_64  1.11.0-5.cm2   mariner-official-base  932 k
+
+Transaction Summary
+================================================================================
+Install  4 Packages
+
+Total download size: 2.1 M
+Installed size: 4.9 M
+Downloading Packages:
+(1/4): nvidia-container-runtime-3.11.0-1.cm2.x8 174 kB/s |  13 kB     00:00    
+(2/4): libnvidia-container-tools-1.11.0-5.cm2.x 653 kB/s |  53 kB     00:00    
+(3/4): libnvidia-container1-1.11.0-5.cm2.x86_64  11 MB/s | 1.1 MB     00:00    
+(4/4): nvidia-container-toolkit-1.11.0-5.cm2.x8  27 MB/s | 932 kB     00:00    
+--------------------------------------------------------------------------------
+Total                                            18 MB/s | 2.1 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : libnvidia-container1-1.11.0-5.cm2.x86_64               1/4 
+  Running scriptlet: libnvidia-container1-1.11.0-5.cm2.x86_64               1/4 
+  Installing       : libnvidia-container-tools-1.11.0-5.cm2.x86_64          2/4 
+  Installing       : nvidia-container-toolkit-1.11.0-5.cm2.x86_64           3/4 
+  Installing       : nvidia-container-runtime-3.11.0-1.cm2.x86_64           4/4 
+  Running scriptlet: nvidia-container-toolkit-1.11.0-5.cm2.x86_64           4/4 
+  Verifying        : libnvidia-container-tools-1.11.0-5.cm2.x86_64          1/4 
+  Verifying        : libnvidia-container1-1.11.0-5.cm2.x86_64               2/4 
+  Verifying        : nvidia-container-runtime-3.11.0-1.cm2.x86_64           3/4 
+  Verifying        : nvidia-container-toolkit-1.11.0-5.cm2.x86_64           4/4 
+
+Installed:
+  libnvidia-container-tools-1.11.0-5.cm2.x86_64                                 
+  libnvidia-container1-1.11.0-5.cm2.x86_64                                      
+  nvidia-container-runtime-3.11.0-1.cm2.x86_64                                  
+  nvidia-container-toolkit-1.11.0-5.cm2.x86_64                                  
+
+Complete!
++ break
++ echo Executed dnf install -y '"nvidia-container-runtime-3.11.0"' 1 times
+Executed dnf install -y "nvidia-container-runtime-3.11.0" 1 times
++ for nvidia_package in nvidia-container-runtime-${MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION} nvidia-container-toolkit-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION}
++ dnf_install 30 1 600 nvidia-container-toolkit-1.11.0
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y nvidia-container-toolkit-1.11.0
+Last metadata expiration check: 5:23:53 ago on Tue Feb 21 19:32:05 2023.
+Package nvidia-container-toolkit-1.11.0-5.cm2.x86_64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
++ break
++ echo Executed dnf install -y '"nvidia-container-toolkit-1.11.0"' 1 times
+Executed dnf install -y "nvidia-container-toolkit-1.11.0" 1 times
++ for nvidia_package in nvidia-container-runtime-${MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION} nvidia-container-toolkit-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION}
++ dnf_install 30 1 600 nvidia-container-toolkit-base-1.11.0
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y nvidia-container-toolkit-base-1.11.0
+Last metadata expiration check: 5:23:53 ago on Tue Feb 21 19:32:05 2023.
+Dependencies resolved.
+================================================================================
+ Package                       Arch   Version       Repository             Size
+================================================================================
+Installing:
+ nvidia-container-toolkit-base x86_64 1.11.0-5.cm2  mariner-official-base 3.1 M
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 3.1 M
+Installed size: 7.4 M
+Downloading Packages:
+nvidia-container-toolkit-base-1.11.0-5.cm2.x86_  27 MB/s | 3.1 MB     00:00    
+--------------------------------------------------------------------------------
+Total                                            27 MB/s | 3.1 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : nvidia-container-toolkit-base-1.11.0-5.cm2.x86_64      1/1 
+  Verifying        : nvidia-container-toolkit-base-1.11.0-5.cm2.x86_64      1/1 
+
+Installed:
+  nvidia-container-toolkit-base-1.11.0-5.cm2.x86_64                             
+
+Complete!
++ break
++ echo Executed dnf install -y '"nvidia-container-toolkit-base-1.11.0"' 1 times
+Executed dnf install -y "nvidia-container-toolkit-base-1.11.0" 1 times
++ for nvidia_package in nvidia-container-runtime-${MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION} nvidia-container-toolkit-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION}
++ dnf_install 30 1 600 libnvidia-container-tools-1.11.0
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y libnvidia-container-tools-1.11.0
+Last metadata expiration check: 5:23:54 ago on Tue Feb 21 19:32:05 2023.
+Package libnvidia-container-tools-1.11.0-5.cm2.x86_64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
++ break
++ echo Executed dnf install -y '"libnvidia-container-tools-1.11.0"' 1 times
+Executed dnf install -y "libnvidia-container-tools-1.11.0" 1 times
++ for nvidia_package in nvidia-container-runtime-${MARINER_NVIDIA_CONTAINER_RUNTIME_VERSION} nvidia-container-toolkit-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1-${MARINER_NVIDIA_CONTAINER_TOOLKIT_VERSION}
++ dnf_install 30 1 600 libnvidia-container1-1.11.0
++ retries=30
++ wait_sleep=1
++ timeout=600
++ shift
++ shift
++ shift
+++ seq 1 30
++ for i in $(seq 1 $retries)
++ dnf install -y libnvidia-container1-1.11.0
+Last metadata expiration check: 5:23:54 ago on Tue Feb 21 19:32:05 2023.
+Package libnvidia-container1-1.11.0-5.cm2.x86_64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
++ break
++ echo Executed dnf install -y '"libnvidia-container1-1.11.0"' 1 times
+Executed dnf install -y "libnvidia-container1-1.11.0" 1 times
++ [[ MARINER == UBUNTU ]]
++ [[ MARINER == MARINER ]]
++ retrycmd_if_failure 120 5 35 nvidia-smi -pm 1
++ retries=120
++ wait_sleep=5
++ timeout=35
++ shift
++ shift
++ shift
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ timeout 35 nvidia-smi -pm 1
+E0222 00:56:01.271453    6195 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.11-hotfix.20221109.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.293525    6208 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.22.15-hotfix.20221109.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.314685    6223 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20221109.3\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.334716    6239 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.12-hotfix.20230208.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.355453    6253 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230114.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.376221    6268 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.15-hotfix.20230208.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.397759    6284 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.2\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.417839    6299 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.23.8-hotfix.20221109.3\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.439788    6313 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221109.2\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.461042    6328 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.3-hotfix.20221216.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.481728    6343 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20221216.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.503555    6355 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.6-hotfix.20230208.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.525103    6370 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9-hotfix.20230208.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.546386    6387 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.24.9.2\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.566583    6401 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221109\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.586432    6415 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.2-hotfix.20221216\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.607400    6429 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20221216\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.628083    6444 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.4-hotfix.20230208\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.647743    6459 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.668096    6474 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.25.5-hotfix.20230208\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.688190    6489 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.0\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+E0222 00:56:01.708836    6503 remote_runtime.go:625] "ContainerStatus from runtime service failed" err="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found" containerID="mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1"
+time="2023-02-22T00:56:01Z" level=error msg="rpc error: code = NotFound desc = an error occurred when try to find container \"mcr.microsoft.com/oss/kubernetes/kube-proxy:v1.26.1\": not found"
+time="2023-02-22T00:56:01Z" level=fatal msg="unable to remove container(s)"
+Executed "bash -c cleanupImagesRun" 10 times
+Wed Feb 22 00:56:01 UTC 2023,abtes066f000000, endCleanUpKubeProxyImages
+Enabled persistence mode for GPU 00000001:00:00.0.
+Enabled persistence mode for GPU 00000002:00:00.0.
+Enabled persistence mode for GPU 00000003:00:00.0.
+Enabled persistence mode for GPU 00000004:00:00.0.
+Enabled persistence mode for GPU 0000000B:00:00.0.
+Enabled persistence mode for GPU 0000000C:00:00.0.
+Enabled persistence mode for GPU 0000000D:00:00.0.
+Enabled persistence mode for GPU 0000000E:00:00.0.
+All done.
++ break
++ echo Executed '"nvidia-smi' -pm '1"' 1 times
+Executed "nvidia-smi -pm 1" 1 times
++ retrycmd_if_failure 120 5 25 nvidia-smi
++ retries=120
++ wait_sleep=5
++ timeout=25
++ shift
++ shift
++ shift
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ timeout 25 nvidia-smi
+Wed Feb 22 00:56:23 2023       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA A100-SXM...  On   | 00000001:00:00.0 Off |                    0 |
+| N/A   37C    P0    50W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA A100-SXM...  On   | 00000002:00:00.0 Off |                    0 |
+| N/A   35C    P0    50W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA A100-SXM...  On   | 00000003:00:00.0 Off |                    0 |
+| N/A   37C    P0    51W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA A100-SXM...  On   | 00000004:00:00.0 Off |                    0 |
+| N/A   37C    P0    50W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA A100-SXM...  On   | 0000000B:00:00.0 Off |                    0 |
+| N/A   38C    P0    59W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA A100-SXM...  On   | 0000000C:00:00.0 Off |                    0 |
+| N/A   37C    P0    59W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA A100-SXM...  On   | 0000000D:00:00.0 Off |                    0 |
+| N/A   38C    P0    55W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+|   7  NVIDIA A100-SXM...  On   | 0000000E:00:00.0 Off |                    0 |
+| N/A   39C    P0    56W / 400W |      0MiB / 40960MiB |      0%      Default |
+|                               |                      |             Disabled |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
++ break
++ echo Executed '"nvidia-smi"' 1 times
+Executed "nvidia-smi" 1 times
++ retrycmd_if_failure 120 5 25 ldconfig
++ retries=120
++ wait_sleep=5
++ timeout=25
++ shift
++ shift
++ shift
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ timeout 25 ldconfig
++ break
++ echo Executed '"ldconfig"' 1 times
+Executed "ldconfig" 1 times
++ [[ containerd == \c\o\n\t\a\i\n\e\r\d ]]
++ retrycmd_if_failure 120 5 25 pkill -SIGHUP containerd
++ retries=120
++ wait_sleep=5
++ timeout=25
++ shift
++ shift
++ shift
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ timeout 25 pkill -SIGHUP containerd
++ break
++ echo Executed '"pkill' -SIGHUP 'containerd"' 1 times
+Executed "pkill -SIGHUP containerd" 1 times
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:56:25.082'
+++ jq -n --arg Timestamp '2023-02-22 00:55:07.143' --arg OperationId '2023-02-22 00:56:25.082' --arg Version 1.23 --arg TaskName AKS.CSE.ensureGPUDrivers.configGPUDrivers --arg EventLevel Informational --arg Message 'Completed: configGPUDrivers' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:55:07.143",
+  "OperationId": "2023-02-22 00:56:25.082",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.ensureGPUDrivers.configGPUDrivers",
+  "EventLevel": "Informational",
+  "Message": "Completed: configGPUDrivers",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:55:07.143",' '"OperationId":' '"2023-02-22' '00:56:25.082",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.ensureGPUDrivers.configGPUDrivers",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'configGPUDrivers",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ [[ MARINER == UBUNTU ]]
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:56:25.108'
+++ jq -n --arg Timestamp '2023-02-22 00:55:07.139' --arg OperationId '2023-02-22 00:56:25.108' --arg Version 1.23 --arg TaskName AKS.CSE.ensureGPUDrivers --arg EventLevel Informational --arg Message 'Completed: ensureGPUDrivers' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:55:07.139",
+  "OperationId": "2023-02-22 00:56:25.108",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.ensureGPUDrivers",
+  "EventLevel": "Informational",
+  "Message": "Completed: ensureGPUDrivers",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:55:07.139",' '"OperationId":' '"2023-02-22' '00:56:25.108",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.ensureGPUDrivers",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' 'ensureGPUDrivers",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ [[ false = true ]]
++ logs_to_events AKS.CSE.stop.nvidia-device-plugin 'systemctlDisableAndStop nvidia-device-plugin'
++ local task=AKS.CSE.stop.nvidia-device-plugin
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027385133
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:56:25.135'
++ systemctlDisableAndStop nvidia-device-plugin
++ systemctl list-units --full --all
++ grep -q nvidia-device-plugin.service
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:56:25.145'
+++ jq -n --arg Timestamp '2023-02-22 00:56:25.135' --arg OperationId '2023-02-22 00:56:25.145' --arg Version 1.23 --arg TaskName AKS.CSE.stop.nvidia-device-plugin --arg EventLevel Informational --arg Message 'Completed: systemctlDisableAndStop nvidia-device-plugin' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:56:25.135",
+  "OperationId": "2023-02-22 00:56:25.145",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.stop.nvidia-device-plugin",
+  "EventLevel": "Informational",
+  "Message": "Completed: systemctlDisableAndStop nvidia-device-plugin",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:56:25.135",' '"OperationId":' '"2023-02-22' '00:56:25.145",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.stop.nvidia-device-plugin",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' systemctlDisableAndStop 'nvidia-device-plugin",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ [[ true == \t\r\u\e ]]
++ logs_to_events AKS.CSE.nvidia-fabricmanager 'systemctlEnableAndStart nvidia-fabricmanager'
++ local task=AKS.CSE.nvidia-fabricmanager
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027385170
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:56:25.171'
++ systemctlEnableAndStart nvidia-fabricmanager
++ systemctl_restart 100 5 30 nvidia-fabricmanager
++ retries=100
++ wait_sleep=5
++ timeout=30
++ svcname=nvidia-fabricmanager
+++ seq 1 100
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart nvidia-fabricmanager
++ break
++ RESTART_STATUS=0
++ systemctl status nvidia-fabricmanager --no-pager -l
++ '[' 0 -ne 0 ']'
++ retrycmd_if_failure 120 5 25 systemctl enable nvidia-fabricmanager
++ retries=120
++ wait_sleep=5
++ timeout=25
++ shift
++ shift
++ shift
+++ seq 1 120
++ for i in $(seq 1 $retries)
++ timeout 25 systemctl enable nvidia-fabricmanager
+Created symlink /etc/systemd/system/multi-user.target.wants/nvidia-fabricmanager.service -> /usr/lib/systemd/system/nvidia-fabricmanager.service.
++ break
++ echo Executed '"systemctl' enable 'nvidia-fabricmanager"' 1 times
+Executed "systemctl enable nvidia-fabricmanager" 1 times
++ ret=0
+++ date '+%F %T.%3N'
++ local 'endTime=2023-02-22 00:56:36.727'
+++ jq -n --arg Timestamp '2023-02-22 00:56:25.171' --arg OperationId '2023-02-22 00:56:36.727' --arg Version 1.23 --arg TaskName AKS.CSE.nvidia-fabricmanager --arg EventLevel Informational --arg Message 'Completed: systemctlEnableAndStart nvidia-fabricmanager' --arg EventPid 0 --arg EventTid 0 '{Timestamp: $Timestamp, OperationId: $OperationId, Version: $Version, TaskName: $TaskName, EventLevel: $EventLevel, Message: $Message, EventPid: $EventPid, EventTid: $EventTid}'
++ json_string='{
+  "Timestamp": "2023-02-22 00:56:25.171",
+  "OperationId": "2023-02-22 00:56:36.727",
+  "Version": "1.23",
+  "TaskName": "AKS.CSE.nvidia-fabricmanager",
+  "EventLevel": "Informational",
+  "Message": "Completed: systemctlEnableAndStart nvidia-fabricmanager",
+  "EventPid": "0",
+  "EventTid": "0"
+}'
++ echo '{' '"Timestamp":' '"2023-02-22' '00:56:25.171",' '"OperationId":' '"2023-02-22' '00:56:36.727",' '"Version":' '"1.23",' '"TaskName":' '"AKS.CSE.nvidia-fabricmanager",' '"EventLevel":' '"Informational",' '"Message":' '"Completed:' systemctlEnableAndStart 'nvidia-fabricmanager",' '"EventPid":' '"0",' '"EventTid":' '"0"' '}'
++ '[' 0 '!=' 0 ']'
++ [[ true == \t\r\u\e ]]
++ REBOOTREQUIRED=true
++ logs_to_events AKS.CSE.ensureMigPartition ensureMigPartition
++ local task=AKS.CSE.ensureMigPartition
++ shift
+++ date +%s%3N
++ local eventsFileName=1677027396752
+++ date '+%F %T.%3N'
++ local 'startTime=2023-02-22 00:56:36.753'
++ ensureMigPartition
++ mkdir -p /etc/systemd/system/mig-partition.service.d/
++ touch /etc/systemd/system/mig-partition.service.d/10-mig-profile.conf
++ tee /etc/systemd/system/mig-partition.service.d/10-mig-profile.conf
++ systemctlEnableAndStart mig-partition
++ systemctl_restart 100 5 30 mig-partition
++ retries=100
++ wait_sleep=5
++ timeout=30
++ svcname=mig-partition
+++ seq 1 100
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 1 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 2 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 3 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 4 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 5 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 6 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 7 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 8 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 9 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 10 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 11 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 12 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 13 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 14 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 15 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 16 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 17 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 18 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 19 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 20 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 21 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition
++ '[' 22 -eq 100 ']'
++ sleep 5
++ for i in $(seq 1 $retries)
++ timeout 30 systemctl daemon-reload
++ timeout 30 systemctl restart mig-partition

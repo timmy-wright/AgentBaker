@@ -165,6 +165,13 @@ write_files:
          "max-size": "50m",
          "max-file": "5"
       }
+      ,"default-runtime": "nvidia",
+      "runtimes": {
+         "nvidia": {
+             "path": "/usr/bin/nvidia-container-runtime",
+             "runtimeArgs": []
+        }
+      }
     }
 
 - path: /etc/systemd/system/sync-tunnel-logs.service
