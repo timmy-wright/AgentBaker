@@ -1332,9 +1332,14 @@ ensureDHCPv6() {
 }
 
 ensureKubelet() {
+    # ensure cloud init completes
+    # avoids potential corruption of files written by cloud init and CSE concurrently.
+    # removes need for wait_for_file and EOF markers
+    cloud-init status --wait
     KUBE_CA_FILE="/etc/kubernetes/certs/ca.crt"
     mkdir -p "$(dirname "${KUBE_CA_FILE}")"
     echo "${KUBE_CA_CRT}" | base64 -d > "${KUBE_CA_FILE}"
+    chmod 0600 "${KUBE_CA_FILE}"
     KUBELET_DEFAULT_FILE=/etc/default/kubelet
     mkdir -p /etc/default
     echo "KUBELET_FLAGS=${KUBELET_FLAGS}" >> "${KUBELET_DEFAULT_FILE}"
@@ -1406,7 +1411,7 @@ EOF
     fi
     KUBELET_RUNTIME_CONFIG_SCRIPT_FILE=/opt/azure/containers/kubelet.sh
     tee "${KUBELET_RUNTIME_CONFIG_SCRIPT_FILE}" > /dev/null <<EOF
- #!/bin/bash
+#!/bin/bash
 # Disallow container from reaching out to the special IP address 168.63.129.16
 # for TCP protocol (which http uses)
 #
@@ -1696,13 +1701,13 @@ ERR_CRICTL_DOWNLOAD_TIMEOUT=117 # Timeout waiting for crictl downloads
 ERR_CRICTL_OPERATION_ERROR=118 # Error executing a crictl operation
 ERR_CTR_OPERATION_ERROR=119 # Error executing a ctr containerd cli operation
 
-ERR_VHD_FILE_NOT_FOUND=124 # VHD log file not found on VM built from VHD distro
-ERR_VHD_BUILD_ERROR=125 # Reserved for VHD CI exit conditions
-
 # Azure Stack specific errors
 ERR_AZURE_STACK_GET_ARM_TOKEN=120 # Error generating a token to use with Azure Resource Manager
 ERR_AZURE_STACK_GET_NETWORK_CONFIGURATION=121 # Error fetching the network configuration for the node
 ERR_AZURE_STACK_GET_SUBNET_PREFIX=122 # Error fetching the subnet address prefix for a subnet ID
+
+ERR_VHD_FILE_NOT_FOUND=124 # VHD log file not found on VM built from VHD distro
+ERR_VHD_BUILD_ERROR=125 # Reserved for VHD CI exit conditions
 
 ERR_SWAP_CREATE_FAIL=130 # Error allocating swap file
 ERR_SWAP_CREATE_INSUFFICIENT_DISK_SPACE=131 # Error insufficient disk space for swap file creation
@@ -4161,6 +4166,13 @@ downloadGPUDrivers() {
     if ! dnf_install 30 1 600 nvidia-fabric-manager-${NVIDIA_DRIVER_VERSION}; then
       exit $ERR_APT_INSTALL_TIMEOUT
     fi
+
+    for nvidia_package in nvidia-fabric-manager-${NVIDIA_DRIVER_VERSION} nvidia-fabric-manager-devel-${NVIDIA_DRIVER_VERSION}; do
+      if ! dnf_install 30 1 600 $nvidia_package; then
+        exit $ERR_APT_INSTALL_TIMEOUT
+      fi
+    done
+}
 }
 
 installNvidiaContainerRuntime() {
@@ -6195,6 +6207,118 @@ write_files:
     ExecStartPost=/bin/sh -c "sleep 10 && systemctl restart kubelet"
     [Install]
     WantedBy=multi-user.target
+
+- path: /etc/default/kubelet
+  permissions: "0644"
+  owner: root
+  content: |
+    KUBELET_FLAGS={{GetKubeletConfigKeyVals}}
+    KUBELET_REGISTER_SCHEDULABLE=true
+    NETWORK_POLICY={{GetParameter "networkPolicy"}}
+{{- if not (IsKubernetesVersionGe "1.17.0")}}
+    KUBELET_IMAGE={{GetHyperkubeImageReference}}
+{{- end}}
+{{- if IsKubernetesVersionGe "1.16.0"}}
+    KUBELET_NODE_LABELS={{GetAgentKubernetesLabels . }}
+{{- else}}
+    KUBELET_NODE_LABELS={{GetAgentKubernetesLabelsDeprecated . }}
+{{- end}}
+{{- if IsAKSCustomCloud}}
+    AZURE_ENVIRONMENT_FILEPATH=/etc/kubernetes/{{GetTargetEnvironment}}.json
+{{- end}}
+
+{{ if IsKubeletClientTLSBootstrappingEnabled -}}
+- path: /var/lib/kubelet/bootstrap-kubeconfig
+  permissions: "0644"
+  owner: root
+  content: |
+    apiVersion: v1
+    kind: Config
+    clusters:
+    - name: localcluster
+      cluster:
+        certificate-authority: /etc/kubernetes/certs/ca.crt
+        server: https://{{GetKubernetesEndpoint}}:443
+    users:
+    - name: kubelet-bootstrap
+      user:
+        token: "{{GetTLSBootstrapTokenForKubeConfig}}"
+    contexts:
+    - context:
+        cluster: localcluster
+        user: kubelet-bootstrap
+      name: bootstrap-context
+    current-context: bootstrap-context
+{{else -}}
+- path: /var/lib/kubelet/kubeconfig
+  permissions: "0644"
+  owner: root
+  content: |
+    apiVersion: v1
+    kind: Config
+    clusters:
+    - name: localcluster
+      cluster:
+        certificate-authority: /etc/kubernetes/certs/ca.crt
+        server: https://{{GetKubernetesEndpoint}}:443
+    users:
+    - name: client
+      user:
+        client-certificate: /etc/kubernetes/certs/client.crt
+        client-key: /etc/kubernetes/certs/client.key
+    contexts:
+    - context:
+        cluster: localcluster
+        user: client
+      name: localclustercontext
+    current-context: localclustercontext
+{{- end}}
+
+- path: /etc/systemd/system/containerd.service
+  permissions: "0644"
+  owner: root
+  content: |
+    [Unit]
+    Description=containerd daemon
+    After=network.target
+    [Service]
+    ExecStartPre=/sbin/modprobe overlay
+    ExecStart=/usr/bin/containerd
+    Delegate=yes
+    KillMode=process
+    Restart=always
+    OOMScoreAdjust=-999
+    # Having non-zero Limit*s causes performance problems due to accounting overhead
+    # in the kernel. We recommend using cgroups to do container-local accounting.
+    LimitNPROC=infinity
+    LimitCORE=infinity
+    LimitNOFILE=infinity
+    TasksMax=infinity
+    [Install]
+    WantedBy=multi-user.target
+
+- path: /opt/azure/containers/kubelet.sh
+  permissions: "0755"
+  owner: root
+  content: |
+    #!/bin/bash
+    # Disallow container from reaching out to the special IP address 168.63.129.16
+    # for TCP protocol (which http uses)
+    #
+    # 168.63.129.16 contains protected settings that have priviledged info.
+    #
+    # The host can still reach 168.63.129.16 because it goes through the OUTPUT chain, not FORWARD.
+    #
+    # Note: we should not block all traffic to 168.63.129.16. For example UDP traffic is still needed
+    # for DNS.
+    iptables -I FORWARD -d 168.63.129.16 -p tcp --dport 80 -j DROP
+
+- path: /etc/kubernetes/certs/ca.crt
+  permissions: "0600"
+  encoding: base64
+  owner: root
+  content: |
+    {{GetParameter "caCertificate"}}
 
 - path: {{GetCustomSearchDomainsCSEScriptFilepath}}
   permissions: "0744"

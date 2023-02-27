@@ -25,7 +25,7 @@
       "minCount": null,
       "mode": "System",
       "name": "nodepool1",
-      "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.02.09",
+      "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.02.15",
       "nodeLabels": null,
       "nodePublicIpPrefixId": null,
       "nodeTaints": null,
@@ -58,7 +58,7 @@
   "autoScalerProfile": null,
   "autoUpgradeProfile": null,
   "azureMonitorProfile": null,
-  "azurePortalFqdn": "agentbaker-agentbaker-e2e-t-8ecadf-8a5914d4.portal.hcp.eastus.azmk8s.io",
+  "azurePortalFqdn": "agentbaker-agentbaker-e2e-t-8ecadf-8dca277b.portal.hcp.eastus.azmk8s.io",
   "creationData": null,
   "currentKubernetesVersion": "1.24.9",
   "disableLocalAccounts": false,
@@ -68,21 +68,21 @@
   "enablePodSecurityPolicy": false,
   "enableRbac": true,
   "extendedLocation": null,
-  "fqdn": "agentbaker-agentbaker-e2e-t-8ecadf-8a5914d4.hcp.eastus.azmk8s.io",
+  "fqdn": "agentbaker-agentbaker-e2e-t-8ecadf-8dca277b.hcp.eastus.azmk8s.io",
   "fqdnSubdomain": null,
   "guardrailsProfile": null,
   "httpProxyConfig": null,
   "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourcegroups/agentbaker-e2e-tests/providers/Microsoft.ContainerService/managedClusters/agentbaker-e2e-test-cluster",
   "identity": {
-    "principalId": "65004d4c-6d7b-4a4d-82e0-93539ae9bf5e",
+    "principalId": "ea357041-93e6-46fc-9944-75f701b08781",
     "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
     "type": "SystemAssigned",
     "userAssignedIdentities": null
   },
   "identityProfile": {
     "kubeletidentity": {
-      "clientId": "4cce3a79-477d-487d-aa2a-51e565e8cad1",
-      "objectId": "9068e097-8c4d-4862-ac25-80573edb6c42",
+      "clientId": "c806b4c2-d515-4806-9c30-9c768b2a8fca",
+      "objectId": "9e822ec2-beae-4e96-8d58-9c9a05b3b2a5",
       "resourceId": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourcegroups/MC_agentbaker-e2e-tests_agentbaker-e2e-test-cluster_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/agentbaker-e2e-test-cluster-agentpool"
     }
   },
@@ -113,7 +113,7 @@
       "backendPoolType": "nodeIPConfiguration",
       "effectiveOutboundIPs": [
         {
-          "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/MC_agentbaker-e2e-tests_agentbaker-e2e-test-cluster_eastus/providers/Microsoft.Network/publicIPAddresses/e11a5895-f2ac-4ab2-beb4-39b4990dc6d5",
+          "id": "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/MC_agentbaker-e2e-tests_agentbaker-e2e-test-cluster_eastus/providers/Microsoft.Network/publicIPAddresses/39003147-9214-4bca-bd4c-bdc7c1a02714",
           "resourceGroup": "MC_agentbaker-e2e-tests_agentbaker-e2e-test-cluster_eastus"
         }
       ],

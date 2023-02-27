@@ -1,3 +1,0 @@
-* kubelet.service - Kubelet
-     Loaded: loaded (/etc/systemd/system/kubelet.service; disabled; vendor preset: enabled)
-     Active: inactive (dead)
