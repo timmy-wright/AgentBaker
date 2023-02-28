@@ -86,8 +86,9 @@ az vmss create -n ${VMSS_NAME} \
     --vm-sku $VM_SKU \
     --instance-count 1 \
     --assign-identity $msiResourceID \
-    --image $SIG_VERSION_ID \
+    --image "/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/aksvhdtestbuildrg/providers/Microsoft.Compute/galleries/PackerSigGalleryEastUS/images/CBLMarinerV2Gen2/versions/1.1677007715.28877" \
     --upgrade-policy-mode Automatic \
+    --os-disk-size-gb 40 \
     --ssh-key-values ~/.ssh/id_rsa.pub \
     -ojson
 
@@ -156,6 +157,7 @@ FAILED=0
 if [[ "${nodeReady}" == "true" ]]; then
     ok "Test succeeded, node joined the cluster"
     kubectl get nodes -o wide | grep $vmInstanceName
+    kubectl describe node $vmInstanceName
 else
     err "Node did not join cluster"
     FAILED=1
