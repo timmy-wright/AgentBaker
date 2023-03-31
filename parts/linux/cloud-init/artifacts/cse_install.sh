@@ -95,6 +95,7 @@ downloadCrictl() {
     CPU_ARCH=$(getCPUArch)  #amd64 or arm64
     mkdir -p $CRICTL_DOWNLOAD_DIR
     CRICTL_DOWNLOAD_URL="https://acs-mirror.azureedge.net/cri-tools/v${CRICTL_VERSION}/binaries/crictl-v${CRICTL_VERSION}-linux-${CPU_ARCH}.tar.gz"
+    https://acs-mirror.azureedge.net/cri-tools/v${CRICTL_VERSION}/binaries/crictl-v${CRICTL_VERSION}-linux-${CPU_ARCH}.tar.gz
     CRICTL_TGZ_TEMP=${CRICTL_DOWNLOAD_URL##*/}
     retrycmd_curl_file 10 5 60 "$CRICTL_DOWNLOAD_DIR/${CRICTL_TGZ_TEMP}" ${CRICTL_DOWNLOAD_URL}
 }
@@ -184,6 +185,7 @@ installCNI() {
         fi
 
         tar -xzf "$CNI_DOWNLOADS_DIR/${CNI_TGZ_TMP}" -C $CNI_BIN_DIR
+        ls -l $CNI_BIN_DIR | sed 's/^/TOBIASB: ls -l CNI_BIN_DIR: /'
     fi
     
     chown -R root:root $CNI_BIN_DIR
