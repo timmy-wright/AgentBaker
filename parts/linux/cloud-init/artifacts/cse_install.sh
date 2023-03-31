@@ -113,9 +113,11 @@ installCrictl() {
             echo "pre-cached crictl not found: skipping installCrictl"
             return 1
         fi
-        echo "Unpacking crictl into ${CRICTL_BIN_DIR}"
+        echo "TOBIASB: Unpacking crictl into ${CRICTL_BIN_DIR} as user $(id -u -n)"
         tar zxvf "$CRICTL_DOWNLOAD_DIR/${CRICTL_TGZ_TEMP}" -C ${CRICTL_BIN_DIR}
         chmod 755 $CRICTL_BIN_DIR/crictl
+        stat "$CRICTL_BIN_DIR/crictl" | sed 's/^/TOBIASB: stat crictl: /'
+        cat '/etc/passwd' | sed 's/^/TOBIASB: cat passwd: /'
     fi
 }
 
