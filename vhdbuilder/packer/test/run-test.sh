@@ -17,6 +17,7 @@ if [ "$OS_TYPE" == "Linux" ]; then
   fi
 fi
 
+
 RESOURCE_GROUP_NAME="$TEST_RESOURCE_PREFIX-$(date +%s)-$RANDOM"
 az group create --name $RESOURCE_GROUP_NAME --location ${AZURE_LOCATION} --tags 'source=AgentBaker'
 
@@ -34,7 +35,21 @@ trap cleanup EXIT
 DISK_NAME="${TEST_RESOURCE_PREFIX}-disk"
 VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 
+# Get a bunch of information about the vm we're currently on:
+curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
+name=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name`
+subscriptionId=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.subscriptionId`
+resourceGroupName=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.resourceGroupName`
+az vm show --subscription $subscriptionId --resource-group $resourceGroupName --name $name --output json | jq '.' | sed 's/^/VM INFO:   /g'
+nicId=`az vm show --subscription $subscriptionId --resource-group $resourceGroupName --name $name --query networkProfile.networkInterfaces[0].id --output tsv`
+subnetId=`az network nic show --ids $nicId --query ipConfigurations[0].subnet.id --output tsv`
+
+ssh-keygen -f ./vm-key -N ''
+
+
+echo "TOBIASB: MODE: '${MODE}'"
 if [ "$MODE" == "default" ]; then
+  echo "TOBIASB: MODE is default"
   az disk create --resource-group $RESOURCE_GROUP_NAME \
     --name $DISK_NAME \
     --source "${OS_DISK_URI}" \
@@ -43,8 +58,11 @@ if [ "$MODE" == "default" ]; then
     --resource-group $RESOURCE_GROUP_NAME \
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
+    --subnet "${subnetId}" \
+    --ssh-key-value ./vm-key.pub \
     --public-ip-address ""
 else 
+  echo "TOBIASB: MODE is not default"
   if [ "$MODE" == "sigMode" ]; then
     id=$(az sig show --resource-group ${AZURE_RESOURCE_GROUP_NAME} --gallery-name ${SIG_GALLERY_NAME}) || id=""
     if [ -z "$id" ]; then
@@ -95,12 +113,21 @@ else
       --admin-username $TEST_VM_ADMIN_USERNAME \
       --admin-password $TEST_VM_ADMIN_PASSWORD \
       --public-ip-address "" \
+      --subnet "${subnetId}" \
+      --ssh-key-value ./vm-key.pub \
       ${TARGET_COMMAND_STRING}
-      
+
   echo "VHD test VM username: $TEST_VM_ADMIN_USERNAME, password: $TEST_VM_ADMIN_PASSWORD"
 fi
 
 time az vm wait -g $RESOURCE_GROUP_NAME -n $VM_NAME --created
+
+az vm show -g $RESOURCE_GROUP_NAME -n $VM_NAME --output json | jq '.' | sed 's/^/VM INFO:   /g'
+
+# get private ip address of the vm
+VM_IP_ADDRESS=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --query privateIps -o tsv)
+
+ssh -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADRESS}" "echo 'Hello World'" | sed 's/^/SSH:   /g'
 
 FULL_PATH=$(realpath $0)
 CDIR=$(dirname $FULL_PATH)
