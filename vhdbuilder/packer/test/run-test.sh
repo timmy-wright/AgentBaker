@@ -36,6 +36,7 @@ DISK_NAME="${TEST_RESOURCE_PREFIX}-disk"
 VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 
 az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
+set | sed 's/^/ENVIRONMENT:   /g'
 
 # Get a bunch of information about the vm we're currently on:
 curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
