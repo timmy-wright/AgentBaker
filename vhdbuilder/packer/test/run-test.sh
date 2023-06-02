@@ -110,30 +110,111 @@ if [ "$OS_TYPE" == "Linux" ]; then
     ENABLE_FIPS="false"
   fi
 
+
+  # Replace dots with dashes and make sure we only have the file name of the test script.
+  # This will be used to name azure resources related to the test.
+  LINUX_SCRIPT_FILE_NAME_NO_DOTS=$(basename "${LINUX_SCRIPT_PATH//./-}")
+
+  # Create blob storage for the test stdout and stderr. This allows us to get all output, not just
+  # the first 4KB each of stdout/stderr.
+  STDOUT_BLOB_NAME="${RESOURCE_GROUP_NAME}-${VM_NAME}-${LINUX_SCRIPT_FILE_NAME_NO_DOTS}-stdout.txt"
+  STDERR_BLOB_NAME="${RESOURCE_GROUP_NAME}-${VM_NAME}-${LINUX_SCRIPT_FILE_NAME_NO_DOTS}-stderr.txt"
+  SAS_EXPIRY=$(date -u -d "60 minutes" '+%Y-%m-%dT%H:%MZ')
+  STDOUT_BLOB_URI=$(az storage blob generate-sas \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDOUT_BLOB_NAME}" \
+    --permissions acrw \
+    --expiry "${SAS_EXPIRY}"\
+    --full-uri --output tsv)
+  STDERR_BLOB_URI=$(az storage blob generate-sas \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDERR_BLOB_NAME}" \
+    --permissions acrw \
+    --expiry "${SAS_EXPIRY}" \
+    --full-uri --output tsv)
+
+  # Start the test script on the VM and wait for it to complete.
+  # In testing, I've found that creating the script with --no-wait and then waiting for it
+  # is nore reliable than waiting on the initial create command.
+  COMMAND_NAME="${LINUX_SCRIPT_FILE_NAME_NO_DOTS}-command"
   SCRIPT_PATH="$CDIR/$LINUX_SCRIPT_PATH"
-  for i in $(seq 1 3); do
-    ret=$(az vm run-command invoke --command-id RunShellScript \
-      --name $VM_NAME \
-      --resource-group $RESOURCE_GROUP_NAME \
-      --scripts @$SCRIPT_PATH \
-      --parameters ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU}) && break
-    echo "${i}: retrying az vm run-command"
-  done
-  # The error message for a Linux VM run-command is as follows:
-  #  "value": [
-  #    {
-  #      "code": "ProvisioningState/succeeded",
-  #      "displayStatus": "Provisioning succeeded",
-  #      "level": "Info",
-  #      "message": "Enable succeeded: \n[stdout]\n\n[stderr]\ntestImagesPulled:Error: Image mcr.microsoft.com/azure-policy/policy-kubernetes-addon-prod:prod_20201015.1 has NOT been pulled
-  # \n",
-  #      "time": null
-  #    }
-  #  ]
-  #  We have extract the message field from the json, and get the errors outputted to stderr + remove \n
-  errMsg=$(echo -e $(echo $ret | jq ".value[] | .message" | grep -oP '(?<=stderr]).*(?=\\n")'))
-  echo $errMsg
-  if [[ $errMsg != '' ]]; then
+  az vm run-command create \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --vm-name "${VM_NAME}" \
+    --name "${COMMAND_NAME}" \
+    --script @$SCRIPT_PATH \
+    --output json \
+    --output-blob-uri "${STDOUT_BLOB_URI}" \
+    --error-blob-uri "${STDERR_BLOB_URI}" \
+    --no-wait
+  az vm run-command wait \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --vm-name "${VM_NAME}" \
+    --name "${COMMAND_NAME}" \
+    --instance-view \
+    --custom 'instanceView.endTime != null' \
+    --output json
+
+  # Get the data associated with the command, collecting the exit code
+  # and execution state. Dump the whole thing.
+  command_data=$(az vm run-command show \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --vm-name "${VM_NAME}" \
+    --name "${COMMAND_NAME}" \
+    --output json)
+  command_exit_code=$(echo "${command_data}" | jq '.instanceView.exitCode')
+  command_execution_state=$(echo "${command_data}" | jq '.instanceView.executionState')
+  echo "${command_data}" | sed 's/^/TEST COMMAND DATA:  /g'
+
+  # Get our stdout from the blob storage.
+  az storage blob download \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDOUT_BLOB_NAME}" \
+    --file "./${STDOUT_BLOB_NAME}"
+  cat "./${STDOUT_BLOB_NAME}" | sed 's/^/TEST STDOUT:  /g'
+
+  # Get our stderr from the blob storage, collecting it in a variable
+  # for later inspection.
+  az storage blob download \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDERR_BLOB_NAME}" \
+    --file "./${STDERR_BLOB_NAME}"
+  errMsg=$(cat "./${STDERR_BLOB_NAME}")
+  echo "${errMsg}" | sed 's/^/TEST STDERR:  /g'
+
+  # Clean up the command and blob storage.
+  az vm run-command delete \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --vm-name "${VM_NAME}" \
+    --name "${COMMAND_NAME}" \
+    --yes
+  az storage blob delete \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDOUT_BLOB_NAME}" \
+    --output json
+  az storage blob delete \
+    --account-name "${OUTPUT_STORAGE_ACCOUNT_NAME}" \
+    --container-name "${OUTPUT_STORAGE_CONTAINER_NAME}" \
+    --connection-string "${CLASSIC_SA_CONNECTION_STRING}" \
+    --name "${STDERR_BLOB_NAME}" \
+    --output json
+
+  # A failure occurs if any of the following three happens:
+  #   1. The command execution state is not "Succeeded".
+  #   2. The command exit code is not 0.
+  #   3. The stderr is not empty.
+  if [ "${command_execution_state}" != '"Succeeded"' ] || [ "${command_exit_code}" != "0" ] || [ -n "${errMsg}" ]; then
+    echo "TEST FAILED: See about output for details."
     exit 1
   fi
 else
