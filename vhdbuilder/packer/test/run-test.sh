@@ -68,6 +68,9 @@ if [ "$MODE" == "default" ]; then
     --resource-group $RESOURCE_GROUP_NAME \
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
+    --ssh-key-value ./vm-key.pub \
+    --subnet "${SUBNET_NAME}" \
+    --vnet-name "${VNET_NAME}" \
     --public-ip-address ""
     # --ssh-key-value ./vm-key.pub \
     # --subnet "${subnet_id}" \

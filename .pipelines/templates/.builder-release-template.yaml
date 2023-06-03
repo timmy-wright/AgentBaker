@@ -90,6 +90,10 @@ steps:
   - script: |
         OS_DISK_URI="$(cat packer-output | grep "OSDiskUri:" | cut -d " " -f 2)" && \
         MANAGED_SIG_ID="$(cat packer-output | grep "ManagedImageSharedImageGalleryId:" | cut -d " " -f 2)" && \
+        VNET_NAME="$(cat vhdbuilder/packer/settings.json | grep "vnet_name" | awk -F':' '{print $2}' | awk -F'"' '{print $2}')" && \
+        SUBNET_NAME="$(cat vhdbuilder/packer/settings.json | grep "subnet_name" | awk -F':' '{print $2}' | awk -F'"' '{print $2}')" && \
+        VNET_RESOURCE_GROUP_NAME="$(cat vhdbuilder/packer/settings.json | grep "vnet_resource_group_name" | awk -F':' '{print $2}' | awk -F'"' '{print $2}')" && \
+        MANAGED_SIG_ID="$(cat packer-output | grep "ManagedImageSharedImageGalleryId:" | cut -d " " -f 2)" && \
         docker run --rm \
         -v ${PWD}:/go/src/github.com/Azure/AgentBaker \
         -w /go/src/github.com/Azure/AgentBaker \
@@ -119,6 +123,9 @@ steps:
         -e CLASSIC_SA_CONNECTION_STRING="$(CLASSIC_SA_CONNECTION_STRING)" \
         -e OUTPUT_STORAGE_ACCOUNT_NAME=${OUTPUT_STORAGE_ACCOUNT_NAME} \
         -e OUTPUT_STORAGE_CONTAINER_NAME=${OUTPUT_STORAGE_CONTAINER_NAME} \
+        -e VNET_NAME="${VNET_NAME}" \
+        -e SUBNET_NAME="${SUBNET_NAME}" \
+        -e VNET_RESOURCE_GROUP_NAME="${VNET_RESOURCE_GROUP_NAME}" \
         ${CONTAINER_IMAGE} make -f packer.mk test-building-vhd
     displayName: Run VHD Tests
   - task: PublishPipelineArtifact@0
