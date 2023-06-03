@@ -49,11 +49,11 @@ set | sed 's/^/ENVIRONMENT:   /g'
 
 curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
 
-az extension add --name resource-graph
-name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
+# az extension add --name resource-graph
+# name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
 # subnet_id=$(az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq --raw-output '.data[0].properties.networkProfile.networkInterfaces[0].id')
-az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq '.' | sed 's/^/GRAPH:   /g'
-az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines'" | jq '.' | sed 's/^/GRAPH:   /g'
+# az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq '.' | sed 's/^/GRAPH:   /g'
+# az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines'" | jq '.' | sed 's/^/GRAPH:   /g'
 
 ssh-keygen -f ./vm-key -N ''
 
@@ -119,6 +119,9 @@ else
     TARGET_COMMAND_STRING+="--security-type TrustedLaunch --enable-secure-boot true --enable-vtpm true"
   fi
 
+
+  az network vnet subnet show -g "${VNET_RESOURCE_GROUP_NAME}" -n "${SUBNET_NAME}" --vnet-name "${VNET_NAME}" --output json | jq '.' | sed 's/^/SUBNET INFO:   /g'
+
   az vm create \
       --resource-group $RESOURCE_GROUP_NAME \
       --name $VM_NAME \
@@ -138,6 +141,8 @@ fi
 time az vm wait -g $RESOURCE_GROUP_NAME -n $VM_NAME --created
 
 az vm show -g $RESOURCE_GROUP_NAME -n $VM_NAME --show-details --output json | jq '.' | sed 's/^/VM INFO:   /g'
+
+az network vnet subnet show -g "${VNET_RESOURCE_GROUP_NAME}" -n "${SUBNET_NAME}" --vnet-name "${VNET_NAME}" --output json | jq '.' | sed 's/^/SUBNET INFO:   /g'
 
 # get private ip address of the vm
 VM_IP_ADDRESS_FROM_SHOW=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --show-details --query privateIps -o tsv)
