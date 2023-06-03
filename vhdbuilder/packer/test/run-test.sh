@@ -39,16 +39,19 @@ az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
 set | sed 's/^/ENVIRONMENT:   /g'
 
 # Get a bunch of information about the vm we're currently on:
-curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
+# curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
+# name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
+# subscriptionId=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.subscriptionId)
+# resourceGroupName=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.resourceGroupName)
+# az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --output json | jq '.' | sed 's/^/VM INFO:   /g'
+# nicId=$(az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --query networkProfile.networkInterfaces[0].id --output tsv)
+# subnetId=$(az network nic show --ids "${nicId}" --query ipConfigurations[0].subnet.id --output tsv)
+
+extension add --name resource-graph
 name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
-subscriptionId=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.subscriptionId)
-resourceGroupName=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.resourceGroupName)
-az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --output json | jq '.' | sed 's/^/VM INFO:   /g'
-nicId=$(az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --query networkProfile.networkInterfaces[0].id --output tsv)
-subnetId=$(az network nic show --ids "${nicId}" --query ipConfigurations[0].subnet.id --output tsv)
+subnet_id=$(az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq --raw-output '.data[0].properties.networkProfile.networkInterfaces[0].id')
 
 ssh-keygen -f ./vm-key -N ''
-
 
 echo "TOBIASB: MODE: '${MODE}'"
 if [ "$MODE" == "default" ]; then
@@ -61,7 +64,7 @@ if [ "$MODE" == "default" ]; then
     --resource-group $RESOURCE_GROUP_NAME \
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
-    --subnet "${subnetId}" \
+    --subnet "${subnet_id}" \
     --ssh-key-value ./vm-key.pub \
     --public-ip-address ""
 else 
