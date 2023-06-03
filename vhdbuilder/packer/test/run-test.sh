@@ -137,10 +137,10 @@ fi
 
 time az vm wait -g $RESOURCE_GROUP_NAME -n $VM_NAME --created
 
-az vm show -g $RESOURCE_GROUP_NAME -n $VM_NAME --output json | jq '.' | sed 's/^/VM INFO:   /g'
+az vm show -g $RESOURCE_GROUP_NAME -n $VM_NAME --show-details --output json | jq '.' | sed 's/^/VM INFO:   /g'
 
 # get private ip address of the vm
-VM_IP_ADDRESS=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --query privateIps -o tsv)
+VM_IP_ADDRESS=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --show-details --query privateIps -o tsv)
 
 M_IP_ADDRESS(az vm list-ip-addresses --resource-group "${RESOURCE_GROUP_NAME}" --name "${VM_NAME}" --output tsv --query '[0].virtualMachine.network.privateIpAddresses[0]')
 
