@@ -68,9 +68,9 @@ if [ "$MODE" == "default" ]; then
     --resource-group $RESOURCE_GROUP_NAME \
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
-    --subnet "${subnet_id}" \
-    --ssh-key-value ./vm-key.pub \
     --public-ip-address ""
+    # --ssh-key-value ./vm-key.pub \
+    # --subnet "${subnet_id}" \
 else 
   echo "TOBIASB: MODE is not default"
   if [ "$MODE" == "sigMode" ]; then
@@ -123,10 +123,10 @@ else
       --admin-username $TEST_VM_ADMIN_USERNAME \
       --admin-password $TEST_VM_ADMIN_PASSWORD \
       --public-ip-address "" \
-      --subnet "${subnetId}" \
-      --ssh-key-value ./vm-key.pub \
       ${TARGET_COMMAND_STRING}
 
+      # --subnet "${subnetId}" \
+      # --ssh-key-value ./vm-key.pub \
   echo "VHD test VM username: $TEST_VM_ADMIN_USERNAME, password: $TEST_VM_ADMIN_PASSWORD"
 fi
 
