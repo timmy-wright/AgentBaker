@@ -49,7 +49,8 @@ set | sed 's/^/ENVIRONMENT:   /g'
 
 az extension add --name resource-graph
 name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
-subnet_id=$(az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq --raw-output '.data[0].properties.networkProfile.networkInterfaces[0].id')
+# subnet_id=$(az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq --raw-output '.data[0].properties.networkProfile.networkInterfaces[0].id')
+az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines' and name =~ '${name}'" | jq '.' | sed 's/^/GRAPH:   /g'
 
 ssh-keygen -f ./vm-key -N ''
 
