@@ -57,6 +57,8 @@ curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance
 
 ssh-keygen -f ./vm-key -N ''
 
+SUBNET_ID=$(az network vnet subnet show -g "${VNET_RESOURCE_GROUP_NAME}" -n "${SUBNET_NAME}" --vnet-name "${VNET_NAME}" --query 'id' --output tsv)
+
 echo "TOBIASB: MODE: '${MODE}'"
 if [ "$MODE" == "default" ]; then
   echo "TOBIASB: MODE is default"
@@ -69,11 +71,12 @@ if [ "$MODE" == "default" ]; then
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
     --ssh-key-value ./vm-key.pub \
-    --subnet "${SUBNET_NAME}" \
-    --vnet-name "${VNET_NAME}" \
+    --subnet "${SUBNET_ID}" \
     --public-ip-address ""
     # --ssh-key-value ./vm-key.pub \
     # --subnet "${subnet_id}" \
+    # --subnet "${SUBNET_NAME}" \
+    # --vnet-name "${VNET_NAME}" \
 else 
   echo "TOBIASB: MODE is not default"
   if [ "$MODE" == "sigMode" ]; then
@@ -128,13 +131,15 @@ else
       --image $IMG_DEF \
       --admin-username $TEST_VM_ADMIN_USERNAME \
       --admin-password $TEST_VM_ADMIN_PASSWORD \
-      --subnet "${SUBNET_NAME}" \
-      --vnet-name "${VNET_NAME}" \
+      --ssh-key-value ./vm-key.pub \
+      --subnet "${SUBNET_ID}" \
       --public-ip-address "" \
       ${TARGET_COMMAND_STRING}
 
       # --subnet "${subnetId}" \
       # --ssh-key-value ./vm-key.pub \
+      # --subnet "${SUBNET_NAME}" \
+      # --vnet-name "${VNET_NAME}" \
   echo "VHD test VM username: $TEST_VM_ADMIN_USERNAME, password: $TEST_VM_ADMIN_PASSWORD"
 fi
 
