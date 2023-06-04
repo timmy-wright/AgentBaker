@@ -56,6 +56,8 @@ curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance
 # az graph query --graph-query "Resources | where type =~ 'Microsoft.Compute/virtualMachines'" | jq '.' | sed 's/^/GRAPH:   /g'
 
 ssh-keygen -f ./vm-key -N ''
+chmod 600 ./vm-key
+chmod 640 ./vm-key.pub
 
 SUBNET_ID=$(az network vnet subnet show -g "${VNET_RESOURCE_GROUP_NAME}" -n "${SUBNET_NAME}" --vnet-name "${VNET_NAME}" --query 'id' --output tsv)
 
@@ -155,6 +157,7 @@ VM_IP_ADDRESS_FROM_SHOW=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --s
 VM_IP_ADDRESS=$(az vm list-ip-addresses --resource-group "${RESOURCE_GROUP_NAME}" --name "${VM_NAME}" --output tsv --query '[0].virtualMachine.network.privateIpAddresses[0]')
 
 ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo 'Hello World'" | sed 's/^/SSH:   /g'
+ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "curl -s -H Metadata:true --noproxy '*' 'http://169.254.169.254/metadata/instance?api-version=2021-02-01'" | sed 's/^/SSH MV METADATA:   /g'
 
 FULL_PATH=$(realpath $0)
 CDIR=$(dirname $FULL_PATH)
