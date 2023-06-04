@@ -154,7 +154,7 @@ VM_IP_ADDRESS_FROM_SHOW=$(az vm show -g ${RESOURCE_GROUP_NAME} -n ${VM_NAME} --s
 
 VM_IP_ADDRESS=$(az vm list-ip-addresses --resource-group "${RESOURCE_GROUP_NAME}" --name "${VM_NAME}" --output tsv --query '[0].virtualMachine.network.privateIpAddresses[0]')
 
-ssh -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo 'Hello World'" | sed 's/^/SSH:   /g'
+ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo 'Hello World'" | sed 's/^/SSH:   /g'
 
 FULL_PATH=$(realpath $0)
 CDIR=$(dirname $FULL_PATH)
