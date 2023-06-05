@@ -171,9 +171,10 @@ if [ "$OS_TYPE" == "Linux" ]; then
 
   SCRIPT_PATH="$CDIR/$LINUX_SCRIPT_PATH"
 
+  set +e
   scp -o StrictHostKeyChecking=no -i ./vm-key "${SCRIPT_PATH}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${LINUX_SCRIPT_PATH}"
   ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "chmod +x ${LINUX_SCRIPT_PATH}"
-  SSH_OUTPUT=$(ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "set -x && echo '${TEST_VM_ADMIN_PASSWORD}' | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} >test-stdout.txt 2>test-stderr.txt")
+  ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "set -x && echo '${TEST_VM_ADMIN_PASSWORD}' | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} >test-stdout.txt 2>test-stderr.txt")
   SSH_EXIT_CODE=$?
   echo "SSH_OUTPUT: ${SSH_OUTPUT}"
   echo "SSH_EXIT_CODE: ${SSH_EXIT_CODE}"
@@ -189,6 +190,7 @@ if [ "$OS_TYPE" == "Linux" ]; then
     echo "test-stderr.txt is non-empty. Exiting."
     exit 1
   fi
+  set -e
 
   # Replace dots with dashes and make sure we only have the file name of the test script.
   # This will be used to name azure resources related to the test.
