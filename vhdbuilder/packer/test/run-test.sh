@@ -35,8 +35,8 @@ trap cleanup EXIT
 DISK_NAME="${TEST_RESOURCE_PREFIX}-disk"
 VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 
-az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
-set | sed 's/^/ENVIRONMENT:   /g'
+# az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
+# set | sed 's/^/ENVIRONMENT:   /g'
 
 # Get a bunch of information about the vm we're currently on:
 # curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
@@ -47,7 +47,7 @@ set | sed 's/^/ENVIRONMENT:   /g'
 # nicId=$(az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --query networkProfile.networkInterfaces[0].id --output tsv)
 # subnetId=$(az network nic show --ids "${nicId}" --query ipConfigurations[0].subnet.id --output tsv)
 
-curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
+# curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
 
 # az extension add --name resource-graph
 # name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
@@ -171,10 +171,9 @@ if [ "$OS_TYPE" == "Linux" ]; then
 
   SCRIPT_PATH="$CDIR/$LINUX_SCRIPT_PATH"
 
-  set +e
   scp -o StrictHostKeyChecking=no -i ./vm-key "${SCRIPT_PATH}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${LINUX_SCRIPT_PATH}"
   ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "chmod +x ${LINUX_SCRIPT_PATH}"
-  ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo ${TEST_VM_ADMIN_PASSWORD} | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} >test-stdout.txt 2>test-stderr.txt"
+  ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo ${TEST_VM_ADMIN_PASSWORD} | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} >test-stdout.txt 2>test-stderr.txt" && true
   SSH_EXIT_CODE=$?
   echo "SSH_EXIT_CODE: ${SSH_EXIT_CODE}"
   scp -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:test-stdout.txt" .
@@ -183,14 +182,13 @@ if [ "$OS_TYPE" == "Linux" ]; then
   sed 's/^/TEST_STDERR:   /g' test-stderr.txt
   ls -l test-std*.txt
   if [[ "${SSH_EXIT_CODE}" != "0" ]]; then
-    echo "SSH exit code was not 0. Exiting."
+    echo "SSH exit code was '${SSH_EXIT_CODE}' insteads of 0. Exiting."
     exit 1
   fi
   if [[ ! -s test-stderr.txt ]]; then
     echo "test-stderr.txt is non-empty. Exiting."
     exit 1
   fi
-  set -e
 
   # Replace dots with dashes and make sure we only have the file name of the test script.
   # This will be used to name azure resources related to the test.
