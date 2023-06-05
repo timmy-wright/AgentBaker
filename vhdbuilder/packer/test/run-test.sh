@@ -174,22 +174,21 @@ if [ "$OS_TYPE" == "Linux" ]; then
   set +e
   scp -o StrictHostKeyChecking=no -i ./vm-key "${SCRIPT_PATH}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${LINUX_SCRIPT_PATH}"
   ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "chmod +x ${LINUX_SCRIPT_PATH}"
-  ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "set -x && echo '${TEST_VM_ADMIN_PASSWORD}' | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} >test-stdout.txt 2>test-stderr.txt"
+  ssh -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "echo '${TEST_VM_ADMIN_PASSWORD}' | sudo -S ./${LINUX_SCRIPT_PATH} ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU}" # >test-stdout.txt 2>test-stderr.txt"
   SSH_EXIT_CODE=$?
-  echo "SSH_OUTPUT: ${SSH_OUTPUT}"
   echo "SSH_EXIT_CODE: ${SSH_EXIT_CODE}"
-  scp -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:test-stdout.txt" .
-  sed 's/^/TEST_STDOUT:   /g' test-stdout.txt
-  scp -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:test-stderr.txt" .
-  sed 's/^/TEST_STDERR:   /g' test-stderr.txt
+  # scp -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:test-stdout.txt" .
+  # sed 's/^/TEST_STDOUT:   /g' test-stdout.txt
+  # scp -o StrictHostKeyChecking=no -i ./vm-key "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:test-stderr.txt" .
+  # sed 's/^/TEST_STDERR:   /g' test-stderr.txt
   if [[ "${SSH_EXIT_CODE}" != "0" ]]; then
     echo "SSH exit code was not 0. Exiting."
     exit 1
   fi
-  if [[ ! -s test-stderr.txt ]]; then
-    echo "test-stderr.txt is non-empty. Exiting."
-    exit 1
-  fi
+  # if [[ ! -s test-stderr.txt ]]; then
+  #   echo "test-stderr.txt is non-empty. Exiting."
+  #   exit 1
+  # fi
   set -e
 
   # Replace dots with dashes and make sure we only have the file name of the test script.
