@@ -35,8 +35,8 @@ trap cleanup EXIT
 DISK_NAME="${TEST_RESOURCE_PREFIX}-disk"
 VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 
-# az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
-# set | sed 's/^/ENVIRONMENT:   /g'
+az account list --output json | jq '.' | sed 's/^/ACCOUNT LIST:   /g'
+set | sed 's/^/ENVIRONMENT:   /g'
 
 # Get a bunch of information about the vm we're currently on:
 # curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
@@ -47,7 +47,7 @@ VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 # nicId=$(az vm show --subscription "${subscriptionId}" --resource-group "${resourceGroupName}" --name "${name}" --query networkProfile.networkInterfaces[0].id --output tsv)
 # subnetId=$(az network nic show --ids "${nicId}" --query ipConfigurations[0].subnet.id --output tsv)
 
-# curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
+curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq '.' | sed 's/^/VM METADATA:   /g'
 
 # az extension add --name resource-graph
 # name=$(curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r .compute.name)
