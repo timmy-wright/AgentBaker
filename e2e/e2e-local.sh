@@ -2,10 +2,10 @@
 
 set -euxo pipefail
 
-: "${SUBSCRIPTION_ID:=8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8}" #Azure Container Service - Test Subscription
-: "${RESOURCE_GROUP_NAME:=agentbaker-e2e-tests}"
+: "${SUBSCRIPTION_ID:=035db282-f1c8-4ce7-b78f-2a7265d5398c}" #Azure Container Service - Test Subscription
+: "${RESOURCE_GROUP_NAME:=henryli-arm64-test}"
 : "${LOCATION:=eastus}"
-: "${CLUSTER_NAME:=agentbaker-e2e-test-cluster}"
+: "${CLUSTER_NAME:=test-azurelinux-arm64}"
 : "${AZURE_TENANT_ID:=72f988bf-86f1-41af-91ab-2d7cd011db47}"
 : "${TIMEOUT:=30m}"
 

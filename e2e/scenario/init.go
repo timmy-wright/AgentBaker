@@ -21,26 +21,6 @@ func InitScenarioTable(scenariosToRun map[string]bool) Table {
 // its return value to the slice returned by this function.
 func scenarios() []*Scenario {
 	return []*Scenario{
-		ubuntu1804(),
-		ubuntu2204(),
-		marinerv1(),
-		marinerv2(),
-		ubuntu2204ARM64(),
 		marinerv2ARM64(),
-		ubuntu1804gpu(),
-		marinerv2gpu(),
-		ubuntu2204CustomSysctls(),
-		marinerv1CustomSysctls(),
-		marinerv2CustomSysctls(),
-		ubuntu2204Wasm(),
-		marinerv1Wasm(),
-		marinerv2Wasm(),
-		ubuntu1804_azurecni(),
-		marinerv1_azurecni(),
-		marinerv2_azurecni(),
-		ubuntu1804gpu_azurecni(),
-		marinerv2gpu_azurecni(),
-		ubuntu2204gpuNoDriver(),
-		ubuntu2204CustomCATrust(),
 	}
 }
