@@ -25,12 +25,18 @@ python3 /opt/azure/containers/provision_redact_cloud_config.py \
     --cloud-config-path /var/lib/cloud/instance/cloud-config.txt \
     --output-path ${LOG_DIR}/cloud-config.txt
 
+echo "Timestamp checkpoint 1"
+echo $(date)
+
 UBUNTU_RELEASE=$(lsb_release -r -s)
 if [[ ${UBUNTU_RELEASE} == "16.04" ]]; then
     sudo apt-get -y autoremove chrony
     echo $?
     sudo systemctl restart systemd-timesyncd
 fi
+
+echo "Timestamp checkpoint 2"
+echo $(date)
 
 echo $(date),$(hostname), startcustomscript>>/opt/m
 
@@ -59,9 +65,15 @@ source "${CSE_DISTRO_INSTALL_FILEPATH}"
 wait_for_file 3600 1 "${CSE_CONFIG_FILEPATH}" || exit $ERR_FILE_WATCH_TIMEOUT
 source "${CSE_CONFIG_FILEPATH}"
 
+echo "Timestamp checkpoint 3"
+echo $(date)
+
 if [[ "${DISABLE_SSH}" == "true" ]]; then
     disableSSH || exit $ERR_DISABLE_SSH
 fi
+
+echo "Timestamp checkpoint 4"
+echo $(date)
 
 if [[ "${SHOULD_CONFIGURE_HTTP_PROXY}" == "true" ]]; then
     if [[ "${SHOULD_CONFIGURE_HTTP_PROXY_CA}" == "true" ]]; then
@@ -70,10 +82,15 @@ if [[ "${SHOULD_CONFIGURE_HTTP_PROXY}" == "true" ]]; then
     configureEtcEnvironment
 fi
 
+echo "Timestamp checkpoint 5"
+echo $(date)
 
 if [[ "${SHOULD_CONFIGURE_CUSTOM_CA_TRUST}" == "true" ]]; then
     configureCustomCaCertificate || $ERR_UPDATE_CA_CERTS
 fi
+
+echo "Timestamp checkpoint 6"
+echo $(date)
 
 if [[ -n "${OUTBOUND_COMMAND}" ]]; then
     if [[ -n "${PROXY_VARS}" ]]; then
@@ -81,6 +98,9 @@ if [[ -n "${OUTBOUND_COMMAND}" ]]; then
     fi
     retrycmd_if_failure 50 1 5 $OUTBOUND_COMMAND >> /var/log/azure/cluster-provision-cse-output.log 2>&1 || exit $ERR_OUTBOUND_CONN_FAIL;
 fi
+
+echo "Timestamp checkpoint 7"
+echo $(date)
 
 # Bring in OS-related vars
 source /etc/os-release
@@ -90,6 +110,9 @@ if [[ ${ID} != "mariner" ]]; then
     echo "Removing man-db auto-update flag file..."
     logs_to_events "AKS.CSE.removeManDbAutoUpdateFlagFile" removeManDbAutoUpdateFlagFile
 fi
+
+echo "Timestamp checkpoint 8"
+echo $(date)
 
 export -f should_skip_nvidia_drivers
 skip_nvidia_driver_install=$(retrycmd_if_failure_no_stats 10 1 10 bash -cx should_skip_nvidia_drivers)
@@ -103,9 +126,18 @@ if [[ "${GPU_NODE}" != "true" ]] || [[ "${skip_nvidia_driver_install}" == "true"
     logs_to_events "AKS.CSE.cleanUpGPUDrivers" cleanUpGPUDrivers
 fi
 
+echo "Timestamp checkpoint 9"
+echo $(date)
+
 logs_to_events "AKS.CSE.disableSystemdResolved" disableSystemdResolved
 
+echo "Timestamp checkpoint 10"
+echo $(date)
+
 logs_to_events "AKS.CSE.configureAdminUser" configureAdminUser
+
+echo "Timestamp checkpoint 11"
+echo $(date)
 
 VHD_LOGS_FILEPATH=/opt/azure/vhd-install.complete
 if [ -f $VHD_LOGS_FILEPATH ]; then
@@ -120,24 +152,42 @@ else
     FULL_INSTALL_REQUIRED=true
 fi
 
+echo "Timestamp checkpoint 12"
+echo $(date)
+
 if [[ $OS == $UBUNTU_OS_NAME ]] && [ "$FULL_INSTALL_REQUIRED" = "true" ]; then
     logs_to_events "AKS.CSE.installDeps" installDeps
 else
     echo "Golden image; skipping dependencies installation"
 fi
 
+echo "Timestamp checkpoint 13"
+echo $(date)
+
 logs_to_events "AKS.CSE.installContainerRuntime" installContainerRuntime
 if [ "${NEEDS_CONTAINERD}" == "true" ] && [ "${TELEPORT_ENABLED}" == "true" ]; then 
     logs_to_events "AKS.CSE.installTeleportdPlugin" installTeleportdPlugin
 fi
 
+echo "Timestamp checkpoint 15"
+echo $(date)
+
 setupCNIDirs
 
+echo "Timestamp checkpoint 16"
+echo $(date)
+
 logs_to_events "AKS.CSE.installNetworkPlugin" installNetworkPlugin
+
+echo "Timestamp checkpoint 17"
+echo $(date)
 
 if [ "${IS_KRUSTLET}" == "true" ]; then
     logs_to_events "AKS.CSE.downloadKrustlet" downloadContainerdWasmShims
 fi
+
+echo "Timestamp checkpoint 18"
+echo $(date)
 
 # By default, never reboot new nodes.
 REBOOTREQUIRED=false
@@ -197,27 +247,47 @@ if [ "${NEEDS_DOCKER_LOGIN}" == "true" ]; then
     set -x
 fi
 
+echo "Timestamp checkpoint 19"
+echo $(date)
+
 logs_to_events "AKS.CSE.installKubeletKubectlAndKubeProxy" installKubeletKubectlAndKubeProxy
 
+echo "Timestamp checkpoint 20"
+echo $(date)
+
 createKubeManifestDir
+
+echo "Timestamp checkpoint 21"
+echo $(date)
 
 if [ "${HAS_CUSTOM_SEARCH_DOMAIN}" == "true" ]; then
     wait_for_file 3600 1 "${CUSTOM_SEARCH_DOMAIN_FILEPATH}" || exit $ERR_FILE_WATCH_TIMEOUT
     "${CUSTOM_SEARCH_DOMAIN_FILEPATH}" > /opt/azure/containers/setup-custom-search-domain.log 2>&1 || exit $ERR_CUSTOM_SEARCH_DOMAINS_FAIL
 fi
 
+echo "Timestamp checkpoint 22"
+echo $(date)
 
 # for drop ins, so they don't all have to check/create the dir
 mkdir -p "/etc/systemd/system/kubelet.service.d"
 
 logs_to_events "AKS.CSE.configureK8s" configureK8s
 
+echo "Timestamp checkpoint 23"
+echo $(date)
+
 logs_to_events "AKS.CSE.configureCNI" configureCNI
+
+echo "Timestamp checkpoint 24"
+echo $(date)
 
 # configure and enable dhcpv6 for dual stack feature
 if [ "${IPV6_DUAL_STACK_ENABLED}" == "true" ]; then
     logs_to_events "AKS.CSE.ensureDHCPv6" ensureDHCPv6
 fi
+
+echo "Timestamp checkpoint 25"
+echo $(date)
 
 if [ "${NEEDS_CONTAINERD}" == "true" ]; then
     # containerd should not be configured until cni has been configured first
@@ -226,9 +296,15 @@ else
     logs_to_events "AKS.CSE.ensureDocker" ensureDocker
 fi
 
+echo "Timestamp checkpoint 26"
+echo $(date)
+
 if [[ "${MESSAGE_OF_THE_DAY}" != "" ]]; then
     echo "${MESSAGE_OF_THE_DAY}" | base64 -d > /etc/motd
 fi
+
+echo "Timestamp checkpoint 27"
+echo $(date)
 
 # must run before kubelet starts to avoid race in container status using wrong image
 # https://github.com/kubernetes/kubernetes/issues/51017
@@ -237,17 +313,29 @@ if [[ "${TARGET_CLOUD}" == "AzureChinaCloud" ]]; then
     retagMCRImagesForChina
 fi
 
+echo "Timestamp checkpoint 28"
+echo $(date)
+
 if [[ "${ENABLE_HOSTS_CONFIG_AGENT}" == "true" ]]; then
     logs_to_events "AKS.CSE.configPrivateClusterHosts" configPrivateClusterHosts
 fi
+
+echo "Timestamp checkpoint 29"
+echo $(date)
 
 if [ "${SHOULD_CONFIG_TRANSPARENT_HUGE_PAGE}" == "true" ]; then
     logs_to_events "AKS.CSE.configureTransparentHugePage" configureTransparentHugePage
 fi
 
+echo "Timestamp checkpoint 30"
+echo $(date)
+
 if [ "${SHOULD_CONFIG_SWAP_FILE}" == "true" ]; then
     logs_to_events "AKS.CSE.configureSwapFile" configureSwapFile
 fi
+
+echo "Timestamp checkpoint 31"
+echo $(date)
 
 if [ "${NEEDS_CGROUPV2}" == "true" ]; then
     tee "/etc/systemd/system/kubelet.service.d/10-cgroupv2.conf" > /dev/null <<EOF
@@ -255,6 +343,9 @@ if [ "${NEEDS_CGROUPV2}" == "true" ]; then
 Environment="KUBELET_CGROUP_FLAGS=--cgroup-driver=systemd"
 EOF
 fi
+
+echo "Timestamp checkpoint 32"
+echo $(date)
 
 if [ "${NEEDS_CONTAINERD}" == "true" ]; then
     # gross, but the backticks make it very hard to do in Go
@@ -282,6 +373,9 @@ EOF
     fi
 fi
 
+echo "Timestamp checkpoint 33"
+echo $(date)
+
 if [ "${HAS_KUBELET_DISK_TYPE}" == "true" ]; then
     tee "/etc/systemd/system/kubelet.service.d/10-bindmount.conf" > /dev/null <<EOF
 [Unit]
@@ -290,12 +384,21 @@ After=bind-mount.service
 EOF
 fi
 
+echo "Timestamp checkpoint 34"
+echo $(date)
+
 logs_to_events "AKS.CSE.ensureSysctl" ensureSysctl
+
+echo "Timestamp checkpoint 35"
+echo $(date)
 
 logs_to_events "AKS.CSE.ensureKubelet" ensureKubelet
 if [ "${ENSURE_NO_DUPE_PROMISCUOUS_BRIDGE}" == "true" ]; then
     logs_to_events "AKS.CSE.ensureNoDupOnPromiscuBridge" ensureNoDupOnPromiscuBridge
 fi
+
+echo "Timestamp checkpoint 36"
+echo $(date)
 
 if $FULL_INSTALL_REQUIRED; then
     if [[ $OS == $UBUNTU_OS_NAME ]]; then
@@ -304,6 +407,9 @@ if $FULL_INSTALL_REQUIRED; then
         sed -i "13i\echo 2dd1ce17-079e-403c-b352-a1921ee207ee > /sys/bus/vmbus/drivers/hv_util/unbind\n" /etc/rc.local
     fi
 fi
+
+echo "Timestamp checkpoint 37"
+echo $(date)
 
 VALIDATION_ERR=0
 
@@ -340,11 +446,17 @@ else
     logs_to_events "AKS.CSE.apiserverNC" "retrycmd_if_failure ${API_SERVER_CONN_RETRIES} 1 10 nc -vz ${API_SERVER_NAME} 443" || time nc -vz ${API_SERVER_NAME} 443 || VALIDATION_ERR=$ERR_K8S_API_SERVER_CONN_FAIL
 fi
 
+echo "Timestamp checkpoint 38"
+echo $(date)
+
 if [[ ${ID} != "mariner" ]]; then
     echo "Recreating man-db auto-update flag file and kicking off man-db update process at $(date)"
     createManDbAutoUpdateFlagFile
     /usr/bin/mandb && echo "man-db finished updates at $(date)" &
 fi
+
+echo "Timestamp checkpoint 39"
+echo $(date)
 
 if $REBOOTREQUIRED; then
     echo 'reboot required, rebooting node in 1 minute'
@@ -397,9 +509,15 @@ else
     fi
 fi
 
+echo "Timestamp checkpoint 40"
+echo $(date)
+
 echo "Custom script finished. API server connection check code:" $VALIDATION_ERR
 echo $(date),$(hostname), endcustomscript>>/opt/m
 mkdir -p /opt/azure/containers && touch /opt/azure/containers/provision.complete
+
+echo "Timestamp checkpoint 41"
+echo $(date)
 
 exit $VALIDATION_ERR
 
