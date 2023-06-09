@@ -62,13 +62,19 @@ else
     fi
   fi
 
-  if [ -z "${MANAGED_SIG_ID}" ]; then
-    echo "Managed Sig Id from packer-output is empty, unable to proceed..."
-    exit 1
-  else
-    echo "Managed Sig Id from packer-output is ${MANAGED_SIG_ID}"
-    IMG_DEF=${MANAGED_SIG_ID}
-  fi
+  # if [ -z "${MANAGED_SIG_ID}" ]; then
+  #   echo "Managed Sig Id from packer-output is empty, unable to proceed..."
+  #   exit 1
+  # else
+  #   echo "Managed Sig Id from packer-output is ${MANAGED_SIG_ID}"
+  #   IMG_DEF=${MANAGED_SIG_ID}
+  # fi
+
+  # Get this from whatever build you want to use to test your image.
+  # For example, this one comes from a the MarinerV2Gen2 run here:
+  #   https://msazure.visualstudio.com/CloudNativeCompute/_build/results?buildId=74435417&view=logs&j=0b756693-48e7-57f4-2f59-e98d26afc566&t=0e638743-8a1e-5f22-da18-fa5b15c75c73&l=69
+  # It's easiest to grab it from the "Run VHD Tests" output, and you can just grab the entire line (modulo the '+' at the beginning)
+  IMG_DEF=/subscriptions/8ecadfc9-d1a3-4ea4-b844-0d9f87e4d7c8/resourceGroups/aksvhdtestbuildrg/providers/Microsoft.Compute/galleries/PackerSigGalleryEastUS/images/CBLMarinerV2Gen2/versions/1.1686097680.2051
 
   # In SIG mode, Windows VM requires admin-username and admin-password to be set,
   # otherwise 'root' is used by default but not allowed by the Windows Image. See the error image below:

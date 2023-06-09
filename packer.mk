@@ -64,6 +64,9 @@ endif
 init-packer:
 	@./vhdbuilder/packer/init-variables.sh
 
+init-packer-az-login: az-login
+	@packer version && ($(MAKE) -f packer.mk init-packer | tee packer-output)
+
 run-packer: az-login
 	@packer version && ($(MAKE) -f packer.mk init-packer | tee packer-output) && ($(MAKE) -f packer.mk build-packer | tee -a packer-output)
 
