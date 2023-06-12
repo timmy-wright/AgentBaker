@@ -34,6 +34,20 @@ trap cleanup EXIT
 DISK_NAME="${TEST_RESOURCE_PREFIX}-disk"
 VM_NAME="${TEST_RESOURCE_PREFIX}-vm"
 
+# For scp and ssh to work, we need two things.
+# First, we need the test vm to be on the same subnet as the agent this is being run on. By getting
+# the full ID, we can point az create a subnet on a different resource group.
+# TODO: hard-coded resource group name while the new way of getting the name trickles through
+VNET_RESOURCE_GROUP_NAME=nodesigtest-agent-pool
+SUBNET_ID=$(az network vnet subnet show -g "${VNET_RESOURCE_GROUP_NAME}" -n "${SUBNET_NAME}" --vnet-name "${VNET_NAME}" --query 'id' --output tsv)
+
+# Second, we need an ssh key-pair with correct permissions.
+VM_KEY=$(realpath ./vm-key)
+VM_KEY_PUB="${VM_KEY}.pub"
+ssh-keygen -f "${VM_KEY}" -N ''
+chmod 600 "${VM_KEY}"
+chmod 640 "${VM_KEY_PUB}"
+
 if [ "$MODE" == "default" ]; then
   az disk create --resource-group $RESOURCE_GROUP_NAME \
     --name $DISK_NAME \
@@ -43,8 +57,10 @@ if [ "$MODE" == "default" ]; then
     --resource-group $RESOURCE_GROUP_NAME \
     --attach-os-disk $DISK_NAME \
     --os-type $OS_TYPE \
+    --ssh-key-value "${VM_KEY_PUB}" \
+    --subnet "${SUBNET_ID}" \
     --public-ip-address ""
-else 
+else
   if [ "$MODE" == "sigMode" ]; then
     id=$(az sig show --resource-group ${AZURE_RESOURCE_GROUP_NAME} --gallery-name ${SIG_GALLERY_NAME}) || id=""
     if [ -z "$id" ]; then
@@ -89,51 +105,65 @@ else
   fi
 
   az vm create \
-      --resource-group $RESOURCE_GROUP_NAME \
-      --name $VM_NAME \
-      --image $IMG_DEF \
-      --admin-username $TEST_VM_ADMIN_USERNAME \
-      --admin-password $TEST_VM_ADMIN_PASSWORD \
-      --public-ip-address "" \
-      ${TARGET_COMMAND_STRING}
-      
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name $VM_NAME \
+    --image $IMG_DEF \
+    --admin-username $TEST_VM_ADMIN_USERNAME \
+    --admin-password $TEST_VM_ADMIN_PASSWORD \
+    --ssh-key-value "${VM_KEY_PUB}" \
+    --subnet "${SUBNET_ID}" \
+    --public-ip-address "" \
+    ${TARGET_COMMAND_STRING}
+
   echo "VHD test VM username: $TEST_VM_ADMIN_USERNAME, password: $TEST_VM_ADMIN_PASSWORD"
 fi
 
 time az vm wait -g $RESOURCE_GROUP_NAME -n $VM_NAME --created
 
+# Get private IP address of the vm we just created. This will be the one on the subnet we gave it during create, and reachable by this host.
+VM_IP_ADDRESS=$(az vm list-ip-addresses --resource-group "${RESOURCE_GROUP_NAME}" --name "${VM_NAME}" --output tsv --query '[0].virtualMachine.network.privateIpAddresses[0]')
+
 FULL_PATH=$(realpath $0)
 CDIR=$(dirname $FULL_PATH)
 
 if [ "$OS_TYPE" == "Linux" ]; then
-  if [[ -z "${ENABLE_FIPS// }" ]]; then
+  if [[ -z "${ENABLE_FIPS// /}" ]]; then
     ENABLE_FIPS="false"
   fi
 
   SCRIPT_PATH="$CDIR/$LINUX_SCRIPT_PATH"
-  for i in $(seq 1 3); do
-    ret=$(az vm run-command invoke --command-id RunShellScript \
-      --name $VM_NAME \
-      --resource-group $RESOURCE_GROUP_NAME \
-      --scripts @$SCRIPT_PATH \
-      --parameters ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} ${GIT_BRANCH}) && break
-    echo "${i}: retrying az vm run-command"
-  done
-  # The error message for a Linux VM run-command is as follows:
-  #  "value": [
-  #    {
-  #      "code": "ProvisioningState/succeeded",
-  #      "displayStatus": "Provisioning succeeded",
-  #      "level": "Info",
-  #      "message": "Enable succeeded: \n[stdout]\n\n[stderr]\ntestImagesPulled:Error: Image mcr.microsoft.com/azure-policy/policy-kubernetes-addon-prod:prod_20201015.1 has NOT been pulled
-  # \n",
-  #      "time": null
-  #    }
-  #  ]
-  #  We have extract the message field from the json, and get the errors outputted to stderr + remove \n
-  errMsg=$(echo -e $(echo $ret | jq ".value[] | .message" | grep -oP '(?<=stderr]).*(?=\\n")'))
-  echo $errMsg
-  if [[ $errMsg != '' ]]; then
+  STDOUT_FILE_NAME="test-stdout.txt"
+  STDERR_FILE_NAME="test-stderr.txt"
+
+  # Copy the test script to the vm and set correct permissions on it.
+  scp -o StrictHostKeyChecking=no -i "${VM_KEY}" "${SCRIPT_PATH}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${LINUX_SCRIPT_PATH}"
+  ssh -o StrictHostKeyChecking=no -i "${VM_KEY}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" "chmod +x ${LINUX_SCRIPT_PATH}"
+
+  # Run the tests. Since we want the error code from this call, and will manually deal with errors a bit down the line,
+  # we turn off 'e' in the environment temporarily
+  set +e
+  ssh -o StrictHostKeyChecking=no \
+    -i "${VM_KEY}" \
+    "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}" \
+    "echo ${TEST_VM_ADMIN_PASSWORD} | sudo -S ./${LINUX_SCRIPT_PATH} \
+      ${CONTAINER_RUNTIME} ${OS_VERSION} ${ENABLE_FIPS} ${OS_SKU} ${GIT_BRANCH}\
+      >${STDOUT_FILE_NAME} 2>${STDERR_FILE_NAME}"
+  SSH_EXIT_CODE=$?
+  set -e
+
+  # Get both the stdout and stderr from the test run, printing them to output with a clear marker for each.
+  scp -o StrictHostKeyChecking=no -i "${VM_KEY}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${STDOUT_FILE_NAME}" .
+  sed 's/^/TEST_STDOUT:   /g' ${STDOUT_FILE_NAME}
+  scp -o StrictHostKeyChecking=no -i "${VM_KEY}" "${TEST_VM_ADMIN_USERNAME}@${VM_IP_ADDRESS}:${STDERR_FILE_NAME}" .
+  sed 's/^/TEST_STDERR:   /g' ${STDERR_FILE_NAME}
+
+  # If either the test script returned non-zero or it printed something to stderr, consider the test run a failure.
+  if [[ "${SSH_EXIT_CODE}" != "0" ]]; then
+    echo "SSH exit code was '${SSH_EXIT_CODE}' insteads of 0. Exiting."
+    exit ${SSH_EXIT_CODE}
+  fi
+  if [[ -s test-stderr.txt ]]; then
+    echo "test-stderr.txt is non-empty. Exiting."
     exit 1
   fi
 else
