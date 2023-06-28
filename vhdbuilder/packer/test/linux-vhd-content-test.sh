@@ -476,6 +476,26 @@ testNetworkSettings() {
   echo "$test:End"
 }
 
+# Ensures that all lines in /etc/profile.d/umask.sh are commented out, per code in
+# <repo-root>/parts/linux/cloud-init/artifacts/cis.sh
+testUmaskSettings() {
+  local test="testUmaskSettings"
+  local settings_file=/etc/profile.d/umask.sh
+  echo "$test:Start"
+
+  # If the settings file exists, look for any lines that are not commented out.
+  # If any exist, print them to stderr.
+  if [ -e "${settings_file}" ]; then
+    local uncommented_lines=
+    if uncommented_lines=$(grep -EnH '^[^#]' "${settings_file}"); then
+      err $test "Found lines in ${settings_file} that were not commented out; see below for details."
+      echo "${uncommented_lines}" >/dev/stderr
+    fi
+  fi
+
+  echo "$test:End"
+}
+
 # Tests that the modes on the cron-related files and directories in /etc are set correctly, per the
 # function assignFilePermissions in <repo-root>/parts/linux/cloud-init/artifacts/cis.sh.
 testCronPermissions() {
@@ -786,3 +806,4 @@ testCronPermissions
 testCoreDumpSettings
 testNfsServerService
 testPamDSettings $OS_SKU $OS_VERSION
+testUmaskSettings

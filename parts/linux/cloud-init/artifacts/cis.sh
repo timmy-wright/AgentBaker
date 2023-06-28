@@ -155,6 +155,19 @@ configureCoreDump() {
     replaceOrAppendCoreDump ProcessSizeMax 0
 }
 
+fixUmaskSettings() {
+    # CIS requires the default UMASK for account creation to be set to 027, so change that in /etc/login.defs.
+    replaceOrAppendLoginDefs UMASK 027
+
+    # It also requires that nothing in etc/profile.d sets umask to anything less restrictive than that.
+    # Mariner sets umask directly in /etc/profile after sourcing everything in /etc/profile.d. But it also has /etc/profile.d/umask.sh
+    # which sets umask (but is then ignored). We don't want to simply delete /etc/profile.d/umask.sh, because if we take an update to
+    # the package that supplies it, it would just be copied over again.
+    # However, we know that we don't want anything in that file, so we just comment out all lines.
+    if [[ "${OS}" == "${MARINER_OS_NAME}" && "${OS_VERSION}" == "2.0" ]]; then
+        sed -E -i 's/^/# /g' /etc/profile.d/umask.sh
+    fi
+}
 fixDefaultUmaskForAccountCreation() {
     replaceOrAppendLoginDefs UMASK 027
 }
@@ -193,7 +206,7 @@ applyCIS() {
     assignRootPW
     assignFilePermissions
     configureCoreDump
-    fixDefaultUmaskForAccountCreation
+    fixUmaskSettings
     maskNfsServer
     addFailLockDir
 }
