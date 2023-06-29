@@ -164,8 +164,11 @@ fixUmaskSettings() {
     # which sets umask (but is then ignored). We don't want to simply delete /etc/profile.d/umask.sh, because if we take an update to
     # the package that supplies it, it would just be copied over again.
     # However, we know that we don't want anything in that file, so we just comment out all lines.
+    local umask_file_path=/etc/profile.d/umask.sh
     if [[ "${OS}" == "${MARINER_OS_NAME}" && "${OS_VERSION}" == "2.0" ]]; then
-        sed -E -i 's/^/# /g' /etc/profile.d/umask.sh
+        if [ -e "${umask_file_path}" ]; then
+            sed -E -i 's/^/# /g' /etc/profile.d/umask.sh
+        fi
     fi
 }
 fixDefaultUmaskForAccountCreation() {
