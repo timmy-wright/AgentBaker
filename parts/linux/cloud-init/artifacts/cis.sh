@@ -159,6 +159,17 @@ fixUmaskSettings() {
     # CIS requires the default UMASK for account creation to be set to 027, so change that in /etc/login.defs.
     replaceOrAppendLoginDefs UMASK 027
 
+    # TOBIASB: TEMP:
+    # To test this code, I need the file to exist so we can change it.
+    cat >/etc/profile.d/umask.sh <<"EOF"
+# By default, the umask should be set.
+if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
+  umask 002
+else
+  umask 022
+fi
+EOF
+
     # It also requires that nothing in etc/profile.d sets umask to anything less restrictive than that.
     # Mariner sets umask directly in /etc/profile after sourcing everything in /etc/profile.d. But it also has /etc/profile.d/umask.sh
     # which sets umask (but is then ignored). We don't want to simply delete /etc/profile.d/umask.sh, because if we take an update to
