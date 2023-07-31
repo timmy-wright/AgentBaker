@@ -23,6 +23,13 @@ installDeps() {
         fi
       done
     fi
+
+    sudo rpm -ivh /opt/azure/containers/libnvidia-container1-1.13.5-1.cm2.x86_64.rpm
+    sudo rpm -ivh /opt/azure/containers/libnvidia-container-devel-1.13.5-1.cm2.x86_64.rpm
+    sudo rpm -ivh /opt/azure/containers/libnvidia-container-tools-1.13.5-1.cm2.x86_64.rpm
+    sudo rpm -ivh /opt/azure/containers/nvidia-container-toolkit-1.13.5-1.cm2.x86_64.rpm
+    sudo rpm -ivh /opt/azure/containers/nvidia-container-toolkit-base-1.13.5-1.cm2.x86_64.rpm
+    sudo rpm -ivh /opt/azure/containers/nvidia-container-runtime-3.13.0-1.cm2.x86_64.rpm
 }
 
 downloadGPUDrivers() {

@@ -110,6 +110,36 @@
     },
     {
       "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/libnvidia-container1-1.13.5-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/libnvidia-container1-1.13.5-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/libnvidia-container-devel-1.13.5-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/libnvidia-container-devel-1.13.5-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/libnvidia-container-tools-1.13.5-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/libnvidia-container-tools-1.13.5-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/nvidia-container-runtime-3.13.0-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/nvidia-container-runtime-3.13.0-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/nvidia-container-toolkit-1.13.5-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/nvidia-container-toolkit-1.13.5-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
+      "source": "parts/linux/cloud-init/artifacts/mariner/nvidia-container-toolkit-base-1.13.5-1.cm2.x86_64.rpm",
+      "destination": "/home/packer/nvidia-container-toolkit-base-1.13.5-1.cm2.x86_64.rpm"
+    },
+    {
+      "type": "file",
       "source": "parts/linux/cloud-init/artifacts/cse_helpers.sh",
       "destination": "/home/packer/provision_source.sh"
     },

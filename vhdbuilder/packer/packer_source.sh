@@ -96,6 +96,30 @@ copyPackerFiles() {
   VHD_CLEANUP_SCRIPT_SRC=/home/packer/cleanup-vhd.sh
   VHD_CLEANUP_SCRIPT_DEST=/opt/azure/containers/cleanup-vhd.sh
 
+  LIBNVIDIA_CONTAINER_SRC=/home/packer/libnvidia-container1-1.13.5-1.cm2.x86_64.rpm
+  LIBNVIDIA_CONTAINER_DEST=/opt/azure/containers/libnvidia-container1-1.13.5-1.cm2.x86_64.rpm
+  cpAndMode $LIBNVIDIA_CONTAINER_SRC $LIBNVIDIA_CONTAINER_DEST 755
+
+  LIBNVIDIA_CONTAINER_DEVEL_SRC=/home/packer/libnvidia-container-devel-1.13.5-1.cm2.x86_64.rpm
+  LIBNVIDIA_CONTAINER_DEVEL_DEST=/opt/azure/containers/libnvidia-container-devel-1.13.5-1.cm2.x86_64.rpm
+  cpAndMode $LIBNVIDIA_CONTAINER_DEVEL_SRC $LIBNVIDIA_CONTAINER_DEVEL_DEST 755
+
+  LIBNVIDIA_CONTAINER_TOOLS_SRC=/home/packer/libnvidia-container-tools-1.13.5-1.cm2.x86_64.rpm
+  LIBNVIDIA_CONTAINER_TOOLS_DEST=/opt/azure/containers/libnvidia-container-tools-1.13.5-1.cm2.x86_64.rpm
+  cpAndMode $LIBNVIDIA_CONTAINER_TOOLS_SRC $LIBNVIDIA_CONTAINER_TOOLS_DEST 755
+
+  NVIDIA_CONTAINER_RUNTIME_SRC=/home/packer/nvidia-container-runtime-3.13.0-1.cm2.x86_64.rpm
+  NVIDIA_CONTAINER_RUNTIME_DEST=/opt/azure/containers/nvidia-container-runtime-3.13.0-1.cm2.x86_64.rpm
+  cpAndMode $NVIDIA_CONTAINER_RUNTIME_SRC $NVIDIA_CONTAINER_RUNTIME_DEST 755
+
+  NVIDIA_CONTAINER_TOOLKIT_SRC=/home/packer/nvidia-container-toolkit-1.13.5-1.cm2.x86_64.rpm
+  NVIDIA_CONTAINER_TOOLKIT_DEST=/opt/azure/containers/nvidia-container-toolkit-1.13.5-1.cm2.x86_64.rpm
+  cpAndMode $NVIDIA_CONTAINER_TOOLKIT_SRC $NVIDIA_CONTAINER_TOOLKIT_DEST 755
+
+  NVIDIA_CONTAINER_TOOLKIT_BASE_SRC=/home/packer/nvidia-container-toolkit-base-1.13.5-1.cm2.x86_64.rpm
+  NVIDIA_CONTAINER_TOOLKIT_BASE_DEST=/opt/azure/containers/nvidia-container-toolkit-base-1.13.5-1.cm2.x86_64.rpm
+  cpAndMode $NVIDIA_CONTAINER_TOOLKIT_BASE_SRC $NVIDIA_CONTAINER_TOOLKIT_BASE_DEST 755
+
   CSE_REDACT_SRC=/home/packer/cse_redact_cloud_config.py
   CSE_REDACT_DEST=/opt/azure/containers/provision_redact_cloud_config.py
   cpAndMode $CSE_REDACT_SRC $CSE_REDACT_DEST 0744
