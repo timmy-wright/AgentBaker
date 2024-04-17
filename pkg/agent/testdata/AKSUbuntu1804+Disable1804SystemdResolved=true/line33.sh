@@ -258,6 +258,11 @@ if [ "${NEEDS_CONTAINERD}" == "true" ] &&  [ "${SHOULD_CONFIG_CONTAINERD_ULIMITS
 fi
 
 logs_to_events "AKS.CSE.ensureKubelet" ensureKubelet
+
+if [ "${AKS_LOCAL_DNS_ENABLED}" == "true" ]; then
+    logs_to_events "AKS.CSE.ensureAKSLocalDNS" ensureAKSLocalDNS
+fi
+
 if [ "${ENSURE_NO_DUPE_PROMISCUOUS_BRIDGE}" == "true" ]; then
     logs_to_events "AKS.CSE.ensureNoDupOnPromiscuBridge" ensureNoDupOnPromiscuBridge
 fi

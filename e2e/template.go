@@ -167,6 +167,43 @@ func baseTemplate(location string) *datamodel.NodeBootstrappingConfiguration {
 						MessageOfTheDay:         "",
 						NotRebootWindowsNode:    nil,
 						AgentPoolWindowsProfile: nil,
+						LocalDNSConfig: &datamodel.LocalDNSConfig{
+							ServiceState:  "enable",
+							CPULimit:      2,
+							MemoryLimitMB: 128,
+							NodeDNSOverrides: map[string]datamodel.DNSOverride{
+								".": {
+									CacheDurationSeconds: 3600,
+									ForceTCP:             false,
+									MaxConcurrent:        1000,
+									ForwardPolicy:        "sequential",
+									ServeStale:           "verify",
+								},
+								"sub.domain1.com": {
+									CacheDurationSeconds: 3600,
+									ForceTCP:             false,
+									MaxConcurrent:        1000,
+									ForwardPolicy:        "sequential",
+									ServeStale:           "verify",
+								},
+							},
+							PodDNSOverrides: map[string]datamodel.DNSOverride{
+								".": {
+									CacheDurationSeconds: 3600,
+									ForceTCP:             false,
+									MaxConcurrent:        1000,
+									ForwardPolicy:        "sequential",
+									ServeStale:           "verify",
+								},
+								"sub.domain1.com": {
+									CacheDurationSeconds: 3600,
+									ForceTCP:             false,
+									MaxConcurrent:        1000,
+									ForwardPolicy:        "sequential",
+									ServeStale:           "verify",
+								},
+							},
+						},
 					},
 				},
 				LinuxProfile: &datamodel.LinuxProfile{
@@ -339,6 +376,43 @@ func baseTemplate(location string) *datamodel.NodeBootstrappingConfiguration {
 			MessageOfTheDay:         "",
 			NotRebootWindowsNode:    nil,
 			AgentPoolWindowsProfile: nil,
+			LocalDNSConfig: &datamodel.LocalDNSConfig{
+				ServiceState:  "enable",
+				CPULimit:      2,
+				MemoryLimitMB: 128,
+				NodeDNSOverrides: map[string]datamodel.DNSOverride{
+					".": {
+						CacheDurationSeconds: 3600,
+						ForceTCP:             false,
+						MaxConcurrent:        1000,
+						ForwardPolicy:        "sequential",
+						ServeStale:           "verify",
+					},
+					"sub.domain1.com": {
+						CacheDurationSeconds: 3600,
+						ForceTCP:             false,
+						MaxConcurrent:        1000,
+						ForwardPolicy:        "sequential",
+						ServeStale:           "verify",
+					},
+				},
+				PodDNSOverrides: map[string]datamodel.DNSOverride{
+					".": {
+						CacheDurationSeconds: 3600,
+						ForceTCP:             false,
+						MaxConcurrent:        1000,
+						ForwardPolicy:        "sequential",
+						ServeStale:           "verify",
+					},
+					"sub.domain1.com": {
+						CacheDurationSeconds: 3600,
+						ForceTCP:             false,
+						MaxConcurrent:        1000,
+						ForwardPolicy:        "sequential",
+						ServeStale:           "verify",
+					},
+				},
+			},
 		},
 		TenantID:                       "",
 		SubscriptionID:                 "",
