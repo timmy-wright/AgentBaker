@@ -730,6 +730,7 @@ EOF
 }
 
 ensureAKSLocalDNS(){
+    echo "${CLUSTER_DNS_SERVICE_IP}"
     systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
 }
 
