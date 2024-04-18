@@ -766,13 +766,13 @@ type DNSOverride struct {
 	ServeStale           string `json:"serveStale"`
 }
 
-// IsAKSLocalDNSEnabled returns true if the customer specified localDnsProfile and serviceState property is enabled.
+// IsAKSLocalDNSEnabled returns true if the customer specified localDnsProfile and serviceState property is enable.
 func (a *AgentPoolProfile) IsAKSLocalDNSEnabled() bool {
 	return a.LocalDNSConfig != nil &&
 		strings.EqualFold(a.LocalDNSConfig.ServiceState, LocalDNSEnable)
 }
 
-func (a *AgentPoolProfile) GetkubeletDnsServiceIp(k map[string]string) string {
+func (a *AgentPoolProfile) GetClusterDNSServiceIp(k map[string]string) string {
 	if k == nil || k["--cluster-dns"] == "" {
 		return ""
 	}

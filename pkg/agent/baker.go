@@ -966,8 +966,8 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"IsAKSLocalDNSEnabled": func() bool {
 			return profile.IsAKSLocalDNSEnabled()
 		},
-		"GetkubeletDnsServiceIp": func() string {
-			return profile.GetkubeletDnsServiceIp(config.KubeletConfig)
+		"GetClusterDNSServiceIp": func() string {
+			return profile.GetClusterDNSServiceIp(config.KubeletConfig)
 		},
 	}
 }
