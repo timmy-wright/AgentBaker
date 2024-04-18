@@ -55,6 +55,9 @@ fi
 stop_watch $capture_time "Log / Detach UA and Clean-up" false
 start_watch
 
+# Enable the aks-local-dns service
+systemctl enable aks-local-dns.service
+
 # shellcheck disable=SC2129
 echo "kubelet/kubectl downloaded:" >> ${VHD_LOGS_FILEPATH}
 ls -ltr /usr/local/bin/* >> ${VHD_LOGS_FILEPATH}
