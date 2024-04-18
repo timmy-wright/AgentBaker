@@ -678,7 +678,7 @@ COREDNS_IMAGE="${COREDNS_IMAGE_DEFAULT:-mcr.microsoft.com/oss/kubernetes/coredns
 COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
 
 # This must be the DNS service IP for the cluster
-DNS_SERVICE_IP="${DNS_SERVICE_IP_DEFAULT:-CLUSTER_DNS_IP}"
+DNS_SERVICE_IP="${DNS_SERVICE_IP_DEFAULT:-$CLUSTER_DNS_IP}"
 
 # This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address
 LOCAL_NODE_DNS_IP="${LOCAL_NODE_DNS_IP_DEFAULT:-169.254.10.10}"
