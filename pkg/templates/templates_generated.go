@@ -669,16 +669,22 @@ set -euo pipefail
 # These variables can be overridden by specifying them in /etc/default/aks-local-dns
 # Setting COREDNS_LOG to "log" will log queries to systemd
 COREDNS_LOG="${COREDNS_LOG:-errors}"
+
 # CoreDNS image reference to use to obtain the binary if not present
 COREDNS_IMAGE="${COREDNS_IMAGE:-mcr.microsoft.com/oss/kubernetes/coredns:v1.9.4}"
+
 # Delay coredns shutdown to allow connections to finish
 COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY:-5}"
+
 # This must be the DNS service IP for the cluster
-DNS_SERVICE_IP="${DNS_SERVICE_IP:-}"
+DNS_SERVICE_IP="${KUBELET_CLUSTER_DNS_IP:-DNS_SERVICE_IP}"
+
 # This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address
 LOCAL_NODE_DNS_IP="${LOCAL_NODE_DNS_IP:-169.254.10.10}"
+
 # This is the IP that the local DNS service should bind to for pod traffic; usually an APIPA address
 LOCAL_POD_DNS_IP="${LOCAL_POD_DNS_IP:-169.254.10.11}"
+
 # PID file
 PID_FILE="${PID_FILE:-/run/aks-local-dns.pid}"
 
