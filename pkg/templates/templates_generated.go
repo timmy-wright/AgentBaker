@@ -632,9 +632,8 @@ Restart=on-failure
 KillMode=mixed
 TimeoutStopSec=30
 Slice=aks-local-dns.slice
-Environment="CLUSTER_DNS_IP=${CLUSTER_DNS_SERVICE_IP}"
 EnvironmentFile=-/etc/default/aks-local-dns
-ExecStart=/opt/azure/aks-local-dns/aks-local-dns.sh
+ExecStart=/opt/azure/aks-local-dns/aks-local-dns.sh "${CLUSTER_DNS_SERVICE_IP}"
 
 [Install]
 WantedBy=multi-user.target`)
@@ -678,7 +677,8 @@ COREDNS_IMAGE="${COREDNS_IMAGE_DEFAULT:-mcr.microsoft.com/oss/kubernetes/coredns
 COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
 
 # This must be the DNS service IP for the cluster
-# DNS_SERVICE_IP="${DNS_SERVICE_IP_DEFAULT:-$CLUSTER_DNS_IP}"
+CLUSTER_DNS_SERVICE_IP="$1"
+DNS_SERVICE_IP="${DNS_SERVICE_IP_DEFAULT:-$CLUSTER_DNS_SERVICE_IP}"
 
 # This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address
 LOCAL_NODE_DNS_IP="${LOCAL_NODE_DNS_IP_DEFAULT:-169.254.10.10}"
@@ -3594,8 +3594,13 @@ EOF
     fi
 }
 
-ensureAKSLocalDNS(){
-    echo "${CLUSTER_DNS_SERVICE_IP}"
+ensureAKSLocalDNS() {
+    mkdir -p /etc/systemd/system/aks-local-dns.service.d/
+    touch /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf
+    tee /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf > /dev/null <<EOF
+[Service]
+Environment="CLUSTER_DNS_SERVICE_IP=${CLUSTER_DNS_SERVICE_IP}"
+EOF
     systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
 }
 

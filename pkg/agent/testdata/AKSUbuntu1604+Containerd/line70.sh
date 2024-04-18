@@ -729,8 +729,13 @@ EOF
     fi
 }
 
-ensureAKSLocalDNS(){
-    echo "${CLUSTER_DNS_SERVICE_IP}"
+ensureAKSLocalDNS() {
+    mkdir -p /etc/systemd/system/aks-local-dns.service.d/
+    touch /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf
+    tee /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf > /dev/null <<EOF
+[Service]
+Environment="CLUSTER_DNS_SERVICE_IP=${CLUSTER_DNS_SERVICE_IP}"
+EOF
     systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
 }
 

@@ -16,9 +16,8 @@ Restart=on-failure
 KillMode=mixed
 TimeoutStopSec=30
 Slice=aks-local-dns.slice
-Environment="CLUSTER_DNS_IP=${CLUSTER_DNS_SERVICE_IP}"
 EnvironmentFile=-/etc/default/aks-local-dns
-ExecStart=/opt/azure/aks-local-dns/aks-local-dns.sh
+ExecStart=/opt/azure/aks-local-dns/aks-local-dns.sh "${CLUSTER_DNS_SERVICE_IP}"
 
 [Install]
 WantedBy=multi-user.target
