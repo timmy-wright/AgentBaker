@@ -963,6 +963,12 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"IsArtifactStreamingEnabled": func() bool {
 			return config.EnableArtifactStreaming
 		},
+		"IsAKSLocalDNSEnabled": func() bool {
+			return profile.IsAKSLocalDNSEnabled()
+		},
+		"GetkubeletDnsServiceIp": func() string {
+			return profile.GetkubeletDnsServiceIp(config.KubeletConfig)
+		},
 	}
 }
 

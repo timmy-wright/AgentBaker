@@ -96,6 +96,8 @@ ERR_SNAPSHOT_UPDATE_START_FAIL=202 # snapshot-update could not be started by sys
 ERR_PRIVATE_K8S_PKG_ERR=203 # Error downloading (at build-time) or extracting (at run-time) private kubernetes packages
 ERR_K8S_INSTALL_ERR=204 # Error installing or setting up kubernetes binaries on disk
 
+ERR_LOCAL_DNS_START_FAIL=205 # Unable to start local DNS service
+
 ERR_SYSTEMCTL_MASK_FAIL=2 # Service could not be masked by systemctl
 
 ERR_CREDENTIAL_PROVIDER_DOWNLOAD_TIMEOUT=205 # Timeout waiting for credential provider downloads

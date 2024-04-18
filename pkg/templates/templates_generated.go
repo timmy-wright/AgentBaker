@@ -2817,6 +2817,8 @@ IS_KATA="{{IsKata}}"
 ARTIFACT_STREAMING_ENABLED="{{IsArtifactStreamingEnabled}}"
 SYSCTL_CONTENT="{{GetSysctlContent}}"
 PRIVATE_EGRESS_PROXY_ADDRESS="{{GetPrivateEgressProxyAddress}}"
+AKS_LOCAL_DNS_ENABLED="{{IsAKSLocalDNSEnabled}}"
+KUBELET_CLUSTER_DNS_IP="{{GetkubeletDnsServiceIp}}"
 /usr/bin/nohup /bin/bash -c "/bin/bash /opt/azure/containers/provision_start.sh"`)
 
 func linuxCloudInitArtifactsCse_cmdShBytes() ([]byte, error) {
@@ -3221,7 +3223,12 @@ ensureKubelet() {
     if [ -n "${AZURE_ENVIRONMENT_FILEPATH}" ]; then
         echo "AZURE_ENVIRONMENT_FILEPATH=${AZURE_ENVIRONMENT_FILEPATH}" >> "${KUBELET_DEFAULT_FILE}"
     fi
-    
+
+    if [ "${AKS_LOCAL_DNS_ENABLED}" == "true" ]; then
+        LOCAL_POD_DNS_IP="169.254.10.11"
+        sed -ie "s/--cluster-dns=[^ \n]\+/--cluster-dns=${LOCAL_POD_DNS_IP}/" "${KUBELET_DEFAULT_FILE}"
+    fi
+
     KUBE_CA_FILE="/etc/kubernetes/certs/ca.crt"
     mkdir -p "$(dirname "${KUBE_CA_FILE}")"
     echo "${KUBE_CA_CRT}" | base64 -d > "${KUBE_CA_FILE}"
@@ -3580,6 +3587,10 @@ EOF
     fi
 }
 
+ensureAKSLocalDNS(){
+    systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
+}
+
 #EOF`)
 
 func linuxCloudInitArtifactsCse_configShBytes() ([]byte, error) {
@@ -3694,6 +3705,8 @@ ERR_SNAPSHOT_UPDATE_START_FAIL=202 # snapshot-update could not be started by sys
 
 ERR_PRIVATE_K8S_PKG_ERR=203 # Error downloading (at build-time) or extracting (at run-time) private kubernetes packages
 ERR_K8S_INSTALL_ERR=204 # Error installing or setting up kubernetes binaries on disk
+
+ERR_LOCAL_DNS_START_FAIL=205 # Unable to start local DNS service
 
 ERR_SYSTEMCTL_MASK_FAIL=2 # Service could not be masked by systemctl
 
@@ -4836,6 +4849,11 @@ if [ "${NEEDS_CONTAINERD}" == "true" ] &&  [ "${SHOULD_CONFIG_CONTAINERD_ULIMITS
 fi
 
 logs_to_events "AKS.CSE.ensureKubelet" ensureKubelet
+
+if [ "${AKS_LOCAL_DNS_ENABLED}" == "true" ]; then
+    logs_to_events "AKS.CSE.ensureAKSLocalDNS" ensureAKSLocalDNS
+fi
+
 if [ "${ENSURE_NO_DUPE_PROMISCUOUS_BRIDGE}" == "true" ]; then
     logs_to_events "AKS.CSE.ensureNoDupOnPromiscuBridge" ensureNoDupOnPromiscuBridge
 fi

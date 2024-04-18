@@ -385,7 +385,12 @@ ensureKubelet() {
     if [ -n "${AZURE_ENVIRONMENT_FILEPATH}" ]; then
         echo "AZURE_ENVIRONMENT_FILEPATH=${AZURE_ENVIRONMENT_FILEPATH}" >> "${KUBELET_DEFAULT_FILE}"
     fi
-    
+
+    if [ "${AKS_LOCAL_DNS_ENABLED}" == "true" ]; then
+        LOCAL_POD_DNS_IP="169.254.10.11"
+        sed -ie "s/--cluster-dns=[^ \n]\+/--cluster-dns=${LOCAL_POD_DNS_IP}/" "${KUBELET_DEFAULT_FILE}"
+    fi
+
     KUBE_CA_FILE="/etc/kubernetes/certs/ca.crt"
     mkdir -p "$(dirname "${KUBE_CA_FILE}")"
     echo "${KUBE_CA_CRT}" | base64 -d > "${KUBE_CA_FILE}"
@@ -742,6 +747,10 @@ providers:
       - /etc/kubernetes/azure.json
 EOF
     fi
+}
+
+ensureAKSLocalDNS(){
+    systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
 }
 
 #EOF
