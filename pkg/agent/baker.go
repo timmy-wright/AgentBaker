@@ -963,6 +963,31 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"IsArtifactStreamingEnabled": func() bool {
 			return config.EnableArtifactStreaming
 		},
+		"IsAKSLocalDNSEnabled": func() bool {
+			return profile.IsAKSLocalDNSEnabled()
+		},
+		"GetLocalDNSCoreFileFromTemplate": func() string {
+			output, err := LocalDNSCoreFileFromTemplate(profile, localDNSCoreFileTemplateString)
+			if err != nil {
+				panic(err)
+			}
+			return output
+		},
+		"GetLocalDNSImageUrl": func() string {
+			return profile.GetLocalDNSImageUrl()
+		},
+		"GetNodeListenerIP": func() string {
+			return profile.GetNodeListenerIP()
+		},
+		"GetClusterListenerIP": func() string {
+			return profile.GetClusterListenerIP()
+		},
+		"GetCoreDNSServiceIP": func() string {
+			return profile.GetCoreDNSServiceIP()
+		},
+		"GetUpstreamDNSServerIP": func() string {
+			return profile.GetUpstreamDNSServerIP()
+		},
 	}
 }
 
@@ -1384,3 +1409,82 @@ func containerdConfigFromTemplate(
 	}
 	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
 }
+
+// Parse and generate local DNS Corefile from template and AgentPoolProfile.
+func LocalDNSCoreFileFromTemplate(profile *datamodel.AgentPoolProfile, tmpl string) (string, error) {
+	var b bytes.Buffer
+	localDNSCorefileTemplate, err := template.New("localdnscorefile").Parse(tmpl)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse local dns corefile template: %w", err)
+	}
+
+	if err := localDNSCorefileTemplate.Execute(&b, profile); err != nil {
+		return "", fmt.Errorf("failed to execute local dns corefile template: %w", err)
+	}
+
+	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
+}
+
+// Template to create corefile that will be used by local DNS systemd service.
+const localDNSCoreFileTemplateString = `
+# whoami (used for health check of DNS pipeline)
+health-check.aks-local-dns.local:53 {
+    bind {{$.NodeListenerIP}} {{$.ClusterListenerIP}}
+    whoami
+}
+# VNET DNS traffic (Traffic from pods with dnsPolicy:default or kubelet){{range $index, $domain := .SortedVnetDnsOverrideDomains}}
+{{- $override := index $.VnetDnsOverrides $domain}}
+{{$domain}}:53 {
+    {{$override.LogLevel}}
+    bind {{$.NodeListenerIP}}
+    forward cluster.local {{$.DnsServiceIP}} {
+        {{- if $override.ForceTCP}}
+        force_tcp
+        {{- end}}
+        policy {{$override.ForwardPolicy}}
+        max_concurrent {{$override.MaxConcurrent}}
+    }
+    forward . {{$.UpstreamDnsServerIP}} {
+        {{- if $override.ForceTCP}}
+        force_tcp
+        {{- end}}
+        policy {{$override.ForwardPolicy}}
+        max_concurrent {{$override.MaxConcurrent}}
+    }
+    ready {{$.NodeListenerIP}}:8181
+    cache {{$override.CacheDurationInSeconds}}s {
+        success 9984
+        denial 9984
+        {{- if ne $override.ServeStale "Disabled"}}
+        serve_stale {{$override.CacheDurationInSeconds}}s {{$override.ServeStale}}
+        {{- end}}
+        servfail 0
+    }
+    loop
+    nsid aks-local-dns
+    prometheus {{$.NodeListenerIP}}:9253
+}{{end}}
+# Kube DNS traffic (Traffic from pods with dnsPolicy:ClusterFirst){{range $index, $domain := .SortedKubeDnsOverrideDomains}}
+{{- $override := index $.KubeDnsOverrides $domain}}
+{{$domain}}:53 {
+    {{$override.LogLevel}}
+    bind {{$.ClusterListenerIP}}
+    forward . {{$.DnsServiceIP}} {
+        {{- if $override.ForceTCP}}
+        force_tcp
+        {{- end}}
+        policy {{$override.ForwardPolicy}}
+        max_concurrent {{$override.MaxConcurrent}}
+    }
+    cache {{$override.CacheDurationInSeconds}}s {
+        success 9984
+        denial 9984
+        {{- if ne $override.ServeStale "Disabled"}}
+        serve_stale {{$override.CacheDurationInSeconds}}s {{$override.ServeStale}}
+        {{- end}}
+        servfail 0
+    }
+    loop
+    nsid aks-local-dns-pod
+}{{end}}
+`

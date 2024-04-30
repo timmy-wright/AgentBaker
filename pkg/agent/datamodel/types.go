@@ -750,6 +750,85 @@ type ComponentConfiguration struct {
 	DownloadURL *string
 }
 
+// Structure to hold Local DNS profile with sorted domains in array.
+type LocalDnsProfileWithSortedDomains struct {
+	LocalDnsProfile
+	SortedVnetDnsOverrideDomains []string
+	SortedKubeDnsOverrideDomains []string
+}
+
+// Local DNS profile with VNET DNS and Kube DNS overrides.
+type LocalDnsProfile struct {
+	ServiceState        string                 `json:"serviceState,omitempty"`
+	CPULimit            int                    `json:"cpuLimit,omitempty"`
+	MemoryLimitInMB     int                    `json:"memoryLimitInMB,omitempty"`
+	CoreDnsImageUrl     string                 `json:"coreDnsImageUrl,omitempty"`
+	VnetDnsOverrides    map[string]DnsOverride `json:"vnetDnsOverrides,omitempty"`
+	KubeDnsOverrides    map[string]DnsOverride `json:"kubeDnsOverrides,omitempty"`
+	NodeListenerIP      string                 `json:"nodeListenerIP,omitempty"`
+	ClusterListenerIP   string                 `json:"clusterListenerIP,omitempty"`
+	CoreDnsServiceIP    string                 `json:"coreDnsServiceIP,omitempty"`
+	UpstreamDnsServerIP string                 `json:"UpstreamDnsServerIP,omitempty"`
+}
+
+// Overrides for VNET DNS and Kube DNS traffic.
+// Traffic from pods with dnsPolicy:default or kubelet is defined as VNET DNS traffic.
+// Traffic from pods with dnsPolicy:ClusterFirst is defined as Kube DNS traffic.
+type DnsOverride struct {
+	LogLevel               string `json:"logLevel,omitempty"`
+	ForceTCP               bool   `json:"forceTCP,omitempty"`
+	ForwardPolicy          string `json:"forwardPolicy,omitempty"`
+	MaxConcurrent          int    `json:"maxConcurrent,omitempty"`
+	CacheDurationInSeconds int    `json:"cacheDurationInSeconds,omitempty"`
+	ServeStale             string `json:"serveStale,omitempty"`
+}
+
+// IsAKSLocalDNSEnabled returns true if the customer specified localDnsProfile and serviceState property is enable.
+func (a *AgentPoolProfile) IsAKSLocalDNSEnabled() bool {
+	return a.LocalDnsProfile != nil &&
+		strings.EqualFold(a.LocalDnsProfile.ServiceState, LocalDnsEnabled)
+}
+
+// GetLocalDNSImage returns CoreDNS image version.
+func (a *AgentPoolProfile) GetLocalDNSImageUrl() string {
+	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfile.CoreDnsImageUrl
+	}
+	return ""
+}
+
+// GetNodeListenerIP returns 169.254.10.10.
+func (a *AgentPoolProfile) GetNodeListenerIP() string {
+	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfile.NodeListenerIP
+	}
+	return ""
+}
+
+// GetClusterListenerIP returns 169.254.10.11.
+func (a *AgentPoolProfile) GetClusterListenerIP() string {
+	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfile.ClusterListenerIP
+	}
+	return ""
+}
+
+// GetCoreDNSServiceIP returns CoreDNS ServiceIP.
+func (a *AgentPoolProfile) GetCoreDNSServiceIP() string {
+	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfile.CoreDnsServiceIP
+	}
+	return ""
+}
+
+// GetUpstreamDNSServerIP returns 169.63.129.16.
+func (a *AgentPoolProfile) GetUpstreamDNSServerIP() string {
+	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfile.UpstreamDnsServerIP
+	}
+	return ""
+}
+
 // AgentPoolProfile represents an agent pool definition.
 type AgentPoolProfile struct {
 	Name                  string               `json:"name"`
@@ -775,6 +854,7 @@ type AgentPoolProfile struct {
 	behavior to reboot Windows node when it is nil. */
 	NotRebootWindowsNode    *bool                    `json:"notRebootWindowsNode,omitempty"`
 	AgentPoolWindowsProfile *AgentPoolWindowsProfile `json:"agentPoolWindowsProfile,omitempty"`
+	LocalDnsProfile         *LocalDnsProfile         `json:"localDnsProfile,omitempty"`
 }
 
 func (a *AgentPoolProfile) GetCustomLinuxOSConfig() *CustomLinuxOSConfig {

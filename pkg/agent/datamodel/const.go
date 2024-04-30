@@ -131,3 +131,9 @@ const (
 	EnableIPv6Only        = "EnableIPv6Only"
 	EnableWinDSR          = "EnableWinDSR"
 )
+
+// LocalDNSConfig flag.
+const (
+	// LocalDNSEnabled is the string constant for localDNS service enabled.
+	LocalDnsEnabled = "enabled"
+)
