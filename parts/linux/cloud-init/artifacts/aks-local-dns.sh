@@ -8,8 +8,6 @@ set -euo pipefail
 # pod DNS and local node DNS queries. It also upgrades to TCP for better reliability of
 # upstream connections.
 
-. /etc/default/aks-local-dns
-
 # CoreDNS image reference to use to obtain the binary if not present.
 COREDNS_IMAGE_URL="${COREDNS_IMAGE_URL}"
 
