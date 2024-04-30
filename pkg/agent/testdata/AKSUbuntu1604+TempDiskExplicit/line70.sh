@@ -728,23 +728,26 @@ EOF
     fi
 }
 
+   
+
 ensureAKSLocalDNS() {
     LOCAL_DNS_CORE_FILE=/opt/azure/aks-local-dns/Corefile
     mkdir -p "$(dirname "${LOCAL_DNS_CORE_FILE}")"
     touch "${LOCAL_DNS_CORE_FILE}"
     chmod 0644 "${LOCAL_DNS_CORE_FILE}"
     echo "${LOCAL_DNS_GENERATED_CORE_FILE}" | base64 -d > "${LOCAL_DNS_CORE_FILE}"
+
+    LOCAL_DNS_ENV_FILE=/etc/default/aks-local-dns
+    mkdir -p "$(dirname "${LOCAL_DNS_ENV_FILE}")"
+    touch "${LOCAL_DNS_ENV_FILE}"
+    chmod 0644 "${LOCAL_DNS_ENV_FILE}"
    
-    mkdir -p /etc/systemd/system/aks-local-dns.service.d/
-    touch /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf
-    tee /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf > /dev/null <<EOF
-[Service]
-Environment="COREDNS_IMAGE_URL=${AKS_LOCAL_DNS_IMAGE_URL}"
-Environment="NODE_LISTENER_IP=${AKS_LOCAL_DNS_NODE_LISTENER_IP}"
-Environment="CLUSTER_LISTENER_IP=${AKS_LOCAL_DNS_CLUSTER_LISTENER_IP}"
-Environment="COREDNS_SERVICE_IP=${CLUSTER_CORE_DNS_SERVICE_IP}"
-Environment="UPSTREAM_DNS_SERVER_IP=${DEFAULT_UPSTREAM_DNS_SERVER_IP}"
-EOF
+    echo "COREDNS_IMAGE_URL=${AKS_LOCAL_DNS_IMAGE_URL}" > "${LOCAL_DNS_ENV_FILE}"
+    echo "NODE_LISTENER_IP=${AKS_LOCAL_DNS_NODE_LISTENER_IP}" >> "${LOCAL_DNS_ENV_FILE}"
+    echo "CLUSTER_LISTENER_IP=${AKS_LOCAL_DNS_CLUSTER_LISTENER_IP}" >> "${LOCAL_DNS_ENV_FILE}"
+    echo "COREDNS_SERVICE_IP=${CLUSTER_CORE_DNS_SERVICE_IP}" >> "${LOCAL_DNS_ENV_FILE}"
+    echo "UPSTREAM_DNS_SERVER_IP=${DEFAULT_UPSTREAM_DNS_SERVER_IP}" >> "${LOCAL_DNS_ENV_FILE}"
+
     systemctlEnableAndStart aks-local-dns || exit $ERR_LOCAL_DNS_START_FAIL
 }
 

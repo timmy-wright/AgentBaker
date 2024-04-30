@@ -8,20 +8,22 @@ set -euo pipefail
 # pod DNS and local node DNS queries. It also upgrades to TCP for better reliability of
 # upstream connections.
 
+. /etc/default/aks-local-dns
+
 # CoreDNS image reference to use to obtain the binary if not present.
-COREDNS_IMAGE_URL="$1"
+COREDNS_IMAGE_URL="${COREDNS_IMAGE_URL}"
 
 # This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address.
-NODE_LISTENER_IP="$2"
+NODE_LISTENER_IP="${NODE_LISTENER_IP}"
 
 # This is the IP that the local DNS service should bind to for pod traffic; usually an APIPA address.
-CLUSTER_LISTENER_IP="$3"
+CLUSTER_LISTENER_IP="${CLUSTER_LISTENER_IP}"
 
 # This is CoreDNS service IP for the cluster (typically the first IP in the service CIDR).
-CLUSTER_DNS_SERVICE_IP="$4"
+CLUSTER_DNS_SERVICE_IP="${COREDNS_SERVICE_IP}"
 
 # This is default upstream DNS server IP 169.63.129.16.
-DEFAULT_UPSTREAM_DNS_SERVER_IP="$5"
+DEFAULT_UPSTREAM_DNS_SERVER_IP="${UPSTREAM_DNS_SERVER_IP}"
 
 # Delay coredns shutdown to allow connections to finish.
 COREDNS_SHUTDOWN_DELAY="5"
@@ -30,8 +32,8 @@ COREDNS_SHUTDOWN_DELAY="5"
 PID_FILE="/run/aks-local-dns.pid"
 
 if [[ -z "${CLUSTER_DNS_SERVICE_IP}" && ! $* == *--cleanup* ]]; then
-     printf "ERROR: CLUSTER_DNS_SERVICE_IP is not set.\n"
-     exit 1
+    printf "ERROR: CLUSTER_DNS_SERVICE_IP is not set.\n"
+    exit 1
 fi
 
 #######################################################################
@@ -46,7 +48,7 @@ UPSTREAM_DNS_SERVERS_FROM_VNET="$(</run/systemd/resolve/resolv.conf awk '/namese
 
 if [ "${UPSTREAM_DNS_SERVERS_FROM_VNET}" != "${DEFAULT_UPSTREAM_DNS_SERVER_IP}" ]; then
     sed -ie "s/${DEFAULT_UPSTREAM_DNS_SERVER_IP}/${UPSTREAM_DNS_SERVERS_FROM_VNET}/" /opt/azure/aks-local-dns/Corefile
-    printf "Replaced '${DEFAULT_UPSTREAM_DNS_SERVER_IP}' with '${UPSTREAM_DNS_SERVERS_FROM_VNET}' in /opt/azure/aks-local-dns/Corefile"
+    printf "Replaced '${DEFAULT_UPSTREAM_DNS_SERVER_IP}' with '${UPSTREAM_DNS_SERVERS_FROM_VNET}' in /opt/azure/aks-local-dns/Corefile \n"
 fi
 
 #######################################################################

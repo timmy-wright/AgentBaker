@@ -135,5 +135,5 @@ const (
 // LocalDNSConfig flag.
 const (
 	// LocalDNSEnabled is the string constant for localDNS service enabled.
-	LocalDnsEnabled = "enabled"
+	LocalDnsEnabled = "Enabled"
 )
