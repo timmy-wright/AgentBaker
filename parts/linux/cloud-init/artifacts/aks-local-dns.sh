@@ -8,30 +8,35 @@ set -euo pipefail
 # pod DNS and local node DNS queries. It also upgrades to TCP for better reliability of
 # upstream connections.
 
-# CoreDNS image reference to use to obtain the binary if not present.
-COREDNS_IMAGE_URL="${COREDNS_IMAGE_URL}"
+. /etc/default/aks-local-dns
 
-# This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address.
-NODE_LISTENER_IP="${NODE_LISTENER_IP}"
+# CoreDNS image reference to use to obtain the binary if not present
+COREDNS_IMAGE="${COREDNS_IMAGE_DEFAULT:-"$1"}"
 
-# This is the IP that the local DNS service should bind to for pod traffic; usually an APIPA address.
-CLUSTER_LISTENER_IP="${CLUSTER_LISTENER_IP}"
+# This is the IP that the local DNS service should bind to for node traffic; usually an APIPA address
+NODE_LISTENER_IP="$2"
 
-# This is CoreDNS service IP for the cluster (typically the first IP in the service CIDR).
-CLUSTER_DNS_SERVICE_IP="${COREDNS_SERVICE_IP}"
+# This is the IP that the local DNS service should bind to for pod traffic; usually an APIPA address
+CLUSTER_LISTENER_IP="$3"
+
+# This must be the DNS service IP for the cluster
+DNS_SERVICE_IP="$4"
 
 # This is default upstream DNS server IP 169.63.129.16.
-DEFAULT_UPSTREAM_DNS_SERVER_IP="${UPSTREAM_DNS_SERVER_IP}"
+DEFAULT_UPSTREAM_DNS_SERVER_IP="$5"
 
-# Delay coredns shutdown to allow connections to finish.
-COREDNS_SHUTDOWN_DELAY="5"
+# Delay coredns shutdown to allow connections to finish
+COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
+
+# Setting COREDNS_LOG to "log" will log queries to systemd
+COREDNS_LOG="${COREDNS_LOG_DEFAULT}"
 
 # PID file
-PID_FILE="/run/aks-local-dns.pid"
+PID_FILE="${PID_FILE_DEFAULT:-/run/aks-local-dns.pid}"
 
-if [[ -z "${CLUSTER_DNS_SERVICE_IP}" && ! $* == *--cleanup* ]]; then
-    printf "ERROR: CLUSTER_DNS_SERVICE_IP is not set.\n"
-    exit 1
+if [[ -z "${DNS_SERVICE_IP}" && ! $* == *--cleanup* ]]; then
+     printf "ERROR: DNS_SERVICE_IP is not set.\n"
+     exit 1
 fi
 
 #######################################################################
@@ -123,7 +128,7 @@ fi
 # coredns: extract from image
 #######################################################################
 if [ ! -x ${SCRIPT_PATH}/coredns ]; then
-    printf "extracting coredns from docker image: ${COREDNS_IMAGE_URL}\n"
+    printf "extracting coredns from docker image: ${COREDNS_IMAGE}\n"
     CTR_TEMP="$(mktemp -d)"
 
     # Set a trap to clean up the temp directory if anything fails
@@ -137,7 +142,7 @@ if [ ! -x ${SCRIPT_PATH}/coredns ]; then
     trap cleanup_coredns_import EXIT ABRT ERR INT PIPE QUIT TERM
 
     # Mount the coredns image to the temporary directory
-    ctr -n k8s.io images mount ${COREDNS_IMAGE_URL} ${CTR_TEMP} >/dev/null
+    ctr -n k8s.io images mount ${COREDNS_IMAGE} ${CTR_TEMP} >/dev/null
 
     # Copy coredns to SCRIPT_PATH
     cp ${CTR_TEMP}/coredns ${SCRIPT_PATH}/coredns
