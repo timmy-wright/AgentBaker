@@ -19,11 +19,8 @@ NODE_LISTENER_IP="$2"
 # This is the IP that the local DNS service should bind to for pod traffic; usually an APIPA address
 CLUSTER_LISTENER_IP="$3"
 
-# This must be the DNS service IP for the cluster
-DNS_SERVICE_IP="$4"
-
 # This is default upstream DNS server IP 169.63.129.16.
-DEFAULT_UPSTREAM_DNS_SERVER_IP="$5"
+DEFAULT_UPSTREAM_DNS_SERVER_IP="$4"
 
 # Delay coredns shutdown to allow connections to finish
 COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
@@ -33,11 +30,6 @@ COREDNS_LOG="${COREDNS_LOG_DEFAULT:-errors}"
 
 # PID file
 PID_FILE="${PID_FILE_DEFAULT:-/run/aks-local-dns.pid}"
-
-if [[ -z "${DNS_SERVICE_IP}" && ! $* == *--cleanup* ]]; then
-     printf "ERROR: DNS_SERVICE_IP is not set.\n"
-     exit 1
-fi
 
 #######################################################################
 # information variables

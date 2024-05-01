@@ -982,9 +982,6 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 		"GetClusterListenerIP": func() string {
 			return profile.GetClusterListenerIP()
 		},
-		"GetCoreDNSServiceIP": func() string {
-			return profile.GetCoreDNSServiceIP()
-		},
 		"GetUpstreamDNSServerIP": func() string {
 			return profile.GetUpstreamDNSServerIP()
 		},
