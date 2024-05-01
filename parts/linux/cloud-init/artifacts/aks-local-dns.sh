@@ -168,6 +168,11 @@ for RULE in "${IPTABLES_RULES[@]}"; do
     eval "${IPTABLES}" -A "${RULE}"
 done
 
+if [ ! -f "/opt/azure/aks-local-dns/Corefile" ]; then
+    echo "Error: Corefile does not exist."
+    exit 1
+fi
+
 # Build the coredns command
 COREDNS_COMMAND="/opt/azure/aks-local-dns/coredns -conf /opt/azure/aks-local-dns/Corefile -pidfile ${PID_FILE}"
 if [[ ! -z "${SYSTEMD_EXEC_PID:-}" ]]; then
