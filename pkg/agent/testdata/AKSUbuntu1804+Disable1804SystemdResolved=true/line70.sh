@@ -732,7 +732,6 @@ ensureAKSLocalDNS() {
     LOCAL_DNS_CORE_FILE=/opt/azure/aks-local-dns/Corefile
     mkdir -p "$(dirname "${LOCAL_DNS_CORE_FILE}")"
     touch "${LOCAL_DNS_CORE_FILE}"
-    chmod 0644 "${LOCAL_DNS_CORE_FILE}"
     echo "${LOCAL_DNS_GENERATED_CORE_FILE}" | base64 -d > "${LOCAL_DNS_CORE_FILE}"
    
     mkdir -p /etc/systemd/system/aks-local-dns.service.d/
