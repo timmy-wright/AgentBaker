@@ -1434,7 +1434,7 @@ health-check.aks-local-dns.local:53 {
 {{$domain}}:53 {
     {{$override.LogLevel}}
     bind {{$.NodeListenerIP}}
-    forward cluster.local {{$.DnsServiceIP}} {
+    forward cluster.local {{$.CoreDnsServiceIP}} {
         {{- if $override.ForceTCP}}
         force_tcp
         {{- end}}
@@ -1466,7 +1466,7 @@ health-check.aks-local-dns.local:53 {
 {{$domain}}:53 {
     {{$override.LogLevel}}
     bind {{$.ClusterListenerIP}}
-    forward . {{$.DnsServiceIP}} {
+    forward . {{$.CoreDnsServiceIP}} {
         {{- if $override.ForceTCP}}
         force_tcp
         {{- end}}
