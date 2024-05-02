@@ -967,7 +967,7 @@ func getContainerServiceFuncMap(config *datamodel.NodeBootstrappingConfiguration
 			return profile.IsAKSLocalDNSEnabled()
 		},
 		"GetLocalDNSCoreFileFromTemplate": func() string {
-			output, err := LocalDNSCoreFileFromTemplate(profile, localDNSCoreFileTemplateString)
+			output, err := LocalDNSCoreFileFromTemplate(profile.LocalDnsProfileWithSortedDomains, localDNSCoreFileTemplateString)
 			if err != nil {
 				panic(err)
 			}
@@ -1407,8 +1407,8 @@ func containerdConfigFromTemplate(
 	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
 }
 
-// Parse and generate local DNS Corefile from template and AgentPoolProfile.
-func LocalDNSCoreFileFromTemplate(profile *datamodel.AgentPoolProfile, tmpl string) (string, error) {
+// Parse and generate local DNS Corefile from template and LocalDnsProfile.
+func LocalDNSCoreFileFromTemplate(profile *datamodel.LocalDnsProfileWithSortedDomains, tmpl string) (string, error) {
 	var b bytes.Buffer
 	localDNSCorefileTemplate, err := template.New("localdnscorefile").Parse(tmpl)
 	if err != nil {
@@ -1422,18 +1422,38 @@ func LocalDNSCoreFileFromTemplate(profile *datamodel.AgentPoolProfile, tmpl stri
 	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
 }
 
+// Parse and generate local DNS Corefile from template and LocalDnsProfile.
+// func LocalDNSCoreFileFromTemplate(
+// 	config *datamodel.NodeBootstrappingConfiguration,
+// 	profile *datamodel.AgentPoolProfile,
+// 	tmpl string,
+// ) (string, error) {
+// 	parameters := getParameters(config)
+// 	variables := getCustomDataVariables(config)
+// 	bakerFuncMap := getBakerFuncMap(config, parameters, variables)
+// 	localDNSCorefileTemplate := template.Must(template.New("localdnscorefile").Funcs(bakerFuncMap).Parse(tmpl))
+
+// 	var b bytes.Buffer
+// 	if err := localDNSCorefileTemplate.Execute(&b, profile); err != nil {
+// 		return "", fmt.Errorf("failed to execute local dns corefile template: %w", err)
+// 	}
+
+// 	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
+// }
+
 // Template to create corefile that will be used by local DNS systemd service.
 const localDNSCoreFileTemplateString = `
 # whoami (used for health check of DNS pipeline)
 health-check.aks-local-dns.local:53 {
-    bind {{$.NodeListenerIP}} {{$.ClusterListenerIP}}
+    bind {{$.LocalDnsProfile.NodeListenerIP}} {{$.LocalDnsProfile.ClusterListenerIP}}
     whoami
 }
-# VNET DNS traffic (Traffic from pods with dnsPolicy:default or kubelet){{range $index, $domain := .SortedVnetDnsOverrideDomains}}
-{{- $override := index $.VnetDnsOverrides $domain}}
+# VNET DNS traffic (Traffic from pods with dnsPolicy:default or kubelet)
+{{- range $index, $domain := .SortedVnetDnsOverrideDomains}}
+{{- $override := index $.LocalDnsProfile.VnetDnsOverrides $domain}}
 {{$domain}}:53 {
     {{$override.LogLevel}}
-    bind {{$.NodeListenerIP}}
+    bind {{$.LocalDnsProfile.NodeListenerIP}}
     forward cluster.local {{$.CoreDnsServiceIP}} {
         {{- if $override.ForceTCP}}
         force_tcp
@@ -1448,7 +1468,7 @@ health-check.aks-local-dns.local:53 {
         policy {{$override.ForwardPolicy}}
         max_concurrent {{$override.MaxConcurrent}}
     }
-    ready {{$.NodeListenerIP}}:8181
+    ready {{$.LocalDnsProfile.NodeListenerIP}}:8181
     cache {{$override.CacheDurationInSeconds}}s {
         success 9984
         denial 9984
@@ -1459,13 +1479,14 @@ health-check.aks-local-dns.local:53 {
     }
     loop
     nsid aks-local-dns
-    prometheus {{$.NodeListenerIP}}:9253
+    prometheus {{$.LocalDnsProfile.NodeListenerIP}}:9253
 }{{end}}
-# Kube DNS traffic (Traffic from pods with dnsPolicy:ClusterFirst){{range $index, $domain := .SortedKubeDnsOverrideDomains}}
-{{- $override := index $.KubeDnsOverrides $domain}}
+# Kube DNS traffic (Traffic from pods with dnsPolicy:ClusterFirst)
+{{- range $index, $domain := .SortedKubeDnsOverrideDomains}}
+{{- $override := index $.LocalDnsProfile.KubeDnsOverrides $domain}}
 {{$domain}}:53 {
     {{$override.LogLevel}}
-    bind {{$.ClusterListenerIP}}
+    bind {{$.LocalDnsProfile.ClusterListenerIP}}
     forward . {{$.CoreDnsServiceIP}} {
         {{- if $override.ForceTCP}}
         force_tcp

@@ -169,8 +169,13 @@ for RULE in "${IPTABLES_RULES[@]}"; do
 done
 
 if [ ! -f "/opt/azure/aks-local-dns/Corefile" ]; then
-    echo "Error: Corefile does not exist."
-    exit 1
+  echo "Error: Corefile does not exist."
+  exit 1
+fi
+
+if [ ! -s "/opt/azure/aks-local-dns/Corefile" ]; then
+  echo "Error: Corefile is empty."
+  exit 1
 fi
 
 # Build the coredns command

@@ -785,46 +785,38 @@ type DnsOverride struct {
 
 // IsAKSLocalDNSEnabled returns true if the customer specified localDnsProfile and serviceState property is enable.
 func (a *AgentPoolProfile) IsAKSLocalDNSEnabled() bool {
-	return a.LocalDnsProfile != nil &&
-		strings.EqualFold(a.LocalDnsProfile.ServiceState, LocalDnsEnabled)
+	return a.LocalDnsProfileWithSortedDomains != nil &&
+		strings.EqualFold(a.LocalDnsProfileWithSortedDomains.LocalDnsProfile.ServiceState, LocalDnsEnabled)
 }
 
 // GetLocalDNSImage returns CoreDNS image version.
 func (a *AgentPoolProfile) GetLocalDNSImageUrl() string {
-	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
-		return a.LocalDnsProfile.CoreDnsImageUrl
+	if a != nil && a.LocalDnsProfileWithSortedDomains != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfileWithSortedDomains.LocalDnsProfile.CoreDnsImageUrl
 	}
 	return ""
 }
 
 // GetNodeListenerIP returns 169.254.10.10.
 func (a *AgentPoolProfile) GetNodeListenerIP() string {
-	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
-		return a.LocalDnsProfile.NodeListenerIP
+	if a != nil && a.LocalDnsProfileWithSortedDomains != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfileWithSortedDomains.LocalDnsProfile.NodeListenerIP
 	}
 	return ""
 }
 
 // GetClusterListenerIP returns 169.254.10.11.
 func (a *AgentPoolProfile) GetClusterListenerIP() string {
-	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
-		return a.LocalDnsProfile.ClusterListenerIP
-	}
-	return ""
-}
-
-// GetCoreDNSServiceIP returns CoreDNS ServiceIP.
-func (a *AgentPoolProfile) GetCoreDNSServiceIP() string {
-	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
-		return a.LocalDnsProfile.CoreDnsServiceIP
+	if a != nil && a.LocalDnsProfileWithSortedDomains != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfileWithSortedDomains.LocalDnsProfile.ClusterListenerIP
 	}
 	return ""
 }
 
 // GetUpstreamDNSServerIP returns 169.63.129.16.
 func (a *AgentPoolProfile) GetUpstreamDNSServerIP() string {
-	if a != nil && a.LocalDnsProfile != nil && a.IsAKSLocalDNSEnabled() {
-		return a.LocalDnsProfile.UpstreamDnsServerIP
+	if a != nil && a.LocalDnsProfileWithSortedDomains != nil && a.IsAKSLocalDNSEnabled() {
+		return a.LocalDnsProfileWithSortedDomains.LocalDnsProfile.UpstreamDnsServerIP
 	}
 	return ""
 }
@@ -852,9 +844,9 @@ type AgentPoolProfile struct {
 	MessageOfTheDay       string               `json:"messageOfTheDay,omitempty"`
 	/* This is a new property and all old agent pools do no have this field. We need to keep the default
 	behavior to reboot Windows node when it is nil. */
-	NotRebootWindowsNode    *bool                    `json:"notRebootWindowsNode,omitempty"`
-	AgentPoolWindowsProfile *AgentPoolWindowsProfile `json:"agentPoolWindowsProfile,omitempty"`
-	LocalDnsProfile         *LocalDnsProfile         `json:"localDnsProfile,omitempty"`
+	NotRebootWindowsNode             *bool                             `json:"notRebootWindowsNode,omitempty"`
+	AgentPoolWindowsProfile          *AgentPoolWindowsProfile          `json:"agentPoolWindowsProfile,omitempty"`
+	LocalDnsProfileWithSortedDomains *LocalDnsProfileWithSortedDomains `json:"localDnsProfileWithSortedDomains,omitempty"`
 }
 
 func (a *AgentPoolProfile) GetCustomLinuxOSConfig() *CustomLinuxOSConfig {
