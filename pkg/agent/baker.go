@@ -1428,7 +1428,7 @@ func LocalDNSCoreFileFromTemplate(
 
 // Template to create corefile that will be used by local DNS systemd service.
 const localDNSCoreFileTemplateString = `
-# whoami (used for health check of DNS pipeline)
+# whoami (used for health check of DNS)
 health-check.aks-local-dns.local:53 {
     bind {{$.LocalDnsProfile.NodeListenerIP}} {{$.LocalDnsProfile.ClusterListenerIP}}
     whoami

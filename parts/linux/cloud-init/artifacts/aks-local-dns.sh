@@ -28,16 +28,6 @@ COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
 # PID file
 PID_FILE="${PID_FILE_DEFAULT:-/run/aks-local-dns.pid}"
 
-# Setting COREDNS_LOG to "log" will log queries to systemd
-COREDNS_LOG="${COREDNS_LOG_LEVEL_FOR_ALL_BLOCKS:-errors}"
-
-# Corefile path
-LOCAL_DNS_CORE_FILE_PATH="/opt/azure/aks-local-dns/Corefile"
-
-if [[ "${COREDNS_LOG}" != "" && ("${COREDNS_LOG}" == "log" || "${COREDNS_LOG}" == "errors") ]]; then
-    sed -ie "s/errors/${COREDNS_LOG}/g" "${LOCAL_DNS_CORE_FILE_PATH}"
-    printf "Using '${COREDNS_LOG}' level for query logging in all the blocks in '${LOCAL_DNS_CORE_FILE_PATH}'\n"
-fi
 
 #######################################################################
 # information variables
