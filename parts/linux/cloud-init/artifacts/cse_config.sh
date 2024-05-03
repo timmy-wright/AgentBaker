@@ -750,13 +750,10 @@ EOF
 
 ensureAKSLocalDNS() {
     LOCAL_DNS_CORE_FILE=/opt/azure/aks-local-dns/Corefile
-    mkdir -p "$(dirname "${LOCAL_DNS_CORE_FILE}")" || { echo "Failed to create directory"; exit 1; }
-    touch "${LOCAL_DNS_CORE_FILE}" || { echo "Failed to create file"; exit 1; }
-    chmod 0644 "${LOCAL_DNS_CORE_FILE}" || { echo "Failed to set permissions"; exit 1; }
-    echo "${LOCAL_DNS_GENERATED_CORE_FILE}" | base64 -d > "${LOCAL_DNS_CORE_FILE}" || { echo "Failed to decode data"; exit 1; }
-    cat "${LOCAL_DNS_CORE_FILE}" || { echo "Failed to read file"; exit 1; }
-    ls -ld /opt/azure/aks-local-dns/
-    ls -l /opt/azure/aks-local-dns/Corefile
+    mkdir -p "$(dirname "${LOCAL_DNS_CORE_FILE}")"
+    touch "${LOCAL_DNS_CORE_FILE}"
+    chmod 0644 "${LOCAL_DNS_CORE_FILE}"
+    echo "${LOCAL_DNS_GENERATED_CORE_FILE}" | base64 -d > "${LOCAL_DNS_CORE_FILE}"
 
     mkdir -p /etc/systemd/system/aks-local-dns.service.d/
     touch /etc/systemd/system/aks-local-dns.service.d/aks-local-dns.conf

@@ -3,7 +3,7 @@
 #######################################################################
 # This value will be inserted into the corefile for logging; set it to
 # "log" to log DNS queries to systemd
-#COREDNS_LOG_DEFAULT=""
+#COREDNS_LOG_LEVEL_FOR_ALL_BLOCKS=""
 
 # Image reference used to get coredns (via extraction from the image)
 #COREDNS_IMAGE_DEFAULT=""

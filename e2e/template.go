@@ -434,7 +434,7 @@ func baseTemplate(location string) *datamodel.NodeBootstrappingConfiguration {
 					NodeListenerIP:      "169.254.10.10",
 					ClusterListenerIP:   "169.254.10.11",
 					CoreDnsServiceIP:    "10.0.0.10",
-					UpstreamDnsServerIP: "169.63.129.16",
+					UpstreamDnsServerIP: "169.63.129.19",
 				},
 				SortedVnetDnsOverrideDomains: []string{"sub.domain1.com", "."},
 				SortedKubeDnsOverrideDomains: []string{"sub.domain1.com", "."},

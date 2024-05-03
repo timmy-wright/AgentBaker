@@ -25,11 +25,19 @@ DEFAULT_UPSTREAM_DNS_SERVER_IP="$4"
 # Delay coredns shutdown to allow connections to finish
 COREDNS_SHUTDOWN_DELAY="${COREDNS_SHUTDOWN_DELAY_DEFAULT:-5}"
 
-# Setting COREDNS_LOG to "log" will log queries to systemd
-COREDNS_LOG="${COREDNS_LOG_DEFAULT:-errors}"
-
 # PID file
 PID_FILE="${PID_FILE_DEFAULT:-/run/aks-local-dns.pid}"
+
+# Setting COREDNS_LOG to "log" will log queries to systemd
+COREDNS_LOG="${COREDNS_LOG_LEVEL_FOR_ALL_BLOCKS:-errors}"
+
+# Corefile path
+LOCAL_DNS_CORE_FILE_PATH="/opt/azure/aks-local-dns/Corefile"
+
+if [[ "${COREDNS_LOG}" != "" && ("${COREDNS_LOG}" == "log" || "${COREDNS_LOG}" == "errors") ]]; then
+    sed -ie "s/errors/${COREDNS_LOG}/g" "${LOCAL_DNS_CORE_FILE_PATH}"
+    printf "Using '${COREDNS_LOG}' level for query logging in all the blocks in '${LOCAL_DNS_CORE_FILE_PATH}'\n"
+fi
 
 #######################################################################
 # information variables
@@ -42,8 +50,8 @@ NETWORK_DROPIN_FILE="${NETWORK_DROPIN_DIR}/70-aks-local-dns.conf"
 UPSTREAM_DNS_SERVERS_FROM_VNET="$(</run/systemd/resolve/resolv.conf awk '/nameserver/ {print $2}' | paste -sd' ')"
 
 if [ "${UPSTREAM_DNS_SERVERS_FROM_VNET}" != "${DEFAULT_UPSTREAM_DNS_SERVER_IP}" ]; then
-    sed -ie "s/${DEFAULT_UPSTREAM_DNS_SERVER_IP}/${UPSTREAM_DNS_SERVERS_FROM_VNET}/" /opt/azure/aks-local-dns/Corefile
-    printf "Replaced '${DEFAULT_UPSTREAM_DNS_SERVER_IP}' with '${UPSTREAM_DNS_SERVERS_FROM_VNET}' in /opt/azure/aks-local-dns/Corefile \n"
+    sed -ie "s/${DEFAULT_UPSTREAM_DNS_SERVER_IP}/${UPSTREAM_DNS_SERVERS_FROM_VNET}/g" "${LOCAL_DNS_CORE_FILE_PATH}"
+    printf "Replaced '${DEFAULT_UPSTREAM_DNS_SERVER_IP}' with '${UPSTREAM_DNS_SERVERS_FROM_VNET}' in '${LOCAL_DNS_CORE_FILE_PATH}' \n"
 fi
 
 #######################################################################
@@ -168,18 +176,20 @@ for RULE in "${IPTABLES_RULES[@]}"; do
     eval "${IPTABLES}" -A "${RULE}"
 done
 
-if [ ! -f "/opt/azure/aks-local-dns/Corefile" ]; then
+if [ ! -f "${LOCAL_DNS_CORE_FILE_PATH}" ]; then
   echo "Error: Corefile does not exist."
   exit 1
 fi
 
-if [ ! -s "/opt/azure/aks-local-dns/Corefile" ]; then
+if [ ! -s "${LOCAL_DNS_CORE_FILE_PATH}" ]; then
   echo "Error: Corefile is empty."
   exit 1
 fi
 
+cat "${LOCAL_DNS_CORE_FILE_PATH}"
+
 # Build the coredns command
-COREDNS_COMMAND="/opt/azure/aks-local-dns/coredns -conf /opt/azure/aks-local-dns/Corefile -pidfile ${PID_FILE}"
+COREDNS_COMMAND="/opt/azure/aks-local-dns/coredns -conf ${LOCAL_DNS_CORE_FILE_PATH} -pidfile ${PID_FILE}"
 if [[ ! -z "${SYSTEMD_EXEC_PID:-}" ]]; then
     # We're running in systemd, so pass the coredns output via systemd-cat
     COREDNS_COMMAND="systemd-cat --identifier=aks-local-dns-coredns --stderr-priority=3 -- ${COREDNS_COMMAND}"
