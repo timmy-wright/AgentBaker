@@ -38,6 +38,7 @@ NETWORK_FILE="$(networkctl --json=short status ${DEFAULT_ROUTE_INTERFACE} | jq -
 NETWORK_DROPIN_DIR="${NETWORK_FILE}.d"
 NETWORK_DROPIN_FILE="${NETWORK_DROPIN_DIR}/70-aks-local-dns.conf"
 UPSTREAM_DNS_SERVERS_FROM_VNET="$(</run/systemd/resolve/resolv.conf awk '/nameserver/ {print $2}' | paste -sd' ')"
+LOCAL_DNS_CORE_FILE_PATH="/opt/azure/aks-local-dns/Corefile"
 
 if [ "${UPSTREAM_DNS_SERVERS_FROM_VNET}" != "${DEFAULT_UPSTREAM_DNS_SERVER_IP}" ]; then
     sed -ie "s/${DEFAULT_UPSTREAM_DNS_SERVER_IP}/${UPSTREAM_DNS_SERVERS_FROM_VNET}/g" "${LOCAL_DNS_CORE_FILE_PATH}"
