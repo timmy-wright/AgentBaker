@@ -1,6 +1,7 @@
 #!/bin/bash
 # This gets us the error codes we use and the os and such.
 source /home/packer/provision_source.sh
+source /home/packer/provision_source_distro.sh
 
 assignRootPW() {
     set +x
@@ -87,6 +88,14 @@ replaceOrAppendSetting() {
     local SEARCH_PATTERN=$1
     local SETTING_LINE=$2
     local FILE=$3
+
+    # It's possible for the file to have multiple lines that set the same setting, especially
+    # where the setting is commented out and then later set.
+    # This is a quick and dirty way to handle that -- if we currently have the actual setting line
+    # we want in the file, then we're done.
+    if grep -E "$SETTING_LINE" "$FILE" >/dev/null; then
+        return
+    fi
 
     # Search and replace/append.
     if grep -E "$SEARCH_PATTERN" "$FILE" >/dev/null; then
@@ -207,6 +216,38 @@ function addFailLockDir() {
     fi
 }
 
+applyFIPSAndFedRAMP() {
+    # For mariner in FIPS mode, we need to install and run our compliance tool
+    if [[ "${OS}" == "${MARINER_OS_NAME}" && "${OS_VERSION}" == "2.0" && "${ENABLE_FIPS,,}" == "true" ]]; then
+        echo "Installing azl-compliance package for FIPS and FedRAMP..."
+        # TOBIASB: TODO: Hacky install from blob storage to test; update to use proper repo when available.
+        dnf_install 5 1 30 --nogpgcheck 'https://srctarpublishstaging.blob.core.windows.net/src-tar-publishing-staging/azl-compliance-1.0.0-1.cm2.x86_64.rpm'
+
+        echo "Setting up FIPS and FedRAMP compliance..."
+        azl-compliance
+        echo "azl-compliance completed with exit code '$?'"
+        echo "Done setting up FIPS and FedRAMP compliance."
+
+        echo "Dumping output files from azl-compliance..."
+        for file in /etc/azl-compliance/fedramp/fail.txt /etc/azl-compliance/fedramp/failure_details.txt /etc/azl-compliance/fedramp/success.txt /etc/azl-compliance/fedramp/apply_logs/*; do
+            echo
+            echo "Begin Contents of File '${file}'..."
+            cat "${file}"
+            echo "...End Contents of File '${file}'..."
+            echo
+        done
+
+        # If the fail file exists and is not empty, exit with error
+        if [ -s /etc/azl-compliance/fedramp/fail.txt ]; then
+            echo "FIPS and FedRAMP compliance failed."
+            return 1
+        else
+            echo "FIPS and FedRAMP compliance succeeded."
+            return 0
+        fi
+    fi
+}
+
 applyCIS() {
     setPWExpiration
     assignRootPW
@@ -215,6 +256,7 @@ applyCIS() {
     fixUmaskSettings
     maskNfsServer
     addFailLockDir
+    applyFIPSAndFedRAMP
 }
 
 applyCIS
