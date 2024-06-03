@@ -238,13 +238,21 @@ applyFIPSAndFedRAMP() {
         done
 
         # If the fail file exists and is not empty, exit with error
+        local message="FIPS and FedRAMP compliance succeeded."
+        local ret=0
         if [ -s /etc/azl-compliance/fedramp/fail.txt ]; then
-            echo "FIPS and FedRAMP compliance failed."
-            return 1
-        else
-            echo "FIPS and FedRAMP compliance succeeded."
-            return 0
+            message="FIPS and FedRAMP compliance failed."
+            ret=1
         fi
+
+        # Clean up package -- the package is really only meant to be run once during setup.
+        # It leaves junk around in its own directory, so we need to manually clean that up too.
+        dnf remove -y azl-compliance
+        rm -rf /etc/azl-compliance
+
+        # Exit with the appropriate error code.
+        echo "${message}"
+        return $ret
     fi
 }
 
