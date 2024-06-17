@@ -220,8 +220,7 @@ applyFIPSAndFedRAMP() {
     # For mariner in FIPS mode, we need to install and run our compliance tool
     if [[ "${OS}" == "${MARINER_OS_NAME}" && "${OS_VERSION}" == "2.0" && "${ENABLE_FIPS,,}" == "true" ]]; then
         echo "Installing azl-compliance package for FIPS and FedRAMP..."
-        # TOBIASB: TODO: Hacky install from blob storage to test; update to use proper repo when available.
-        dnf_install 5 1 30 --nogpgcheck 'https://srctarpublishstaging.blob.core.windows.net/src-tar-publishing-staging/azl-compliance-1.0.2-1.cm2.x86_64.rpm'
+        dnf_install 5 1 30 azl-compliance
 
         echo "Setting up FIPS and FedRAMP compliance..."
         azl-compliance
