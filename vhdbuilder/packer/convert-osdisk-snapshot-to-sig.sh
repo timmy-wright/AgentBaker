@@ -17,11 +17,11 @@ done
 ARM64_OS_DISK_SNAPSHOT_NAME="$(grep "arm64_os_disk_snapshot_name" ./vhdbuilder/packer/settings.json | awk -F':' '{print $2}' | awk -F'"' '{print $2}')"
 CAPTURED_SIG_VERSION="$(grep "captured_sig_version" ./vhdbuilder/packer/settings.json | awk -F':' '{print $2}' | awk -F'"' '{print $2}')"
 SIG_IMAGE_NAME="$(grep "sig_image_name" ./vhdbuilder/packer/settings.json | awk -F':' '{print $2}' | awk -F'"' '{print $2}')" && \
-echo "ManagedImageSharedImageGalleryId: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${AZURE_RESOURCE_GROUP_NAME}/providers/Microsoft.Compute/galleries/PackerSigGalleryEastUS/images/${SIG_IMAGE_NAME}/versions/${CAPTURED_SIG_VERSION}"
+echo "ManagedImageSharedImageGalleryId: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${AZURE_RESOURCE_GROUP_NAME}/providers/Microsoft.Compute/galleries/${SIG_GALLERY_NAME}/images/${SIG_IMAGE_NAME}/versions/${CAPTURED_SIG_VERSION}"
 
 time_now=$(echo ${CAPTURED_SIG_VERSION} | cut -d '.' -f2)
 disk_snapshot_id="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${AZURE_RESOURCE_GROUP_NAME}/providers/Microsoft.Compute/snapshots/${ARM64_OS_DISK_SNAPSHOT_NAME}"
 az snapshot update --resource-group ${AZURE_RESOURCE_GROUP_NAME} -n ${ARM64_OS_DISK_SNAPSHOT_NAME} --architecture Arm64
-az sig image-version create --location $AZURE_LOCATION --resource-group ${AZURE_RESOURCE_GROUP_NAME} --gallery-name PackerSigGalleryEastUS \
+az sig image-version create --location $AZURE_LOCATION --resource-group ${AZURE_RESOURCE_GROUP_NAME} --gallery-name ${SIG_GALLERY_NAME} \
      --gallery-image-definition ${SIG_IMAGE_NAME} --gallery-image-version ${CAPTURED_SIG_VERSION} \
      --os-snapshot ${disk_snapshot_id} --tags now=${time_now}
