@@ -28,9 +28,14 @@ installDeps() {
 
 installKataDeps() {
     if [[ $OS_VERSION != "1.0" ]]; then
-      if ! dnf_install 30 1 600 kata-packages-host; then
-        exit $ERR_APT_INSTALL_TIMEOUT
-      fi
+      #if ! dnf_install 30 1 600 kata-packages-host; then
+      #  exit $ERR_APT_INSTALL_TIMEOUT
+      #fi
+      for dnf_package in cloud-hypervisor-cvm hvloader kata-containers kata-containers-cc kernel-mshv kernel-uvm moby-containerd-cc mshv mshv-bootloader-lx; do
+        if ! dnf_install 30 1 600 $dnf_package; then
+          exit $ERR_APT_INSTALL_TIMEOUT
+        fi
+      done
 
       systemctl status tardev-snapshotter
 
