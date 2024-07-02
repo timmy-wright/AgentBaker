@@ -31,11 +31,14 @@ installKataDeps() {
       #if ! dnf_install 30 1 600 kata-packages-host; then
       #  exit $ERR_APT_INSTALL_TIMEOUT
       #fi
-      for dnf_package in cloud-hypervisor-cvm hvloader kata-containers kata-containers-cc kernel-mshv kernel-uvm moby-containerd-cc mshv mshv-bootloader-lx; do
+      for dnf_package in cloud-hypervisor-cvm hvloader kata-containers kernel-mshv kernel-uvm moby-containerd-cc mshv mshv-bootloader-lx; do
         if ! dnf_install 30 1 600 $dnf_package; then
           exit $ERR_APT_INSTALL_TIMEOUT
         fi
       done
+      if ! dnf_install 30 1 600 kata-containers-cc ; then
+        exit $ERR_APT_INSTALL_TIMEOUT
+      fi
 
       systemctl status tardev-snapshotter
 
