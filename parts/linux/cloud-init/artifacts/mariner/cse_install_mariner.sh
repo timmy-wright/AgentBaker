@@ -28,7 +28,7 @@ installDeps() {
 
 installKataDeps() {
     if [[ $OS_VERSION != "1.0" ]]; then
-      if ! dnf install -y --rpmverbosity=debug kata-packages-host; then
+      if ! dnf_install_debug kata-packages-host; then
         exit $ERR_APT_INSTALL_TIMEOUT
       fi
       #for dnf_package in cloud-hypervisor-cvm hvloader kata-containers kata-containers-cc kernel-mshv kernel-uvm moby-containerd-cc mshv mshv-bootloader-lx; do
