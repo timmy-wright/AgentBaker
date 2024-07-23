@@ -25,6 +25,7 @@ steps:
       pipeline: 318279
       specificBuildWithTriggering: true
       allowPartiallySucceededBuilds: true
+      tags: variables.OS_VERSION
       buildVersionToDownload: 'latest'
       downloadType: 'single'
       artifactName: 'drop_container_job_sign_uvm'
