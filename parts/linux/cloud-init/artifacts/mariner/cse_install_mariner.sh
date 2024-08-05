@@ -133,6 +133,11 @@ installStandaloneContainerd() {
         if ! dnf_install 30 1 600 ./containerd-1.7.13-2.azl3.x86_64.rpm; then
             exit $ERR_CONTAINERD_INSTALL_TIMEOUT
         fi
+
+        wget https://packages.microsoft.com/azurelinux/3.0/prod/base/x86_64/Packages/b/blobfuse2-2.3.0-1.azl3.x86_64.rpm
+        if ! dnf_install 30 1 600 ./blobfuse2-2.3.0-1.azl3.x86_64.rpm; then
+            exit $ERR_CONTAINERD_INSTALL_TIMEOUT
+        fi
         
         # echo "installing containerd version ${desiredVersion}"
         # removeContainerd
