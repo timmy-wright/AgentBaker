@@ -109,6 +109,15 @@ ERR_CREDENTIAL_PROVIDER_DOWNLOAD_TIMEOUT=205 # Timeout waiting for credential pr
 
 ERR_CNI_VERSION_INVALID=206 # reference CNI (not azure cni) needs a valid version in components.json
 
+# CURL specific error codes
+ERR_CURL_REMOVE_TIMEOUT=300 # Timeout waiting for the curl package to be purged
+ERR_CURL_DOWNLOAD_TIMEOUT=301 # Timeout waiting for the curl binary to be downloaded
+ERR_CURL_EXTRACT_TIMEOUT=302 # Timeout waiting for the curl binary to be extracted
+ERR_CURL_DOWNGRADE_LIBSSL=303 # Error downgrading libssl on Ubuntu for curl
+ERR_CURL_DOWNLOAD_DEV_TIMEOUT=304 # Timeout waiting for the curl dev package to be downloaded
+ERR_CURL_INSTALL_TIMEOUT=305 # Timeout waiting for the curl package to be installed
+ERR_CURL_VERSION_MISMATCH=306 # Error curl version mismatch
+
 # For both Ubuntu and Mariner, /etc/*-release should exist.
 # For unit tests, the OS and OS_VERSION will be set in the unit test script.
 # So whether it's if or else actually doesn't matter to our unit test.
