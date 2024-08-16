@@ -102,7 +102,7 @@ testPackagesInstalled() {
         # we can further think of adding a check to see if the package is installed through apt-get
         break
       fi
-      # A downloadURL from a package in components.json will look like this: 
+      # A downloadURL from a package in components.json will look like this:
       # "https://acs-mirror.azureedge.net/cni-plugins/v${version}/binaries/cni-plugins-linux-${CPU_ARCH}-v${version}.tgz"
       # After eval(resolved), downloadURL will look like "https://acs-mirror.azureedge.net/cni-plugins/v0.8.7/binaries/cni-plugins-linux-arm64-v0.8.7.tgz"
       eval "downloadURL=${PACKAGE_DOWNLOAD_URL}"
@@ -132,7 +132,7 @@ testPackagesInstalled() {
               continue
           fi
       fi
-      
+
       # if there isn't a directory, we check if the file exists and the size is correct
       # -L since some urls are redirects (i.e github)
       fileSizeInRepo=$(curl -sLI $downloadURL | grep -i Content-Length | tail -n1 | awk '{print $2}' | tr -d '\r')
@@ -950,6 +950,26 @@ testNBCParserBinary () {
 
 }
 
+testWasmRuntimesInstalled () {
+  local test="testWasmRuntimesInstalled"
+  local wasm_runtimes_path="/usr/local/bin"
+  local spin_runtime_versions="v0.3.0 v0.5.1 v0.15.1"
+
+  echo "$test: checking existance of Spin Wasm Runtime in $wasm_runtimes_path"
+  for shim_version in $spin_runtime_versions; do
+    binary_version="$(echo "${shim_version}" | tr . -)"
+    binary_path_pattern="${wasm_runtimes_path}/containerd-shim-spin-${binary_version}-*"
+    if [ ! -f $binary_path_pattern ]; then
+      err "$test: Spin Wasm Runtime binary does not exist at $binary_path_pattern"
+      return 1
+    else
+      echo "$test: Spin Wasm Runtime binary exists at $binary_path_pattern"
+    fi
+  done
+  echo "$test: Test finished successfully."
+  return 0
+}
+
 checkPerformanceData() {
   local test="checkPerformanceData"
   local performanceDataPath="/opt/azure/vhd-build-performance-data.json"
@@ -1004,3 +1024,4 @@ testPam $OS_SKU $OS_VERSION
 testUmaskSettings
 testContainerImagePrefetchScript
 testNBCParserBinary
+testWasmRuntimesInstalled
