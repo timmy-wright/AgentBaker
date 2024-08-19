@@ -109,6 +109,13 @@ ERR_CREDENTIAL_PROVIDER_DOWNLOAD_TIMEOUT=205 # Timeout waiting for credential pr
 
 ERR_CNI_VERSION_INVALID=206 # reference CNI (not azure cni) needs a valid version in components.json
 
+ERR_ORAS_PULL_K8S_FAIL=207 # Error pulling kube-node artifact via oras from registry
+ERR_ORAS_PULL_FAIL_RESERVE_1=208 # Error pulling artifact with oras from registry
+ERR_ORAS_PULL_FAIL_RESERVE_2=209 # Error pulling artifact with oras from registry
+ERR_ORAS_PULL_FAIL_RESERVE_3=210 # Error pulling artifact with oras from registry
+ERR_ORAS_PULL_FAIL_RESERVE_4=211 # Error pulling artifact with oras from registry
+ERR_ORAS_PULL_FAIL_RESERVE_5=212 # Error pulling artifact with oras from registry
+
 # For both Ubuntu and Mariner, /etc/*-release should exist.
 # For unit tests, the OS and OS_VERSION will be set in the unit test script.
 # So whether it's if or else actually doesn't matter to our unit test.
@@ -206,6 +213,24 @@ retrycmd_get_tarball() {
             return 1
         else
             timeout 60 curl -fsSLv $url -o $tarball > $CURL_OUTPUT 2>&1
+            if [[ $? != 0 ]]; then
+                cat $CURL_OUTPUT
+            fi
+            sleep $wait_sleep
+        fi
+    done
+}
+retrycmd_get_tarball_from_registry() {
+    tar_retries=$1; wait_sleep=$2; tarball=$3; url=$4
+    tar_folder=$(direname "$tarball")
+    echo "${tar_retries} retries"
+    for i in $(seq 1 $tar_retries); do
+        tar -tzf $tarball && break || \
+        if [ $i -eq $tar_retries ]; then
+            return 1
+        else
+            # TODO: support private acr via kubelet identity
+            timeout 60 oras pull $url -o $tar_folder > $CURL_OUTPUT 2>&1
             if [[ $? != 0 ]]; then
                 cat $CURL_OUTPUT
             fi
