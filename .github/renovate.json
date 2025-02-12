@@ -247,7 +247,10 @@
         "windows/nanoserver",
         "windows/servercore",
         "containernetworking/azure-npm",
-        "windows/servercore/iis"
+        "windows/servercore/iis",
+        "oss/kubernetes/windows-gmsa-webhook",
+        "oss/kubernetes-csi/livenessprobe",
+        "oss/kubernetes/pause"
       ],
       "groupName": "windowsbase",
       "assignees": [
