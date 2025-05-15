@@ -55,7 +55,7 @@
         "timmy-wright"
       ],
       "enabled": true,
-      "matchCurrentVersion": "^\\10\\.\\(0)\\.\\(d+)\\.(\\d+)$",
+      "versioning": "regex:^v10\\.(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
       "matchUpdateTypes": ["patch"]
     }
   ],
