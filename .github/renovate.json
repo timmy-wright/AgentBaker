@@ -330,7 +330,7 @@
         "timmy-wright"
       ],
       "enabled": true,
-      "versioning": "regex:^10\\.(?<minor>\\d+)\\.(?<major>\\d+)\\.(?<patch>\\d+)$"
+      "versioning": "regex:^10\\.(?<major>\\d+)\\.(?<compatibility>\\d+)\\.(?<patch>\\d+)$"
     },
     {
       "matchPackageNames": [
